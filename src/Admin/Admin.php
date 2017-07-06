@@ -17,8 +17,8 @@ class Admin {
 
 	public function __construct( $directory ) {
 		add_action( 'admin_menu', function () {
-			add_menu_page( 'DevTools', 'DevTools', 8, __FILE__, [ $this, 'options' ], 'dashicons-hammer' );
-			add_submenu_page( __FILE__, 'New plugin', 'Create plugin', 10, __FILE__ . 'create_plugin', [
+			add_menu_page( 'DevTools', 'DevTools', 'manage_options', __FILE__, [ $this, 'options' ], 'dashicons-hammer' );
+			add_submenu_page( __FILE__, 'New plugin', 'Create plugin', 'manage_options', __FILE__ . 'create_plugin', [
 				$this,
 				'createPlugin'
 			] );
