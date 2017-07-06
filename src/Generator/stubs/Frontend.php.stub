@@ -1,0 +1,10 @@
+<?php namespace ___PLUGIN_NAMESPACE___\Frontend;
+
+/**
+ * Class Frontend
+ *
+ * @package ___PLUGIN_NAMESPACE___
+ */
+class Frontend {
+
+}

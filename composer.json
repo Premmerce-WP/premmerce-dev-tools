@@ -1,0 +1,18 @@
+{
+  "name": "premmerce-dev-tools",
+  "type": "wordpress-plugin",
+  "authors": [
+    {
+      "name": "Cray",
+      "email": "a.martynjuk@imagecms.net"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Premmerce\\DevTools\\": "src"
+    }
+  },
+  "require": {
+    "symfony/var-dumper": "^3.3"
+  }
+}

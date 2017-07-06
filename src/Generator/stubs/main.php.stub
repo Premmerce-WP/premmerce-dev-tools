@@ -1,0 +1,33 @@
+<?php
+/**
+ * ___PLUGIN_NAME_HUMANIZED___ plugin
+ *
+ *
+ * @link              http://premmerce.com
+ * @since             1.0.0
+ * @package           ___PLUGIN_NAMESPACE___
+ *
+ * @wordpress-plugin
+ * Plugin Name:       ___PLUGIN_NAME_HUMANIZED___
+ * Plugin URI:        http://premmerce.com
+ * Description:       ___PLUGIN_DESCRIPTION___
+ * Version:           ___PLUGIN_VERSION___
+ * Author:            ___PLUGIN_AUTHOR___
+ * Author URI:        http://premmerce.com
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       ___PLUGIN_NAME___
+ * Domain Path:       /languages
+ */
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
+call_user_func( function () {
+
+	require_once plugin_dir_path( __FILE__ ) . 'src/___PLUGIN_CLASS___.php';
+
+	( new ___PLUGIN_NAMESPACE___\___PLUGIN_CLASS___( __FILE__ ) )->run();
+} );
