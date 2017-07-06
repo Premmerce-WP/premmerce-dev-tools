@@ -63,6 +63,7 @@ $current_user = wp_get_current_user();
                 </th>
                 <td>
                     <input type="checkbox" name="premmerce_plugin_use_composer">
+                    <p class="description">run > 'composer init' command after plugin generation</p>
                 </td>
             </tr>
             </tbody>
