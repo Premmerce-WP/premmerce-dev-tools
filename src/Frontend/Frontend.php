@@ -3,12 +3,16 @@
 /**
  * Class Frontend
  *
- * @package DevTools
+ * @package Premmerce\DevTools\Frontend
  */
 class Frontend {
 
-	public function __construct() {
+	private $directory;
+
+	private $views = 'views/frontend/';
+
+	public function __construct( $directory ) {
+		$this->directory = $directory;
+		$this->views     = $this->directory . $this->views;
 	}
-
-
 }

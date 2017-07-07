@@ -12,15 +12,8 @@ class Admin {
 	private $views = 'views/admin/';
 
 	public function __construct( $directory ) {
-		add_action( 'admin_menu', function () {
-			add_menu_page( '___PLUGIN_NAME___', '___PLUGIN_NAME___', 8, __FILE__, [ $this, 'options' ] );
-		} );
 		$this->directory = $directory;
 		$this->views     = $this->directory . $this->views;
-	}
-
-	public function options() {
-		include $this->views . 'options.php';
 	}
 
 }

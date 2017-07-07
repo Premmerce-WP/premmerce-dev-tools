@@ -35,34 +35,17 @@ class ___PLUGIN_CLASS___ {
 		add_action( 'plugins_loaded', function () use ( $languages ) {
 			load_plugin_textdomain( $this->pluginName, false, $languages );
 		} );
-
-		$this->registerHooks();
 	}
 
-	/**
-	 * Register activate, deactivate and uninstall hooks
-	 */
-	private function registerHooks() {
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
-
-		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
-
-		// If uninstall not called from WordPress, then exit.
-		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-			register_uninstall_hook( __FILE__, self::class . '::uninstall' );
-		}
-
-
-	}
-
-	/**
+    /**
 	 * Run plugin part
 	 */
 	public function run() {
 		if ( is_admin() ) {
 			new Admin( $this->pluginDirectory );
+		} else {
+			new Frontend( $this->pluginDirectory );
 		}
-		new Frontend();
 	}
 
 	/**

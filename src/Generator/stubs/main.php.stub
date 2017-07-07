@@ -29,5 +29,13 @@ call_user_func( function () {
 
 	require_once plugin_dir_path( __FILE__ ) . 'src/___PLUGIN_CLASS___.php';
 
-	( new ___PLUGIN_NAMESPACE___\___PLUGIN_CLASS___( __FILE__ ) )->run();
+	$main = new ___PLUGIN_NAMESPACE___\___PLUGIN_CLASS___( __FILE__ );
+
+	register_activation_hook( __FILE__, [ $main, 'activate' ] );
+
+	register_deactivation_hook( __FILE__, [ $main, 'activate' ] );
+
+	register_uninstall_hook( __FILE__, [ ___PLUGIN_NAMESPACE___\___PLUGIN_CLASS___::class, 'uninstall' ] );
+
+	$main->run();
 } );

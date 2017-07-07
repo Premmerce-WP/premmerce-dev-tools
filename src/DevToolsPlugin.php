@@ -36,24 +36,6 @@ class DevToolsPlugin {
 		add_action( 'plugins_loaded', function () use ( $languages ) {
 			load_plugin_textdomain( $this->pluginName, false, $languages );
 		} );
-
-		$this->registerHooks();
-	}
-
-	/**
-	 * Register activate, deactivate and uninstall hooks
-	 */
-	private function registerHooks() {
-		register_activation_hook( __FILE__, [ $this, 'activate' ] );
-
-		register_deactivation_hook( __FILE__, [ $this, 'deactivate' ] );
-
-		// If uninstall not called from WordPress, then exit.
-		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-			register_uninstall_hook( __FILE__, self::class . '::uninstall' );
-		}
-
-
 	}
 
 	/**
@@ -62,8 +44,9 @@ class DevToolsPlugin {
 	public function run() {
 		if ( is_admin() ) {
 			new Admin( $this->pluginDirectory );
+		}else{
+			new Frontend();
 		}
-		new Frontend();
 	}
 
 	/**
