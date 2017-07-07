@@ -45,7 +45,7 @@ class DevToolsPlugin {
 		if ( is_admin() ) {
 			new Admin( $this->pluginDirectory );
 		}else{
-			new Frontend();
+			new Frontend($this->pluginDirectory);
 		}
 	}
 
