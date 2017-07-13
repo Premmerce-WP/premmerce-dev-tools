@@ -33,7 +33,7 @@ call_user_func( function () {
 
 	register_activation_hook( __FILE__, [ $main, 'activate' ] );
 
-	register_deactivation_hook( __FILE__, [ $main, 'activate' ] );
+	register_deactivation_hook( __FILE__, [ $main, 'deactivate' ] );
 
 	register_uninstall_hook( __FILE__, [ ___PLUGIN_NAMESPACE___\___PLUGIN_CLASS___::class, 'uninstall' ] );
 
