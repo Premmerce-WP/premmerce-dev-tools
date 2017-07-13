@@ -30,11 +30,8 @@ class DevToolsPlugin {
 		$this->pluginDirectory = plugin_dir_path( $mainFile );
 		$this->pluginName      = basename( $this->pluginDirectory );
 
-		//	Load the plugin text domain for translation
-		$languages = $this->pluginDirectory . '/languages/';
-
-		add_action( 'plugins_loaded', function () use ( $languages ) {
-			load_plugin_textdomain( $this->pluginName, false, $languages );
+		add_action( 'plugins_loaded', function () {
+			load_plugin_textdomain( $this->pluginName, false, $this->pluginName . '/languages/' );
 		} );
 	}
 
