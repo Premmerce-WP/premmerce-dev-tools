@@ -10,7 +10,10 @@
   "autoload": {
     "psr-4": {
       "Premmerce\\DevTools\\": "src"
-    }
+    },
+    "files": [
+      "functions.php"
+    ]
   },
   "require": {
     "symfony/var-dumper": "^3.3"
