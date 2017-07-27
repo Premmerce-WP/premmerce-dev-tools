@@ -12,27 +12,26 @@ use Premmerce\DevTools\Frontend\Frontend;
 class DevToolsPlugin {
 
 	/**
-	 * @var string
+	 * @var PluginManager
 	 */
-	private $pluginName;
-
-	/**
-	 * @var string
-	 */
-	private $pluginDirectory;
+	private $pluginManager;
 
 	/**
 	 * PluginManager constructor.
 	 *
-	 * @param $mainFile
+	 * @param PluginManager $pluginManager
+	 *
+	 * @internal param $mainFile
 	 */
-	public function __construct( $mainFile ) {
-		$this->pluginDirectory = plugin_dir_path( $mainFile );
-		$this->pluginName      = basename( $this->pluginDirectory );
+	public function __construct( PluginManager $pluginManager ) {
+
+		$this->pluginManager = $pluginManager;
 
 		add_action( 'plugins_loaded', function () {
-			load_plugin_textdomain( $this->pluginName, false, $this->pluginName . '/languages/' );
+			$name = $this->pluginManager->getPluginName();
+			load_plugin_textdomain( $name, false, $name . '/languages/' );
 		} );
+
 	}
 
 	/**
@@ -40,9 +39,9 @@ class DevToolsPlugin {
 	 */
 	public function run() {
 		if ( is_admin() ) {
-			new Admin( $this->pluginDirectory );
-		}else{
-			new Frontend($this->pluginDirectory);
+			new Admin( $this->pluginManager );
+		} else {
+			new Frontend( $this->pluginManager );
 		}
 	}
 

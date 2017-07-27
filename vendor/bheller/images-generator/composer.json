@@ -1,0 +1,28 @@
+{
+    "name": "bheller/images-generator",
+    "description": "Generator of placeholder images for Faker",
+    "homepage": "https://github.com/bruceheller/images-generator",
+    "version": "1.0.1",
+    "keywords": ["images-generator", "imagesgenerator", "faker", "fixtures", "data"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bruce Heller",
+            "email": "bheller@bheller.com",
+            "homepage": "http://www.bheller.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "fzaninotto/faker": "~1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "bheller\\ImagesGenerator\\": "src"    
+        }
+    }
+}

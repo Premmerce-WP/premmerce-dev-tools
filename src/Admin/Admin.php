@@ -1,7 +1,9 @@
 <?php namespace Premmerce\DevTools\Admin;
 
+use Premmerce\DevTools\FakeData\DataGenerator;
 use Premmerce\DevTools\Generator\PluginData;
 use Premmerce\DevTools\Generator\PluginGenerator;
+use Premmerce\DevTools\PluginManager;
 
 
 /**
@@ -11,31 +13,54 @@ use Premmerce\DevTools\Generator\PluginGenerator;
  */
 class Admin {
 
-	private $directory;
+	/**
+	 * @var PluginManager
+	 */
+	private $pluginManager;
 
-	private $views = 'views/admin/';
+	public function __construct( PluginManager $pluginManager ) {
+		$this->pluginManager = $pluginManager;
 
-	public function __construct( $directory ) {
 		add_action( 'admin_menu', function () {
-			add_menu_page( 'DevTools', 'DevTools', 'manage_options', __FILE__, [ $this, 'options' ], 'dashicons-hammer' );
+			add_menu_page( 'DevTools', 'DevTools', 'manage_options', __FILE__, [
+				$this,
+				'options'
+			], 'dashicons-hammer' );
+
 			add_submenu_page( __FILE__, 'New plugin', 'Create plugin', 'manage_options', __FILE__ . 'create_plugin', [
 				$this,
 				'createPlugin'
 			] );
+
+			add_submenu_page( __FILE__, 'Data generator', 'Data generator', 'manage_options', __FILE__ . 'generate_data', [
+				$this,
+				'generateData'
+			] );
 		} );
 
 		add_action( 'admin_post_create_plugin', [ $this, 'createPluginHandler' ] );
+		add_action( 'admin_post_generate_data', [ $this, 'generateDataHandler' ] );
 
-		$this->directory = $directory;
-		$this->views     = $this->directory . $this->views;
 	}
 
 	public function options() {
-		include $this->views . 'options.php';
+		$this->pluginManager->includeTemplate( 'admin/options.php' );
 	}
 
 	public function createPlugin() {
-		include $this->views . 'create_plugin.php';
+		$this->pluginManager->includeTemplate( 'admin/create-plugin.php' );
+	}
+
+	public function generateData() {
+
+
+		$this->pluginManager->includeTemplate( 'admin/generate-data.php' );
+	}
+
+	public function generateDataHandler() {
+		$gen = new DataGenerator();
+		$gen->generate( $_POST );
+		$this->redirectBack();
 	}
 
 	public function createPluginHandler() {
@@ -53,8 +78,12 @@ class Admin {
 
 		$gen->generate( $data );
 
-		wp_redirect( $_SERVER['HTTP_REFERER'] );
+		$this->redirectBack();
 
+	}
+
+	private function redirectBack() {
+		wp_redirect( $_SERVER['HTTP_REFERER'] );
 	}
 
 }

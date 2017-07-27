@@ -1,5 +1,7 @@
 <?php namespace Premmerce\DevTools\Frontend;
 
+use Premmerce\DevTools\PluginManager;
+
 /**
  * Class Frontend
  *
@@ -7,12 +9,13 @@
  */
 class Frontend {
 
-	private $directory;
 
-	private $views = 'views/frontend/';
+	/**
+	 * @var PluginManager
+	 */
+	private $pluginManager;
 
-	public function __construct( $directory ) {
-		$this->directory = $directory;
-		$this->views     = $this->directory . $this->views;
+	public function __construct( PluginManager $pluginManager ) {
+		$this->pluginManager = $pluginManager;
 	}
 }

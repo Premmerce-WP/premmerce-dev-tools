@@ -21,6 +21,7 @@
  */
 
 use Premmerce\DevTools\DevToolsPlugin;
+use Premmerce\DevTools\PluginManager;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -28,9 +29,12 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 call_user_func( function () {
+
 	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-	$main = new Premmerce\DevTools\DevToolsPlugin( __FILE__ );
+	$manager = new PluginManager( __FILE__ );
+
+	$main = new DevToolsPlugin( $manager );
 
 	register_activation_hook( __FILE__, [ $main, 'activate' ] );
 
@@ -38,5 +42,5 @@ call_user_func( function () {
 
 	register_uninstall_hook( __FILE__, [ DevToolsPlugin::class, 'uninstall' ] );
 
-	( new Premmerce\DevTools\DevToolsPlugin( __FILE__ ) )->run();
+	$main->run();
 } );
