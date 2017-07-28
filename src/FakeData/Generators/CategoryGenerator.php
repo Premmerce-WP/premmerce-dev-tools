@@ -1,6 +1,7 @@
-<?php namespace Premmerce\DevTools\FakeData;
+<?php namespace Premmerce\DevTools\FakeData\Generators;
 
 use Faker\Generator;
+use Premmerce\DevTools\Services\BulkInsertQuery;
 
 class CategoryGenerator {
 
@@ -23,7 +24,7 @@ class CategoryGenerator {
 	/**
 	 * @param $num
 	 *
-	 * @return int last term id
+	 * @return array ids
 	 */
 	public function generate( $num ) {
 
@@ -39,16 +40,16 @@ class CategoryGenerator {
 		$term = $this->getLastTerm();
 
 		for ( $i = 1; $i <= $num; $i ++ ) {
-
 			$termId           = $term->term_id + $i;
 			$taxonomyId       = $term->term_taxonomy_id + $i;
 			$termTaxonomies[] = $this->generateTermTaxonomyData( $termId, $taxonomyId );
 			$terms[ $termId ] = $this->generateTermData( $termId );
 		}
 
-		$taxRows = BulkInsertQuery::create()->table( $wpdb->term_taxonomy )->values( $termTaxonomies )->query();
+		$q = BulkInsertQuery::create();
 
-		$termRows = BulkInsertQuery::create()->table( $wpdb->terms )->values( $terms )->query();
+		$taxRows  = $q->insert( $wpdb->term_taxonomy, $termTaxonomies );
+		$termRows = $q->insert( $wpdb->terms, $terms );
 
 		$result = $termRows === (int) $num && $taxRows === $termRows;
 

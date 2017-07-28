@@ -3,7 +3,7 @@
 use Premmerce\DevTools\FakeData\DataGenerator;
 use Premmerce\DevTools\Generator\PluginData;
 use Premmerce\DevTools\Generator\PluginGenerator;
-use Premmerce\DevTools\PluginManager;
+use Premmerce\DevTools\FileManager;
 
 
 /**
@@ -14,18 +14,21 @@ use Premmerce\DevTools\PluginManager;
 class Admin {
 
 	/**
-	 * @var PluginManager
+	 * @var FileManager
 	 */
 	private $pluginManager;
 
-	public function __construct( PluginManager $pluginManager ) {
-		$this->pluginManager = $pluginManager;
+	public function __construct( FileManager $fileManager ) {
+		$this->pluginManager = $fileManager;
 
 		add_action( 'admin_menu', function () {
 			add_menu_page( 'DevTools', 'DevTools', 'manage_options', __FILE__, [
 				$this,
 				'options'
 			], 'dashicons-hammer' );
+
+			global $submenu;
+			unset( $submenu[ __FILE__ ][0] );
 
 			add_submenu_page( __FILE__, 'New plugin', 'Create plugin', 'manage_options', __FILE__ . 'create_plugin', [
 				$this,
@@ -36,10 +39,16 @@ class Admin {
 				$this,
 				'generateData'
 			] );
+
+			add_submenu_page( __FILE__, 'Database cleaner', 'Database cleaner', 'manage_options', __FILE__ . 'clean_database', [
+				$this,
+				'cleanDatabase'
+			] );
 		} );
 
 		add_action( 'admin_post_create_plugin', [ $this, 'createPluginHandler' ] );
 		add_action( 'admin_post_generate_data', [ $this, 'generateDataHandler' ] );
+		add_action( 'admin_post_clean_database', [ $this, 'cleanDatabaseHandler' ] );
 
 	}
 
@@ -52,9 +61,11 @@ class Admin {
 	}
 
 	public function generateData() {
-
-
 		$this->pluginManager->includeTemplate( 'admin/generate-data.php' );
+	}
+
+	public function cleanDatabase() {
+		$this->pluginManager->includeTemplate( 'admin/clean-database.php' );
 	}
 
 	public function generateDataHandler() {
@@ -80,6 +91,12 @@ class Admin {
 
 		$this->redirectBack();
 
+	}
+
+	public function cleanDatabaseHandler() {
+		$cleaner = new CleanDatabaseHandler();
+		
+		$cleaner->handle( $_POST );
 	}
 
 	private function redirectBack() {

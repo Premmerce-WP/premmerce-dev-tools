@@ -1,5 +1,7 @@
-<?php namespace Premmerce\DevTools\FakeData;
+<?php namespace Premmerce\DevTools\Services;
 
+
+use Premmerce\DevTools\FakeData\DataGenerator;
 
 class DataCleaner {
 
@@ -10,6 +12,7 @@ class DataCleaner {
 		$this->removeAttributes();
 		$this->clearUnusedData();
 		$this->cleanUploads();
+		$this->clearTransients();
 	}
 
 	public function cleanUploads() {
@@ -19,12 +22,12 @@ class DataCleaner {
 //		$files = glob( $uploads . '/*' );
 //		foreach ( $files as $file ) {
 //			if ( is_file( $file ) ) {
-//				unlink( $file );
+//				@unlink( $file );
 //			}
 //		}
 //		if ( ! file_exists( $uploads ) ) {
-//			mkdir( $uploads );
-//			chmod( $uploads, 0777 );
+//			@mkdir( $uploads );
+//			@chmod( $uploads, 0777 );
 //		}
 
 	}
@@ -42,7 +45,7 @@ class DataCleaner {
 		$query['on1']    = sprintf( 'ON %s.post_id = %s.ID', $wpdb->postmeta, $wpdb->posts );
 		$query['join2']  = sprintf( 'LEFT JOIN %s', $wpdb->term_relationships );
 		$query['on2']    = sprintf( 'ON %s.object_id = %s.ID', $wpdb->term_relationships, $wpdb->posts );
-		$query['where']  = sprintf( "WHERE %s.post_type =  '%s'", $wpdb->posts, DataGenerator::WOO_PRODUCT );
+		$query['where']  = sprintf( "WHERE %s.post_type in  ('%s', '%s')", $wpdb->posts, DataGenerator::WOO_PRODUCT, 'product_variation' );
 
 		$query = implode( ' ', $query );
 
@@ -193,6 +196,13 @@ class DataCleaner {
 
 		return $wpdb->query( $query );
 
+	}
+
+	public function clearTransients() {
+		global $wpdb;
+
+		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE ('_transient_%')" );
+		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE ('_site_transient_%')" );
 	}
 
 }

@@ -1,6 +1,6 @@
 <?php namespace Premmerce\DevTools\Frontend;
 
-use Premmerce\DevTools\PluginManager;
+use Premmerce\DevTools\FileManager;
 
 /**
  * Class Frontend
@@ -11,11 +11,12 @@ class Frontend {
 
 
 	/**
-	 * @var PluginManager
+	 * @var FileManager
 	 */
 	private $pluginManager;
 
-	public function __construct( PluginManager $pluginManager ) {
+	public function __construct( FileManager $pluginManager ) {
 		$this->pluginManager = $pluginManager;
 	}
+
 }

@@ -38,8 +38,8 @@
                 </th>
                 <td>
                     <select name="<?php echo DataGenerator::NAME_PRODUCT_TYPE ?>" id="">
-						<?php foreach ( DataGenerator::PRODUCT_TYPES as $productType ) : ?>
-                            <option value="<?php echo $productType ?>"><?php echo $productType ?></option>
+						<?php foreach ( wc_get_product_types() as $name => $title ) : ?>
+                            <option value="<?php echo $name ?>"><?php echo $title ?></option>
 						<?php endforeach ?>
                     </select>
                 </td>

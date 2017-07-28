@@ -1,7 +1,7 @@
 <?php namespace Premmerce\DevTools;
 
 
-class PluginManager {
+class FileManager {
 
 	/**
 	 * @var string

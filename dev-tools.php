@@ -21,7 +21,7 @@
  */
 
 use Premmerce\DevTools\DevToolsPlugin;
-use Premmerce\DevTools\PluginManager;
+use Premmerce\DevTools\FileManager;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -32,7 +32,7 @@ call_user_func( function () {
 
 	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-	$manager = new PluginManager( __FILE__ );
+	$manager = new FileManager( __FILE__ );
 
 	$main = new DevToolsPlugin( $manager );
 

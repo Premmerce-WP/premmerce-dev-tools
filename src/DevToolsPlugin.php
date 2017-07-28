@@ -12,18 +12,18 @@ use Premmerce\DevTools\Frontend\Frontend;
 class DevToolsPlugin {
 
 	/**
-	 * @var PluginManager
+	 * @var FileManager
 	 */
 	private $pluginManager;
 
 	/**
 	 * PluginManager constructor.
 	 *
-	 * @param PluginManager $pluginManager
+	 * @param FileManager $pluginManager
 	 *
 	 * @internal param $mainFile
 	 */
-	public function __construct( PluginManager $pluginManager ) {
+	public function __construct( FileManager $pluginManager ) {
 
 		$this->pluginManager = $pluginManager;
 
@@ -43,6 +43,7 @@ class DevToolsPlugin {
 		} else {
 			new Frontend( $this->pluginManager );
 		}
+
 	}
 
 	/**
