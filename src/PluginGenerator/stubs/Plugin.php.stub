@@ -11,66 +11,36 @@ use ___PLUGIN_NAMESPACE___\Frontend\Frontend;
 class ___PLUGIN_CLASS___ {
 
 	/**
-	 * @var string
+	 * @var FileManager
 	 */
-	private $pluginName;
-
-	/**
-	 * @var string
-	 */
-	private $pluginDirectory;
-
-	/**
-	 * @var string
-	 */
-	private $namespace = '___PLUGIN_NAMESPACE___';
-
-	/**
-	 * @var string
-	 */
-	private $source = 'src';
+	private $fileManager;
 
 	/**
 	 * PluginManager constructor.
 	 *
-	 * @param $mainFile
+	 * @param FileManager $fileManager
 	 */
-	public function __construct( $mainFile ) {
-		$this->pluginDirectory = plugin_dir_path( $mainFile );
-		$this->pluginName      = basename( $this->pluginDirectory );
+	public function __construct( FileManager $fileManager ) {
+
+		$this->fileManager = $fileManager;
 
 		add_action( 'plugins_loaded', function () {
-			load_plugin_textdomain( $this->pluginName, false, $this->pluginName . '/languages/' );
+			$name = $this->fileManager->getPluginName();
+			load_plugin_textdomain( $name, false, $name . '/languages/' );
 		} );
 
-		$this->registerAutoload();
 	}
 
 	/**
-	 * Register autoload callback
-	 */
-	private function registerAutoload() {
-		$source    = $this->source . '\\';
-		$namespace = $this->namespace . '\\';
-
-		spl_autoload_register( function ( $class ) use ( $namespace, $source ) {
-			$class = str_replace( $namespace, $source, $class );
-			$file  = $this->pluginDirectory . str_replace( '\\', DIRECTORY_SEPARATOR, $class ) . '.php';
-			if ( file_exists( $file ) ) {
-				require_once $file;
-			}
-		} );
-	}
-
-    /**
 	 * Run plugin part
 	 */
 	public function run() {
 		if ( is_admin() ) {
-			new Admin( $this->pluginDirectory );
+			new Admin( $this->fileManager );
 		} else {
-			new Frontend( $this->pluginDirectory );
+			new Frontend( $this->fileManager );
 		}
+
 	}
 
 	/**

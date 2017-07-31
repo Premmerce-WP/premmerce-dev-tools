@@ -26,16 +26,24 @@ class PluginGenerator {
 	const STUB_PLUGIN_VERSION = '___PLUGIN_VERSION___';
 	const STUB_PLUGIN_DESCRIPTION = '___PLUGIN_DESCRIPTION___';
 	const STUB_PLUGIN_CLASS = '___PLUGIN_CLASS___';
+	const STUB_AUTOLOAD = '___AUTOLOAD_PATH___';
 
 	private $stubsPath;
 	private $pluginPath;
 
-	/**
-	 * @param PluginData $data
-	 */
-	public function generate( PluginData $data ) {
+	public function generate( $config ) {
+		$data = new PluginData();
 
-		$this->data       = $data;
+		$data->setName( $config['premmerce_plugin_name'] );
+		$data->setAuthor( $config['premmerce_plugin_author'] );
+		$data->setNameHumanized( $config['premmerce_plugin_name_humanized'] );
+		$data->setDescription( $config['premmerce_plugin_description'] );
+		$data->setNameSpace( $config['premmerce_plugin_namespace'] );
+		$data->setVersion( $config['premmerce_plugin_version'] );
+		$data->setUseComposer( $config['premmerce_plugin_use_composer'] );
+
+		$this->data = $data;
+
 		$this->stubsPath  = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
 		$this->pluginPath = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $data->getName() . DIRECTORY_SEPARATOR;
 
@@ -43,8 +51,8 @@ class PluginGenerator {
 			$this->createFiles();
 
 		}
-
 	}
+
 
 	private function createPluginDirectories() {
 		$path = $this->pluginPath;
@@ -76,34 +84,25 @@ class PluginGenerator {
 
 	private function createFiles() {
 
-		$pot = $this->pluginPath . self::DIR_LANGUAGES . DIRECTORY_SEPARATOR . $this->data->getName() . '.pot';
-		touch( $pot );
-		chmod( $pot, 0777 );
-
 		$stubs = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
 		$files = [
-			$stubs . 'index.php.stub'    => $this->pluginPath . 'index.php',
-			$stubs . 'README.txt.stub'   => $this->pluginPath . 'README.txt',
-			$stubs . 'LICENSE.txt.stub'  => $this->pluginPath . 'LICENSE.txt',
-			$stubs . 'Admin.php.stub'    => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst( self::DIR_ADMIN ) . DIRECTORY_SEPARATOR . 'Admin.php',
-			$stubs . 'Frontend.php.stub' => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst( self::DIR_FRONTEND ) . DIRECTORY_SEPARATOR . 'Frontend.php',
-			$stubs . 'options.php.stub'  => $this->pluginPath . self::DIR_VIEWS . DIRECTORY_SEPARATOR . self::DIR_ADMIN . DIRECTORY_SEPARATOR . 'options.php',
+			$stubs . 'index.php.stub'       => $this->pluginPath . 'index.php',
+			$stubs . 'README.txt.stub'      => $this->pluginPath . 'README.txt',
+			$stubs . 'LICENSE.txt.stub'     => $this->pluginPath . 'LICENSE.txt',
+			$stubs . 'Admin.php.stub'       => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst( self::DIR_ADMIN ) . DIRECTORY_SEPARATOR . 'Admin.php',
+			$stubs . 'Frontend.php.stub'    => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst( self::DIR_FRONTEND ) . DIRECTORY_SEPARATOR . 'Frontend.php',
+			$stubs . 'options.php.stub'     => $this->pluginPath . self::DIR_VIEWS . DIRECTORY_SEPARATOR . self::DIR_ADMIN . DIRECTORY_SEPARATOR . 'options.php',
+			$stubs . 'Plugin.php.stub'      => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . $this->data->getClass() . '.php',
+			$stubs . 'FileManager.php.stub' => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . 'FileManager.php',
+			$stubs . 'main.php.stub'        => $this->pluginPath . $this->data->getMainFileName(),
 		];
 
 		if ( $this->data->isUseComposer() ) {
-			$variableFiles = [
-				$stubs . 'composer.json.stub'       => $this->pluginPath . 'composer.json',
-				$stubs . 'main_Composer.php.stub'   => $this->pluginPath . $this->data->getMainFileName(),
-				$stubs . 'Plugin_Composer.php.stub' => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . $this->data->getClass() . '.php',
-			];
+			$files[ $stubs . 'composer.json.stub' ] = $this->pluginPath . 'composer.json';
 		} else {
-			$variableFiles = [
-				$stubs . 'main.php.stub'   => $this->pluginPath . $this->data->getMainFileName(),
-				$stubs . 'Plugin.php.stub' => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . $this->data->getClass() . '.php',
-			];
+			$files[ $stubs . 'autoload.php.stub' ] = $this->pluginPath . 'autoload.php';
 		}
 
-		$files += $variableFiles;
 
 		foreach ( $files as $from => $to ) {
 			$this->createFromStub( $from, $to );
@@ -123,6 +122,7 @@ class PluginGenerator {
 			self::STUB_PLUGIN_VERSION        => $this->data->getVersion(),
 			self::STUB_PLUGIN_DESCRIPTION    => $this->data->getDescription(),
 			self::STUB_PLUGIN_CLASS          => $this->data->getClass(),
+			self::STUB_AUTOLOAD              => $this->data->isUseComposer() ? 'vendor/autoload.php' : 'autoload.php',
 		];
 
 		file_put_contents( $file, strtr( $content, $vars ) );

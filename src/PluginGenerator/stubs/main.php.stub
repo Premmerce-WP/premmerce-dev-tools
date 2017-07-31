@@ -1,4 +1,8 @@
 <?php
+
+use ___PLUGIN_NAMESPACE___\___PLUGIN_CLASS___;
+use ___PLUGIN_NAMESPACE___\FileManager;
+
 /**
  * ___PLUGIN_NAME_HUMANIZED___ plugin
  *
@@ -27,15 +31,15 @@ if ( ! defined( 'WPINC' ) ) {
 
 call_user_func( function () {
 
-	require_once plugin_dir_path( __FILE__ ) . 'src/___PLUGIN_CLASS___.php';
+	require_once plugin_dir_path( __FILE__ ) . '___AUTOLOAD_PATH___';
 
-	$main = new ___PLUGIN_NAMESPACE___\___PLUGIN_CLASS___( __FILE__ );
+	$main = new ___PLUGIN_CLASS___( new FileManager( __FILE__ ) );
 
 	register_activation_hook( __FILE__, [ $main, 'activate' ] );
 
 	register_deactivation_hook( __FILE__, [ $main, 'deactivate' ] );
 
-	register_uninstall_hook( __FILE__, [ ___PLUGIN_NAMESPACE___\___PLUGIN_CLASS___::class, 'uninstall' ] );
+	register_uninstall_hook( __FILE__, [ ___PLUGIN_CLASS___::class, 'uninstall' ] );
 
 	$main->run();
 } );

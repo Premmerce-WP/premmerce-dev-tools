@@ -2,6 +2,7 @@
 
 use Premmerce\DevTools\DataGenerator\DataGenerator;
 use Premmerce\DevTools\FileManager;
+use Premmerce\DevTools\PluginGenerator\PluginGenerator;
 
 
 /**
@@ -12,6 +13,7 @@ use Premmerce\DevTools\FileManager;
 class Admin {
 
 	const MENU_SLUG = 'premmerce-dev-tools';
+
 	/**
 	 * @var FileManager
 	 */
@@ -52,40 +54,59 @@ class Admin {
 
 		} );
 
-		add_action( 'admin_post_create_plugin', [ $this, 'createPluginHandler' ] );
+		add_action( 'admin_post_create_plugin', [ $this, 'generatePluginHandler' ] );
 		add_action( 'admin_post_generate_data', [ $this, 'generateDataHandler' ] );
 		add_action( 'admin_post_clean_up', [ $this, 'cleanUpHandler' ] );
 
 	}
 
+	/**
+	 * Create plugin view
+	 */
 	public function createPlugin() {
 		$this->fileManager->includeTemplate( 'admin/create-plugin.php' );
 	}
 
+	/**
+	 * Generate data view
+	 */
 	public function generateData() {
 		$this->fileManager->includeTemplate( 'admin/generate-data.php' );
 	}
 
+	/**
+	 * Cleanup view
+	 */
 	public function cleanUp() {
 		wp_enqueue_script( 'premmerce_cleanup', $this->fileManager->locateAsset( 'admin/js/clean-up.js' ) );
 
 		$this->fileManager->includeTemplate( 'admin/clean-up.php' );
 	}
 
+	/**
+	 * Handle generate data form
+	 */
 	public function generateDataHandler() {
 		$gen = new DataGenerator();
 		$gen->generate( $_POST );
 		$this->redirectBack();
 	}
 
-	public function createPluginHandler() {
 
-		$generator = new CreatePluginHandler();
-		$generator->handle( $_POST );
+	/**
+	 * Handle generate plugin form
+	 */
+	public function generatePluginHandler() {
+
+		$generator = new PluginGenerator();
+		$generator->generate( $_POST );
 		$this->redirectBack();
 
 	}
 
+	/**
+	 * Handle cleanup form
+	 */
 	public function cleanUpHandler() {
 		$cleaner = new CleanUpHandler();
 
@@ -93,6 +114,9 @@ class Admin {
 		$this->redirectBack();
 	}
 
+	/**
+	 * Redirect to previous url
+	 */
 	private function redirectBack() {
 		wp_redirect( $_SERVER['HTTP_REFERER'] );
 	}

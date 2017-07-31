@@ -1,18 +1,22 @@
 <?php namespace ___PLUGIN_NAMESPACE___\Frontend;
 
+use ___PLUGIN_NAMESPACE___\FileManager;
+
 /**
  * Class Frontend
  *
- * @package ___PLUGIN_NAMESPACE___
+ * @package ___PLUGIN_NAMESPACE___\Frontend
  */
 class Frontend {
 
-	private $directory;
 
-	private $views = 'views/frontend/';
+	/**
+	 * @var FileManager
+	 */
+	private $fileManager;
 
-	public function __construct( $directory ) {
-		$this->directory = $directory;
-		$this->views     = $this->directory . $this->views;
+	public function __construct( FileManager $fileManager ) {
+		$this->fileManager = $fileManager;
 	}
+
 }

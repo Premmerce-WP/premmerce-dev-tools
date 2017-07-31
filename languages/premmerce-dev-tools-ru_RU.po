@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Premmerce dev tools\n"
-"POT-Creation-Date: 2017-07-31 19:12+0300\n"
-"PO-Revision-Date: 2017-07-31 19:12+0300\n"
+"POT-Creation-Date: 2017-07-31 20:07+0300\n"
+"PO-Revision-Date: 2017-07-31 20:08+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -17,15 +17,20 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: src/Admin/Admin.php:34 views/admin/create-plugin.php:6
+#: src/Admin/Admin.php:32
+msgid "DevTools"
+msgstr ""
+
+#: src/Admin/Admin.php:35 views/admin/create-plugin.php:6
 msgid "New plugin"
 msgstr "Новый плагин"
 
-#: src/Admin/Admin.php:39
+#: src/Admin/Admin.php:40
 msgid "Data generator"
 msgstr "Генератор данных"
 
-#: src/Admin/Admin.php:44 views/admin/clean-up.php:123
+#: src/Admin/Admin.php:45 views/admin/clean-up.php:7
+#: views/admin/clean-up.php:123
 msgid "Clean up"
 msgstr "Очистка"
 
@@ -115,9 +120,10 @@ msgstr "Использовать Composer"
 
 #: views/admin/create-plugin.php:68
 msgid ""
-"run > 'composer init' command after generation, inside the plugin\n"
+"run > 'composer install' command after generation, inside the plugin\n"
 "                        directory"
-msgstr "визовите  команду > 'composer init' после генерации, в папке плагина"
+msgstr ""
+"Визовите команду > 'composer install' после генерации, в папке плагина"
 
 #: views/admin/create-plugin.php:75
 msgid "Generate plugin"
@@ -158,3 +164,9 @@ msgstr "Количество терминов для каждого атрибу
 #: views/admin/generate-data.php:73
 msgid "Generate"
 msgstr "Сгенерировать"
+
+#~ msgid ""
+#~ "run > 'composer init' command after generation, inside the plugin\n"
+#~ "                        directory"
+#~ msgstr ""
+#~ "визовите  команду > 'composer init' после генерации, в папке плагина"

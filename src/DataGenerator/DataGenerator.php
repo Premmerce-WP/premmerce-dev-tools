@@ -59,7 +59,6 @@ class DataGenerator {
 
 	}
 
-
 	public function generate( array $config ) {
 
 		$config = $this->configure( $config );

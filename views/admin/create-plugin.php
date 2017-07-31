@@ -65,7 +65,7 @@ $current_user = wp_get_current_user();
                 <td>
                     <input type="checkbox" name="premmerce_plugin_use_composer">
                     <p class="description">
-						<?php _e( 'run > \'composer init\' command after generation, inside the plugin
+						<?php _e( 'run > \'composer install\' command after generation, inside the plugin
                         directory', 'premmerce-dev-tools' ) ?>
                     </p>
                 </td>

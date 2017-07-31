@@ -14,21 +14,21 @@ class DevToolsPlugin {
 	/**
 	 * @var FileManager
 	 */
-	private $pluginManager;
+	private $fileManager;
 
 	/**
 	 * PluginManager constructor.
 	 *
-	 * @param FileManager $pluginManager
+	 * @param FileManager $fileManager
 	 *
 	 * @internal param $mainFile
 	 */
-	public function __construct( FileManager $pluginManager ) {
+	public function __construct( FileManager $fileManager ) {
 
-		$this->pluginManager = $pluginManager;
+		$this->fileManager = $fileManager;
 
 		add_action( 'plugins_loaded', function () {
-			$name = $this->pluginManager->getPluginName();
+			$name = $this->fileManager->getPluginName();
 			load_plugin_textdomain( $name, false, $name . '/languages/' );
 		} );
 
@@ -39,9 +39,9 @@ class DevToolsPlugin {
 	 */
 	public function run() {
 		if ( is_admin() ) {
-			new Admin( $this->pluginManager );
+			new Admin( $this->fileManager );
 		} else {
-			new Frontend( $this->pluginManager );
+			new Frontend( $this->fileManager );
 		}
 
 	}
@@ -50,20 +50,17 @@ class DevToolsPlugin {
 	 * Fired when the plugin is activated
 	 */
 	public function activate() {
-		// TODO: Implement activate() method.
 	}
 
 	/**
 	 * Fired when the plugin is deactivated
 	 */
 	public function deactivate() {
-		// TODO: Implement deactivate() method.
 	}
 
 	/**
 	 * Fired during plugin uninstall
 	 */
 	public static function uninstall() {
-		// TODO: Implement uninstall() method.
 	}
 }
