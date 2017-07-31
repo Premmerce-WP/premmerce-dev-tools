@@ -32,9 +32,7 @@ call_user_func( function () {
 
 	require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-	$manager = new FileManager( __FILE__ );
-
-	$main = new DevToolsPlugin( $manager );
+	$main = new DevToolsPlugin( new FileManager( __FILE__ ) );
 
 	register_activation_hook( __FILE__, [ $main, 'activate' ] );
 
