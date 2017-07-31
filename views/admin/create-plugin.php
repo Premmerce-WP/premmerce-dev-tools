@@ -3,72 +3,76 @@
 $current_user = wp_get_current_user();
 ?>
 <div class="wrap">
-    <h1>New plugin</h1>
+    <h1><?php _e( 'New plugin', 'premmerce-dev-tools' ) ?></h1>
     <form method="post" action="<?php echo admin_url( 'admin-post.php' ) ?>">
         <input type="hidden" name="action" value="create_plugin">
         <table class="form-table">
             <tbody>
             <tr>
-                <th scope="row">
-                    <label for="premmerce_plugin_author">Plugin author</label>
+                <th>
+                    <label for="premmerce_plugin_author"><?php _e( 'Plugin author', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="text" name="premmerce_plugin_author" value="<?php echo $current_user->display_name ?>">
                 </td>
             </tr>
             <tr>
-                <th scope="row">
-                    <label for="premmerce_plugin_name">Plugin name</label>
+                <th>
+                    <label for="premmerce_plugin_name"><?php _e( 'Plugin directory name', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="text" name="premmerce_plugin_name" placeholder="plugin-name">
                 </td>
             </tr>
             <tr>
-                <th scope="row">
-                    <label for="premmerce_plugin_name_humanized">Plugin name humanized</label>
+                <th>
+                    <label for="premmerce_plugin_name_humanized"><?php _e( 'Plugin name', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="text" name="premmerce_plugin_name_humanized" placeholder="Plugin name">
                 </td>
             </tr>
             <tr>
-                <th scope="row">
-                    <label for="premmerce_plugin_namespace">Plugin namespace</label>
+                <th>
+                    <label for="premmerce_plugin_namespace"><?php _e( 'Plugin namespace', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="text" name="premmerce_plugin_namespace">
-                    <p class="description">For example: PluginName, Company\PluginName</p>
+                    <p class="description"><?php _e( 'For example', 'premmerce-dev-tools' ) ?>: PluginName,
+                        Company\PluginName</p>
                 </td>
             </tr>
             <tr>
-                <th scope="row">
-                    <label for="premmerce_plugin_description">Plugin description</label>
+                <th>
+                    <label for="premmerce_plugin_description"><?php _e( 'Plugin description', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <textarea name="premmerce_plugin_description" cols="30" rows="5"></textarea>
                 </td>
             </tr>
             <tr>
-                <th scope="row">
-                    <label for="premmerce_plugin_version">Plugin version</label>
+                <th>
+                    <label for="premmerce_plugin_version"><?php _e( 'Plugin version', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="text" name="premmerce_plugin_version" value="1.0">
                 </td>
             </tr>
             <tr>
-                <th scope="row">
-                    <label for="premmerce_plugin_use_composer">Use Composer</label>
+                <th>
+                    <label for="premmerce_plugin_use_composer"><?php _e( 'Use Composer', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="checkbox" name="premmerce_plugin_use_composer">
-                    <p class="description">run > 'composer init' command after plugin generation</p>
+                    <p class="description">
+						<?php _e( 'run > \'composer init\' command after generation, inside the plugin
+                        directory', 'premmerce-dev-tools' ) ?>
+                    </p>
                 </td>
             </tr>
             </tbody>
         </table>
-		<?php submit_button(); ?>
+		<?php submit_button( __( 'Generate plugin', 'premmerce-dev-tools' ) ); ?>
     </form>
 
 </div>

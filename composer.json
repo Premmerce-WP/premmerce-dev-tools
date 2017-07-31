@@ -18,6 +18,7 @@
   "require": {
     "symfony/var-dumper": "^3.3",
     "fzaninotto/faker": "^1.6",
-    "bheller/images-generator": "^1.0"
+    "bheller/images-generator": "^1.0",
+    "symfony/stopwatch": "^3.3"
   }
 }

@@ -1,11 +1,11 @@
-<?php namespace Premmerce\DevTools\FakeData;
+<?php namespace Premmerce\DevTools\DataGenerator;
 
 
 use bheller\ImagesGenerator\ImagesGeneratorProvider;
 use Faker\Factory;
-use Premmerce\DevTools\FakeData\Generators\AttributesGenerator;
-use Premmerce\DevTools\FakeData\Generators\CategoryGenerator;
-use Premmerce\DevTools\FakeData\Generators\ProductGenerator;
+use Premmerce\DevTools\DataGenerator\Generators\AttributesGenerator;
+use Premmerce\DevTools\DataGenerator\Generators\CategoryGenerator;
+use Premmerce\DevTools\DataGenerator\Generators\ProductGenerator;
 use Premmerce\DevTools\Services\DataCleaner;
 
 /**
@@ -41,11 +41,6 @@ class DataGenerator {
 	 */
 	private $faker;
 
-	/**
-	 * @var DataCleaner
-	 */
-	private $cleaner;
-
 
 	public function __construct() {
 
@@ -62,14 +57,12 @@ class DataGenerator {
 		$this->faker = Factory::create();
 		$this->faker->addProvider( new ImagesGeneratorProvider( $this->faker ) );
 
-		$this->cleaner = new DataCleaner();
 	}
 
 
 	public function generate( array $config ) {
 
 		$config = $this->configure( $config );
-		$this->cleaner->clean();
 
 
 		$categoriesNumber     = $config[ self::NAME_CATEGORIES ];

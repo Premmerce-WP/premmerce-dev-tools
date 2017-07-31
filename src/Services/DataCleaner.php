@@ -1,51 +1,35 @@
 <?php namespace Premmerce\DevTools\Services;
 
-
-use Premmerce\DevTools\FakeData\DataGenerator;
-
 class DataCleaner {
 
 
-	public function clean() {
-		$this->removeProducts();
-		$this->removeCategories();
-		$this->removeAttributes();
-		$this->clearUnusedData();
-		$this->cleanUploads();
-		$this->clearTransients();
-	}
-
-	public function cleanUploads() {
-
-//		$uploads = wp_upload_dir()['path'];
-//
-//		$files = glob( $uploads . '/*' );
-//		foreach ( $files as $file ) {
-//			if ( is_file( $file ) ) {
-//				@unlink( $file );
-//			}
-//		}
-//		if ( ! file_exists( $uploads ) ) {
-//			@mkdir( $uploads );
-//			@chmod( $uploads, 0777 );
-//		}
-
-	}
-
+	/**
+	 * Remove posts, child posts, post_meta, term_relationships
+	 *
+	 * @return false|int
+	 */
 	public function removeProducts() {
 		global $wpdb;
 
-		$query['delete'] = sprintf( 'DELETE %s, %s, %s',
+		$query['delete'] = sprintf( 'DELETE %s, %s, %s, %s',
 			$wpdb->posts,
 			$wpdb->postmeta,
-			$wpdb->term_relationships
+			$wpdb->term_relationships,
+			'child'
 		);
 		$query['from']   = sprintf( 'FROM %s', $wpdb->posts );
-		$query['join1']  = sprintf( 'LEFT JOIN %s', $wpdb->postmeta );
-		$query['on1']    = sprintf( 'ON %s.post_id = %s.ID', $wpdb->postmeta, $wpdb->posts );
-		$query['join2']  = sprintf( 'LEFT JOIN %s', $wpdb->term_relationships );
-		$query['on2']    = sprintf( 'ON %s.object_id = %s.ID', $wpdb->term_relationships, $wpdb->posts );
-		$query['where']  = sprintf( "WHERE %s.post_type in  ('%s', '%s')", $wpdb->posts, DataGenerator::WOO_PRODUCT, 'product_variation' );
+
+
+		$query['join1'] = sprintf( 'LEFT JOIN %s child', $wpdb->posts );
+		$query['on1']   = sprintf( 'ON %s.ID = child.post_parent', $wpdb->posts );
+
+		$query['join2'] = sprintf( 'LEFT JOIN %s', $wpdb->postmeta );
+		$query['on2']   = sprintf( 'ON %s.post_id = %s.ID', $wpdb->postmeta, $wpdb->posts );
+
+		$query['join3'] = sprintf( 'LEFT JOIN %s', $wpdb->term_relationships );
+		$query['on3']   = sprintf( 'ON %s.object_id = %s.ID', $wpdb->term_relationships, $wpdb->posts );
+
+		$query['where'] = sprintf( "WHERE %s.post_type in  ('%s', '%s')", $wpdb->posts, 'product', 'product_variation' );
 
 		$query = implode( ' ', $query );
 
@@ -53,6 +37,11 @@ class DataCleaner {
 
 	}
 
+	/**
+	 * Remove categories - terms, taxonomies , term_meta, relationships
+	 *
+	 * @return false|int
+	 */
 	public function removeCategories() {
 		global $wpdb;
 
@@ -60,7 +49,8 @@ class DataCleaner {
 		$query['delete'] = sprintf( 'DELETE %s, %s, %s, %s',
 			$wpdb->term_taxonomy,
 			$wpdb->terms,
-			$wpdb->termmeta, $wpdb->term_relationships
+			$wpdb->termmeta,
+			$wpdb->term_relationships
 		);
 
 		$query['from'] = sprintf( 'FROM %s', $wpdb->term_taxonomy );
@@ -69,7 +59,7 @@ class DataCleaner {
 		$query['join2'] = sprintf( 'LEFT JOIN %s USING (term_id) ', $wpdb->termmeta );
 		$query['join3'] = sprintf( 'LEFT JOIN %s USING (term_taxonomy_id) ', $wpdb->term_relationships );
 
-		$query['where'] = sprintf( "WHERE %s.taxonomy = '%s'", $wpdb->term_taxonomy, DataGenerator::WOO_CATEGORY );
+		$query['where'] = sprintf( "WHERE %s.taxonomy = '%s'", $wpdb->term_taxonomy, 'product_cat' );
 
 		$query = implode( ' ', $query );
 
@@ -77,6 +67,11 @@ class DataCleaner {
 
 	}
 
+	/**
+	 * Remove attributes - woocommerce_attribute_taxonomies
+	 *
+	 * @return false|int
+	 */
 	public function removeAttributes() {
 		global $wpdb;
 
@@ -88,32 +83,65 @@ class DataCleaner {
 		return $wpdb->query( $query );
 	}
 
-
+	/**
+	 * Remove attribute terms - terms , term_taxonomy, term_relationships, term_meta
+	 *
+	 * @return false|int
+	 */
 	public function removeAttributeTaxonomyTerms() {
 		global $wpdb;
 
 		$taxonomies = wc_get_attribute_taxonomy_names();
 
 
-		$query['delete'] = sprintf( 'DELETE FROM %s', $wpdb->term_taxonomy );
-		$query['where']  = sprintf( "WHERE taxonomy IN ('%s')", implode( "','", $taxonomies ) );
+		if ( count( $taxonomies ) ) {
 
-		$query = implode( ' ', $query );
+			$query['delete'] = "DELETE {$wpdb->term_taxonomy}, {$wpdb->terms}, {$wpdb->term_relationships}, {$wpdb->termmeta}";
+			$query['from']   = "FROM {$wpdb->term_taxonomy}";
 
-		return $wpdb->query( $query );
+			$query['join1'] = "LEFT JOIN {$wpdb->terms} USING(term_id)";
+			$query['join2'] = "LEFT JOIN {$wpdb->term_relationships} USING (term_taxonomy_id)";
+			$query['join3'] = "LEFT JOIN {$wpdb->termmeta} USING (term_id)";
+
+			$query['where'] = sprintf( "WHERE taxonomy IN ('%s')", implode( "','", $taxonomies ) );
+
+			$query = implode( ' ', $query );
+
+			return $wpdb->query( $query );
+		}
+
+		return 0;
 
 	}
 
-	public function clearUnusedData() {
-		$this->clearTermsWithoutTaxonomy();
+	/**
+	 * Remove all transients
+	 */
+	public function removeAllTransients() {
+		global $wpdb;
+
+		return $wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE ('_transient_%')" )
+		       + $wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE ('_site_transient_%')" );
+	}
+
+
+	/* ***************************************************
+	 * TERM RELATIONS
+	 */
+
+	/**
+	 * Clear term relationship without post or term
+	 */
+	public function clearTermRelations() {
 		$this->clearTermRelationsWithoutPost();
-		$this->clearTermRelationsWithoutTaxonomy();
-		$this->clearPostMetaWithoutPost();
-		$this->clearPostWithNonExistedParent();
-		$this->clearTermWithoutTaxonomy();
-		$this->clearTermMetaWithoutTerm();
+		$this->clearTermRelationsWithoutTerm();
 	}
 
+	/**
+	 * Clear term relationships with non existent object_id
+	 *
+	 * @return false|int
+	 */
 	public function clearTermRelationsWithoutPost() {
 		global $wpdb;
 
@@ -125,23 +153,53 @@ class DataCleaner {
 		return $wpdb->query( $query );
 	}
 
-
-	public function clearTermRelationsWithoutTaxonomy() {
+	/**
+	 * Clear term relationships with non existent term_id
+	 *
+	 * @return false|int
+	 */
+	public function clearTermRelationsWithoutTerm() {
 		global $wpdb;
 
 		$query['delete'] = sprintf( 'DELETE FROM %s', $wpdb->term_relationships );
-		$query['where']  = sprintf( 'WHERE object_id NOT IN (SELECT term_taxonomy_id FROM %s)', $wpdb->term_taxonomy );
+		$query['where']  = sprintf( 'WHERE term_taxonomy_id NOT IN (SELECT term_taxonomy_id FROM %s)', $wpdb->term_taxonomy );
 
 		$query = implode( ' ', $query );
 
 		return $wpdb->query( $query );
 	}
 
+
+	/* ***************************************************
+	 * TERMS
+	 */
+
+
+	/**
+	 * Clear terms, term_taxonomy
+	 *
+	 * @return false|int
+	 */
+	public function clearTerms() {
+		return $this->clearTermTaxonomyWithoutTerm()
+		       + $this->clearTermWithoutTermTaxonomy()
+		       + $this->clearTermWithoutTaxonomy();
+	}
+
+	/**
+	 * Clear term with non existent taxonomy
+	 *
+	 * @return false|int
+	 */
 	public function clearTermWithoutTaxonomy() {
+
 		global $wpdb;
 
-		$query['delete'] = sprintf( 'DELETE FROM %s', $wpdb->terms );
-		$query['where']  = sprintf( 'WHERE term_id NOT IN (SELECT term_taxonomy_id FROM %s)', $wpdb->term_taxonomy );
+		$taxonomies = get_taxonomies();
+
+		$query['delete'] = "DELETE {$wpdb->term_taxonomy}, {$wpdb->terms} FROM {$wpdb->term_taxonomy}";
+		$query['join']   = "LEFT JOIN {$wpdb->terms} USING (term_id)";
+		$query['where']  = sprintf( "WHERE taxonomy NOT IN ('%s')", implode( "','", $taxonomies ) );
 
 		$query = implode( ' ', $query );
 
@@ -149,6 +207,48 @@ class DataCleaner {
 
 	}
 
+	/**
+	 * Clear term_taxonomy with non existent term_id in terms table
+	 *
+	 * @return false|int
+	 */
+	public function clearTermTaxonomyWithoutTerm() {
+		global $wpdb;
+
+		$query['delete'] = "DELETE FROM $wpdb->term_taxonomy";
+		$query['where']  = "WHERE term_id NOT IN (SELECT term_id FROM {$wpdb->terms})";
+
+		$query = implode( ' ', $query );
+
+		return $wpdb->query( $query );
+
+	}
+
+	/**
+	 * Clear term with non existent term_id in term_taxonomy table
+	 *
+	 * @return false|int
+	 */
+	public function clearTermWithoutTermTaxonomy() {
+		global $wpdb;
+
+		$query['delete'] = "DELETE FROM $wpdb->terms";
+		$query['where']  = "WHERE term_id NOT IN (SELECT term_id FROM {$wpdb->term_taxonomy})";
+
+		$query = implode( ' ', $query );
+
+		return $wpdb->query( $query );
+
+	}
+
+	/* ***************************************************
+	 * TERM META
+	 */
+
+	/**
+	 * Clear term_meta with non existent term_id in terms table
+	 * @return false|int
+	 */
 	public function clearTermMetaWithoutTerm() {
 		global $wpdb;
 
@@ -161,6 +261,16 @@ class DataCleaner {
 
 	}
 
+
+	/* ***************************************************
+	 * POST META
+	 */
+
+	/**
+	 * Clear post_meta with non existent post
+	 *
+	 * @return false|int
+	 */
 	public function clearPostMetaWithoutPost() {
 		global $wpdb;
 
@@ -172,6 +282,15 @@ class DataCleaner {
 		return $wpdb->query( $query );
 	}
 
+	/* ***************************************************
+	 * POST
+	 */
+
+	/**
+	 * Clear post with non existent parent_post
+	 *
+	 * @return false|int
+	 */
 	public function clearPostWithNonExistedParent() {
 		global $wpdb;
 
@@ -183,26 +302,37 @@ class DataCleaner {
 		return $wpdb->query( $query );
 	}
 
-	public function clearTermsWithoutTaxonomy() {
+	/* ***************************************************
+	 * UPLOADS
+	 */
 
+	public function cleanUploads() {
 		global $wpdb;
 
-		$taxonomies = get_taxonomies();
+		$query['select'] = "SELECT meta_value FROM {$wpdb->posts}";
+		$query['join']   = "JOIN {$wpdb->postmeta} ON {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id";
+		$query['where']  = "WHERE post_type = 'attachment' AND meta_key = '_wp_attached_file'";
+		$query           = implode( ' ', $query );
 
-		$query['delete'] = sprintf( 'DELETE FROM %s', $wpdb->term_taxonomy );
-		$query['where']  = sprintf( "WHERE taxonomy NOT IN ('%s')", implode( "','", $taxonomies ) );
 
-		$query = implode( ' ', $query );
+		$existingImages = $wpdb->get_col( $query );
 
-		return $wpdb->query( $query );
+		$uploads = wp_upload_dir();
 
-	}
+		$baseDir = $uploads['basedir'];
+		$path    = $uploads['path'];
 
-	public function clearTransients() {
-		global $wpdb;
 
-		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE ('_transient_%')" );
-		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE ('_site_transient_%')" );
+		$files = glob( $path . '/*' );
+		foreach ( $files as $file ) {
+
+			if ( is_file( $file ) && ! in_array( str_replace( $baseDir . '/', '', $file ), $existingImages ) ) {
+				@unlink( $file );
+			}
+
+		}
+
+
 	}
 
 }

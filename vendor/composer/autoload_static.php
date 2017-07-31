@@ -21,6 +21,7 @@ class ComposerStaticInitd5d485f6e34ee1158397f08a4d2ae890
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
+            'Symfony\\Component\\Stopwatch\\' => 28,
         ),
         'P' => 
         array (
@@ -44,6 +45,10 @@ class ComposerStaticInitd5d485f6e34ee1158397f08a4d2ae890
         'Symfony\\Component\\VarDumper\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
+        ),
+        'Symfony\\Component\\Stopwatch\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/stopwatch',
         ),
         'Premmerce\\DevTools\\' => 
         array (

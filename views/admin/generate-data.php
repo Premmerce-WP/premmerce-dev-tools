@@ -1,7 +1,7 @@
 <div class="wrap">
-    <h1>Generate data</h1>
+    <h1><?php _e( 'Generate data', 'premmerce-dev-tools' ) ?></h1>
 
-    <form method="post" action="<?php use Premmerce\DevTools\FakeData\DataGenerator;
+    <form method="post" action="<?php use Premmerce\DevTools\DataGenerator\DataGenerator;
 
 	echo admin_url( 'admin-post.php' ) ?>">
         <input type="hidden" name="action" value="generate_data">
@@ -9,7 +9,7 @@
             <tbody>
             <tr>
                 <th>
-                    <label>Products number</label>
+                    <label><?php _e( 'Products number', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="number" name="<?php echo DataGenerator::NAME_PRODUCTS ?>" value="<?php ?>">
@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <th>
-                    <label>Add product photo</label>
+                    <label><?php _e( 'Generate product photo', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="checkbox" name="<?php echo DataGenerator::NAME_PRODUCT_PHOTO ?>">
@@ -25,7 +25,7 @@
             </tr>
             <tr>
                 <th>
-                    <label>Gallery photos number</label>
+                    <label><?php _e( 'Product gallery photos number', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="number" name="<?php echo DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER ?>"
@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <th>
-                    <label>Product type</label>
+                    <label><?php _e( 'Product type', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <select name="<?php echo DataGenerator::NAME_PRODUCT_TYPE ?>" id="">
@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <th>
-                    <label>Categories number</label>
+                    <label><?php _e( 'Categories number', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="number" name="<?php echo DataGenerator::NAME_CATEGORIES ?>" value="<?php ?>">
@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <th>
-                    <label>Attributes number</label>
+                    <label><?php _e( 'Attributes number', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="number" name="<?php echo DataGenerator::NAME_ATTRIBUTES ?>" value="<?php ?>">
@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <th>
-                    <label>Each attribute terms number</label>
+                    <label><?php _e( 'Each attribute terms number', 'premmerce-dev-tools' ) ?></label>
                 </th>
                 <td>
                     <input type="number" name="<?php echo DataGenerator::NAME_ATTRIBUTE_TERMS ?>" value="<?php ?>">
@@ -70,6 +70,6 @@
             </tr>
             </tbody>
         </table>
-		<?php submit_button(); ?>
+		<?php submit_button( __( 'Generate', 'premmerce-dev-tools' ) ); ?>
     </form>
 </div>

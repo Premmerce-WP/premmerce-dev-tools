@@ -1,4 +1,4 @@
-<?php namespace Premmerce\DevTools\Generator;
+<?php namespace Premmerce\DevTools\PluginGenerator;
 
 /**
  * Class PluginData

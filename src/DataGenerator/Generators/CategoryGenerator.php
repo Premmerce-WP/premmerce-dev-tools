@@ -1,4 +1,4 @@
-<?php namespace Premmerce\DevTools\FakeData\Generators;
+<?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
 use Faker\Generator;
 use Premmerce\DevTools\Services\BulkInsertQuery;
