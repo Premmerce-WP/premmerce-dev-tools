@@ -87,8 +87,8 @@ class PluginGenerator {
 		$stubs = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
 		$files = [
 			$stubs . 'index.php.stub'       => $this->pluginPath . 'index.php',
-			$stubs . 'README.txt.stub'      => $this->pluginPath . 'README.txt',
-			$stubs . 'LICENSE.txt.stub'     => $this->pluginPath . 'LICENSE.txt',
+			$stubs . 'readme.txt.stub'      => $this->pluginPath . 'readme.txt',
+			$stubs . 'license.txt.stub'     => $this->pluginPath . 'license.txt',
 			$stubs . 'Admin.php.stub'       => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst( self::DIR_ADMIN ) . DIRECTORY_SEPARATOR . 'Admin.php',
 			$stubs . 'Frontend.php.stub'    => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst( self::DIR_FRONTEND ) . DIRECTORY_SEPARATOR . 'Frontend.php',
 			$stubs . 'options.php.stub'     => $this->pluginPath . self::DIR_VIEWS . DIRECTORY_SEPARATOR . self::DIR_ADMIN . DIRECTORY_SEPARATOR . 'options.php',

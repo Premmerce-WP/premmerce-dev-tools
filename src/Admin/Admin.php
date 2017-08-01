@@ -33,7 +33,7 @@ class Admin {
 			add_menu_page( __( 'DevTools', 'premmerce-dev-tools' ), __( 'DevTools', 'premmerce-dev-tools' ), 'manage_options', self::MENU_SLUG,
 				null, 'dashicons-hammer' );
 
-			add_submenu_page( self::MENU_SLUG, __( 'New plugin', 'premmerce-dev-tools' ), __( 'New plugin', 'premmerce-dev-tools' ), 'manage_options', self::MENU_SLUG . 'create_plugin', [
+			add_submenu_page( self::MENU_SLUG, __( 'Plugin generator', 'premmerce-dev-tools' ), __( 'Plugin generator', 'premmerce-dev-tools' ), 'manage_options', self::MENU_SLUG . 'create_plugin', [
 				$this,
 				'createPlugin'
 			] );
@@ -43,7 +43,7 @@ class Admin {
 				'generateData'
 			] );
 
-			add_submenu_page( self::MENU_SLUG, __( 'Clean up', 'premmerce-dev-tools' ), __( 'Clean up', 'premmerce-dev-tools' ), 'manage_options', self::MENU_SLUG . 'clean_database', [
+			add_submenu_page( self::MENU_SLUG, __( 'Data cleaner', 'premmerce-dev-tools' ), __( 'Data cleaner', 'premmerce-dev-tools' ), 'manage_options', self::MENU_SLUG . 'clean_database', [
 				$this,
 				'cleanUp'
 			] );
