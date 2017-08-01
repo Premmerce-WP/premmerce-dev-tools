@@ -2,7 +2,7 @@
 
 Woocommerce data generation, plugin generation, debugging, cleaning up database and uploads.
 
-## Description ==
+## Description
 
 This plugin allows to generate data, generate empty plugin, debug variables by symfony/var-dumper
 
