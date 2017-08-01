@@ -147,7 +147,7 @@ class AttributesGenerator {
 					'term_taxonomy_id' => $termTaxonomyId,
 					'term_id'          => $termId,
 					'taxonomy'         => $attribute,
-					'count'            => 0
+					'count'            => 1
 				];
 			}
 		}

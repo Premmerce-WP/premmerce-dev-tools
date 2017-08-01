@@ -18,5 +18,5 @@ attributes, attribute terms, categories, product images, product galleries.
 
 ## Changelog
 
-### 1.0.0
+### 1.0
 Plugin release. Plugin generator, data generator, data cleaner.
