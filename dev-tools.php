@@ -4,14 +4,14 @@
  *
  *
  * @link              http://premmerce.com
- * @since             1.0.0
+ * @since             1.0
  * @package           Dev tools
  *
  * @wordpress-plugin
  * Plugin Name:       DevTools
  * Plugin URI:        http://premmerce.com
  * Description:       Allow to do everything
- * Version:           1.0.0
+ * Version:           1.0
  * Author:            Premmerce
  * Author URI:        http://premmerce.com
  * License:           GPL-2.0+
