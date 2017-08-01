@@ -365,7 +365,7 @@ class ProductGenerator {
 
 		$uploadDir = wp_upload_dir();
 
-		$image            = $this->faker->imageGenerator( $uploadDir['path'], 640, 480, 'png', true, $this->faker->word, $this->faker->hexColor );
+		$image            = $this->faker->imageGenerator( $uploadDir['path'], 640, 480, 'png', true, '', $this->faker->hexColor );
 		$baseImageName    = basename( $image );
 		$uploadedImageUrl = $uploadDir['url'] . '/' . $baseImageName;
 
