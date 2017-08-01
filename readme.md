@@ -13,8 +13,6 @@ attributes, attribute terms, categories, product images, product galleries.
 
 ## Installation
 
-This section describes how to install the plugin and get it working.
-
 1. Upload `premmerce-dev-tools` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
