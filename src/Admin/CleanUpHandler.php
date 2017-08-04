@@ -48,7 +48,7 @@ class CleanUpHandler {
 			self::REMOVE_ATTRIBUTES    => [
 				[ $this->cleaner, 'removeAttributes' ],
 				[ $this->cleaner, 'removeAttributeTerms' ],
-				[ $this->cleaner, 'clearTransients' ],
+				[ $this->cleaner, 'removeAllTransients' ],
 			],
 			self::CLEAR_TERMS          => [
 				[ $this->cleaner, 'clearTerms' ]
