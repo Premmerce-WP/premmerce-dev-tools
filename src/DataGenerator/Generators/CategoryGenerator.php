@@ -60,12 +60,12 @@ class CategoryGenerator {
 
 	private function generateTermData( $termId ) {
 
-		$name = ucfirst( $this->faker->word );
+		$name = ucfirst( $this->faker->word ) . '-' . $termId;
 
 		return [
 			'term_id' => $termId,
 			'name'    => $name,
-			'slug'    => sanitize_title( $name ) . '-' . $termId
+			'slug'    => sanitize_title( $name ),
 		];
 	}
 
