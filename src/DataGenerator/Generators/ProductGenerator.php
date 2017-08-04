@@ -210,7 +210,7 @@ class ProductGenerator {
 				$meta[] = [
 					'post_id'    => $id,
 					'meta_key'   => $key,
-					'meta_value' => $value
+					'meta_value' => $value,
 				];
 
 			}
@@ -301,7 +301,7 @@ class ProductGenerator {
 			'post_content' => $this->faker->paragraph,
 			'post_status'  => 'publish',
 			'post_type'    => 'product',
-			'post_name'    => sanitize_title( $title )
+			'post_name'    => sanitize_title( $title ),
 		];
 
 		return $data;
@@ -377,7 +377,7 @@ class ProductGenerator {
 			'post_content'   => '',
 			'post_status'    => 'inherit',
 			'post_parent'    => $postId,
-			'post_type'      => 'attachment'
+			'post_type'      => 'attachment',
 		];
 
 		return $attachment;
@@ -408,7 +408,7 @@ class ProductGenerator {
 			$meta[] = [
 				'post_id'    => $id,
 				'meta_key'   => '_wp_attachment_metadata',
-				'meta_value' => serialize( [ 'width' => 640, 'height' => 480, "file" => $relPath ] )
+				'meta_value' => serialize( [ 'width' => 640, 'height' => 480, "file" => $relPath ] ),
 			];
 		}
 
@@ -428,7 +428,7 @@ class ProductGenerator {
 			$metadata[] = [
 				'post_id'    => $postId,
 				'meta_key'   => '_thumbnail_id',
-				'meta_value' => array_shift( $thumbnails )
+				'meta_value' => array_shift( $thumbnails ),
 			];
 		}
 
@@ -464,7 +464,7 @@ class ProductGenerator {
 			$productMeta[ $productId ] = [
 				'post_id'    => $productId,
 				'meta_key'   => '_product_image_gallery',
-				'meta_value' => implode( ',', $item )
+				'meta_value' => implode( ',', $item ),
 			];
 		}
 
@@ -532,8 +532,10 @@ class ProductGenerator {
 
 				];
 
+				$countTerms = intval( count( $terms ) / 2 );
+
 				$randomTerms = $this->faker
-					->randomElements( $terms, $this->faker->numberBetween( 1, count( $terms ) ) );
+					->randomElements( $terms, $this->faker->numberBetween( 1, $countTerms ) );
 
 				if ( $variationTrigger ) {
 					$this->productVariations[ $productId ][ $attribute ] = $randomTerms;
@@ -546,7 +548,7 @@ class ProductGenerator {
 					yield [
 						'object_id'        => $productId,
 						'term_taxonomy_id' => $term['term_taxonomy_id'],
-						'term_order'       => 0
+						'term_order'       => 0,
 					];
 				}
 
@@ -586,7 +588,7 @@ class ProductGenerator {
 					$this->variationsMeta[] = [
 						'post_id'    => $variationId,
 						'meta_key'   => 'attribute_' . $attribute,
-						'meta_value' => $term['name']
+						'meta_value' => $term['name'],
 
 					];
 
@@ -618,7 +620,7 @@ class ProductGenerator {
 
 		$terms = get_terms( [
 			'taxonomy'   => 'product_type',
-			'hide_empty' => false
+			'hide_empty' => false,
 		] );
 
 		$productTypes = [];
