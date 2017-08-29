@@ -24,10 +24,7 @@ class ___PLUGIN_CLASS___ {
 
 		$this->fileManager = $fileManager;
 
-		add_action( 'plugins_loaded', function () {
-			$name = $this->fileManager->getPluginName();
-			load_plugin_textdomain( $name, false, $name . '/languages/' );
-		} );
+        add_action('init', [ $this, 'loadTextDomain' ]);
 
 	}
 
@@ -42,6 +39,15 @@ class ___PLUGIN_CLASS___ {
 		}
 
 	}
+
+    /**
+     * Load plugin translations
+     */
+    public function loadTextDomain()
+    {
+        $name = $this->fileManager->getPluginName();
+        load_plugin_textdomain($name, false, $name . '/languages/');
+    }
 
 	/**
 	 * Fired when the plugin is activated
