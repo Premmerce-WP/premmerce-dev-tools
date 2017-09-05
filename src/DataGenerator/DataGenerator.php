@@ -90,7 +90,7 @@ class DataGenerator
             $productGenerator = new ProductGenerator($this->faker);
 
             $productGenerator->setProductType($productType);
-            $productGenerator->setIsGenerateImage($productPhoto);
+            $productGenerator->setGenerateImage($productPhoto);
             $productGenerator->setGalleryPhotosNumber($productGallery);
 
             if ($categoriesNumber) {

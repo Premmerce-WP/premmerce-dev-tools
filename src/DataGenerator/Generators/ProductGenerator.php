@@ -36,7 +36,7 @@ class ProductGenerator
     /**
      * @var bool
      */
-    private $isGenerateImage;
+    private $generateImage;
 
     /**
      * @var int
@@ -103,11 +103,11 @@ class ProductGenerator
     }
 
     /**
-     * @param bool $isGenerateImage
+     * @param bool $generateImage
      */
-    public function setIsGenerateImage($isGenerateImage)
+    public function setGenerateImage($generateImage)
     {
-        $this->isGenerateImage = $isGenerateImage;
+        $this->generateImage = $generateImage;
     }
 
     /**
@@ -139,7 +139,7 @@ class ProductGenerator
 
         $this->insertProductsMeta($this->productIds);
 
-        if ($this->isGenerateImage) {
+        if ($this->generateImage) {
             $this->insertImage();
         }
 

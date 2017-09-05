@@ -1,6 +1,8 @@
 {
-  "name": "premmerce-dev-tools",
+  "description": "Wordpress plugin developer tools",
+  "name": "premmerce/dev-tools",
   "type": "wordpress-plugin",
+  "license": "GPL-2.0",
   "authors": [
     {
       "name": "Cray",

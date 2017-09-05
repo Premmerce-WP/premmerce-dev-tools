@@ -29,7 +29,6 @@ class PluginGenerator
     const STUB_PLUGIN_CLASS = '___PLUGIN_CLASS___';
     const STUB_AUTOLOAD = '___AUTOLOAD_PATH___';
 
-    private $stubsPath;
     private $pluginPath;
 
     public function generate($config)
@@ -46,10 +45,9 @@ class PluginGenerator
 
         $this->data = $data;
 
-        $this->stubsPath  = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
         $this->pluginPath = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $data->getName() . DIRECTORY_SEPARATOR;
 
-        if ($res = $this->createPluginDirectories()) {
+        if ($this->createPluginDirectories()) {
             $this->createFiles();
         }
     }

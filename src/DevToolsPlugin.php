@@ -40,8 +40,6 @@ class DevToolsPlugin
     {
         if (is_admin()) {
             new Admin($this->fileManager);
-        } else {
-            new Frontend($this->fileManager);
         }
     }
 
