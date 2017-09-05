@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Premmerce dev tools\n"
-"POT-Creation-Date: 2017-09-05 10:53+0300\n"
-"PO-Revision-Date: 2017-09-05 10:53+0300\n"
+"Project-Id-Version: DevTools\n"
+"POT-Creation-Date: 2017-09-05 10:57+0300\n"
+"PO-Revision-Date: 2017-09-05 12:12+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: ru_RU\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,15 +23,15 @@ msgstr ""
 
 #: src/Admin/Admin.php:36
 msgid "Plugin generator"
-msgstr "Генератор плагина"
+msgstr "Генератор плагіну"
 
 #: src/Admin/Admin.php:41
 msgid "Data generator"
-msgstr "Генератор данных"
+msgstr "Генератор даних"
 
 #: src/Admin/Admin.php:46
 msgid "Data cleaner"
-msgstr "Очистка данных"
+msgstr "Очистка даних"
 
 #: views/admin/clean-up.php:7 views/admin/clean-up.php:123
 msgid "Clean up"
@@ -39,145 +39,141 @@ msgstr "Очистка"
 
 #: views/admin/clean-up.php:11
 msgid "Remove items from database"
-msgstr "Удалить значения в базе данных "
+msgstr "Видалити значення з бази"
 
 #: views/admin/clean-up.php:16 views/admin/clean-up.php:71
 msgid "Select all"
-msgstr "Выбрать все"
+msgstr "Обрати все"
 
 #: views/admin/clean-up.php:24
 msgid "Products"
-msgstr "Товары"
+msgstr "Товари"
 
 #: views/admin/clean-up.php:33
 msgid "Product categories"
-msgstr "Категории товаров"
+msgstr "КатегоріЇ товарів"
 
 #: views/admin/clean-up.php:42
 msgid "Product attributes"
-msgstr "Атрибуты товаров"
+msgstr "Атрибути"
 
 #: views/admin/clean-up.php:52
 msgid "Uploads"
-msgstr "Загрузки"
+msgstr "Завантаження"
 
 #: views/admin/clean-up.php:57
 msgid "Remove unused image files"
-msgstr "Удалить неиспользуемые изображения"
+msgstr "Видалити зображення які не використовуються"
 
 #: views/admin/clean-up.php:66
 msgid "Clear unused items from database"
-msgstr "Удалить неиспользуемые значения в базе данных"
+msgstr "Видалити з бази даних значення  які не використовуються"
 
 #: views/admin/clean-up.php:79
 msgid "Terms"
-msgstr "Термины"
+msgstr "Терміни"
 
 #: views/admin/clean-up.php:88
 msgid "Term relations"
-msgstr "Связи терминов"
+msgstr "Звязки термінів "
 
 #: views/admin/clean-up.php:97
 msgid "Term meta"
-msgstr "Мета данные терминов"
+msgstr "Мета дані термінів"
 
 #: views/admin/clean-up.php:106
 msgid "Posts"
-msgstr "Посты"
+msgstr "Пости"
 
 #: views/admin/clean-up.php:115
 msgid "Post meta"
-msgstr "Мета данные постов"
+msgstr "Мета дані постів"
 
 #: views/admin/create-plugin.php:6
 msgid "New plugin"
-msgstr "Новый плагин"
+msgstr "Новий плагін"
 
 #: views/admin/create-plugin.php:13
 msgid "Plugin author"
-msgstr "Автор"
+msgstr "Автор плагіну"
 
 #: views/admin/create-plugin.php:21
 msgid "Plugin directory name"
-msgstr "Название папки плагина"
+msgstr "Назва папки плагіну"
 
 #: views/admin/create-plugin.php:29
 msgid "Plugin name"
-msgstr "Название плагина"
+msgstr "Назва плагіну"
 
 #: views/admin/create-plugin.php:37
 msgid "Plugin namespace"
-msgstr "Пространство имен плагина"
+msgstr "Namespace плагіну"
 
 #: views/admin/create-plugin.php:41
 msgid "For example"
-msgstr "Например"
+msgstr "Наприклад"
 
 #: views/admin/create-plugin.php:47
 msgid "Plugin description"
-msgstr "Описание плагина"
+msgstr "Опис плагіну"
 
 #: views/admin/create-plugin.php:55
 msgid "Plugin version"
-msgstr "Версия плагина"
+msgstr "Версія плагіну"
 
 #: views/admin/create-plugin.php:63
 msgid "Use Composer"
-msgstr "Использовать Composer"
+msgstr "Використовувати Composer"
 
 #: views/admin/create-plugin.php:68
 msgid ""
 "run > 'composer install' command after generation, inside the plugin\n"
 "                        directory"
-msgstr "Визовите команду > 'composer install' после генерации, в папке плагина"
+msgstr ""
+"потрібно запустити команду > 'composer install'  всередині папки "
+"згенерованого плагіну"
 
 #: views/admin/create-plugin.php:75
 msgid "Generate plugin"
-msgstr "Сгенерировать плагин"
+msgstr "Генерація плагіну"
 
 #: views/admin/generate-data.php:3
 msgid "Generate data"
-msgstr "Сгенерировать данные"
+msgstr "Генерація даних"
 
 #: views/admin/generate-data.php:12
 msgid "Products number"
-msgstr "Количество товаров"
+msgstr "Кількість товарів"
 
 #: views/admin/generate-data.php:20
 msgid "Generate product photo"
-msgstr "Сгенерировать фото товара"
+msgstr "Згенерувати фото для товару"
 
 #: views/admin/generate-data.php:28
 msgid "Product gallery photos number"
-msgstr "Количество фото в галереи товара"
+msgstr "Кількість зображень в галереї товару"
 
 #: views/admin/generate-data.php:37
 msgid "Product type"
-msgstr "Тип товара"
+msgstr "Тип товару"
 
 #: views/admin/generate-data.php:49
 msgid "Categories number"
-msgstr "Количество категорий"
+msgstr "Кількість категорій"
 
 #: views/admin/generate-data.php:57
 msgid "Attributes number"
-msgstr "Количество атрибутов"
+msgstr "Кількість атрибутів"
 
 #: views/admin/generate-data.php:65
 msgid "Each attribute terms number"
-msgstr "Количество терминов для каждого атрибута"
+msgstr "Кількість термінів для кожного атрибуту"
 
 #: views/admin/generate-data.php:73
 msgid "Generate"
-msgstr "Сгенерировать"
+msgstr "Згенерувати"
 
 #: views/admin/generate-data.php:77
 #, php-format
 msgid "This plugin requires %s plugin to be active!"
-msgstr "Для этого плагина необходим плагин %s"
-
-#~ msgid ""
-#~ "run > 'composer init' command after generation, inside the plugin\n"
-#~ "                        directory"
-#~ msgstr ""
-#~ "визовите  команду > 'composer init' после генерации, в папке плагина"
+msgstr "Для цього плагіна вам необхідний плагін %s!"

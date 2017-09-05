@@ -1,6 +1,6 @@
 <?php
 /**
- * Premmerce plugin
+ * Premmerce DevTools
  *
  *
  * @link              http://premmerce.com
