@@ -1,83 +1,86 @@
 <?php namespace Premmerce\DevTools\Services;
 
-class BulkInsertQuery {
+class BulkInsertQuery
+{
+    private $data = [];
 
-	private $data = [];
+    /**
+     * @return BulkInsertQuery
+     */
+    public static function create()
+    {
+        return new self();
+    }
 
-	/**
-	 * @return BulkInsertQuery
-	 */
-	public static function create() {
-		return new self();
-	}
+    /**
+     * @param string $table
+     *
+     * @return $this
+     */
+    public function table($table)
+    {
+        $this->data['table'] = $table;
 
-	/**
-	 * @param string $table
-	 *
-	 * @return $this
-	 */
-	public function table( $table ) {
-		$this->data['table'] = $table;
+        return $this;
+    }
 
-		return $this;
-	}
+    /**
+     * @param $values
+     *
+     * @return $this
+     */
+    public function values($values)
+    {
+        $this->data['values'] = $values;
 
-	/**
-	 * @param $values
-	 *
-	 * @return $this
-	 */
-	public function values( $values ) {
-		$this->data['values'] = $values;
+        return $this;
+    }
 
-		return $this;
-	}
+    public function insert($table, $values)
+    {
+        if ($table && count($values)) {
+            return $this->table($table)->values($values)->query();
+        }
+    }
 
-	public function insert( $table, $values ) {
-
-		if ( $table && count( $values ) ) {
-			return $this->table( $table )->values( $values )->query();
-		}
-	}
-
-	/**
-	 * @return false|int
-	 */
-	public function query() {
-		global $wpdb;
-
-
-		$result = 0;
-
-		$dataValues = $this->data['values'];
-		$table      = $this->data['table'];
-
-		if ( $dataValues instanceof \Generator ) {
-			$dataValues = iterator_to_array( $dataValues );
-		}
+    /**
+     * @return false|int
+     */
+    public function query()
+    {
+        global $wpdb;
 
 
-		$keys = array_keys( reset( $dataValues ) );
-		$keys = implode( ",", $keys );
+        $result = 0;
+
+        $dataValues = $this->data['values'];
+        $table      = $this->data['table'];
+
+        if ($dataValues instanceof \Generator) {
+            $dataValues = iterator_to_array($dataValues);
+        }
 
 
-		$insert = sprintf( "INSERT INTO %s (%s)", $table, $keys );
+        $keys = array_keys(reset($dataValues));
+        $keys = implode(",", $keys);
 
-		$chunks = array_chunk( $dataValues, 1000 );
 
-		foreach ( $chunks as $chunk ) {
-			$values = [];
-			foreach ( $chunk as $currentValues ) {
-				$values[] = "('" . implode( "','", $currentValues ) . "')";
-			}
+        $insert = sprintf("INSERT INTO %s (%s)", $table, $keys);
 
-			$query  = $insert . ' VALUES' . implode( ',', $values ) . ';';
-			$result = $result + $wpdb->query( $query );
-		}
+        $chunks = array_chunk($dataValues, 1000);
 
-		$this->data = [];
+        foreach ($chunks as $chunk) {
+            $values = [];
+            foreach ($chunk as $currentValues) {
+                $values[] = "('" . implode("','", $currentValues) . "')";
+            }
 
-		return $result;
-	}
+            $query  = $insert . ' VALUES' . implode(',', $values) . ';';
+            $result = $result + $wpdb->query($query);
+        }
 
+        $this->data = [];
+
+        return $result;
+    }
 }

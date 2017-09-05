@@ -7,16 +7,17 @@ use Premmerce\DevTools\FileManager;
  *
  * @package Premmerce\DevTools\Frontend
  */
-class Frontend {
+class Frontend
+{
 
 
-	/**
-	 * @var FileManager
-	 */
-	private $fileManager;
+    /**
+     * @var FileManager
+     */
+    private $fileManager;
 
-	public function __construct( FileManager $fileManager ) {
-		$this->fileManager = $fileManager;
-	}
-
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
 }
