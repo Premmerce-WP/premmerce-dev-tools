@@ -1,30 +1,65 @@
-=== Premmerce dev tools ===
-Contributors: dcraydesign
-Donate link: http://premmerce.com/
-Tags: ecommerce
+=== Premmerce Dev Tools ===
+Contributors: premmerce
+Tags: developers tools, code debug, debugging, wordpress debugging, plugin generator, data generator, database cleaner, data cleaner
 Requires at least: 4.8
 Tested up to: 4.8
 Stable tag: 1.0
+Requires PHP Version: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Woocommerce data generation, plugin generation, debugging, cleaning up database and uploads.
+This plugin is created to facilitate the development, testing and debugging of the code on the WordPress platform and to quickly create the demo data for WooCommerce.
+
 
 == Description ==
 
-This plugin allows to generate data, generate empty plugin, debug variables by symfony/var-dumper
+This plugin is aimed at making it easier to develop, test and debug the code on the WordPress platform.
+We created this plugin based on our research: [Wordpress Development Environment and Developers Best Practices Review](https://premmerce.com/wordpress-development-environment-developers-best-practices-review/)
 
-* Data generator: generate random data for woocommerce such as products, variations,
-attributes, attribute terms, categories, product images, product galleries.
-* Plugin generator: generate plugin with premmerce boilerplate file structure.
-* Data cleaner: cleaning up database and uploads
+Full documentation is available here: [Premmerce Dev Tools](https://premmerce.com/premmerce-dev-tools/)
 
-== Installation ==
+= Major features in “Premmerce Dev Tools” =
 
-1. Upload `premmerce-dev-tools` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+* Integration of symfony/var-dumper for debugging the code
+* Integration symfony/stopwatch for the execution time checking
+* Generating the test data for WooCommerce
+* Plugin generator, which creates the basic files structure
+* Database clean up
+
+= Compatibility with other Plugins =
+
+* WooCommerce
+
+= Installation =
+
+1. Unzip the downloaded zip file.
+1. Upload the plugin folder into the ‘wp-content/plugins/’ directory of your WordPress site.
+1. Activate ‘Premmerce Dev Tools’ from Plugins page
+
+== Screenshots ==
+
+1. Plugin generator
+2. Data generator
+3. Data cleaner
+
 
 == Changelog ==
 
 = 1.0 =
-Plugin release. Plugin generator, data generator, data cleaner.
+
+Release Date: Sep 05, 2017
+
+* Initial release
+
+== Translators ==
+
+= Available Languages =
+
+* English (Default)
+* Russian
+* Ukrainian
+
+== Documentation ==
+
+Full documentation is available here: [Premmerce Dev Tools](https://premmerce.com/premmerce-dev-tools/)
+
