@@ -43,24 +43,4 @@ class DevToolsPlugin
         }
     }
 
-    /**
-     * Fired when the plugin is activated
-     */
-    public function activate()
-    {
-    }
-
-    /**
-     * Fired when the plugin is deactivated
-     */
-    public function deactivate()
-    {
-    }
-
-    /**
-     * Fired during plugin uninstall
-     */
-    public static function uninstall()
-    {
-    }
 }
