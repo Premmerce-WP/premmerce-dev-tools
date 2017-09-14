@@ -4,7 +4,7 @@ Tags: developers tools, code debug, debugging, wordpress debugging, plugin gener
 Requires at least: 4.8
 Tested up to: 4.8
 Stable tag: 1.0
-Requires PHP Version: 7.0
+Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
