@@ -2,16 +2,13 @@
 /**
  * Premmerce Dev Tools
  *
- *
- * @link              http://premmerce.com
- * @since             1.0
  * @package           Premmerce\DevTools
  *
  * @wordpress-plugin
  * Plugin Name:       Premmerce Dev Tools
  * Plugin URI:        https://premmerce.com/premmerce-dev-tools/
  * Description:       This plugin is aimed at making it easier to develop, test and debug the code on the WordPress platform.
- * Version:           1.0
+ * Version:           1.0.1
  * Author:            premmerce
  * Author URI:        http://premmerce.com
  * License:           GPL-2.0+

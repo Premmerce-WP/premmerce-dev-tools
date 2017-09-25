@@ -42,6 +42,15 @@ Release Date: Sep 05, 2017
 
 * Initial release
 
+### 1.0.1
+
+Release Date: Sep 25, 2017
+
+* Fixed a bug with wrong translation domain
+* Added renderTemplate method to FileManager
+* Updated symfony/var-dumper v3.3.8 => v3.3.9
+* Updated symfony/stopwatch v3.3.8 => v3.3.9
+
 ## Translators
 
 ### Available Languages
@@ -53,4 +62,3 @@ Release Date: Sep 05, 2017
 ## Documentation
 
 Full documentation is available here: [Premmerce Dev Tools](https://premmerce.com/premmerce-dev-tools/)
-

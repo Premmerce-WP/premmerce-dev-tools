@@ -35,7 +35,7 @@ class FileManager
     {
         $this->mainFile        = $mainFile;
         $this->pluginDirectory = plugin_dir_path($this->mainFile);
-        $this->pluginName      = basename($this->pluginDirectory);
+        $this->pluginName      = pathinfo($mainFile, PATHINFO_FILENAME);
         $this->pluginUrl       = plugin_dir_url($this->getMainFile());
     }
 
@@ -87,7 +87,7 @@ class FileManager
     }
 
     /**
-     * @param $template
+     * @param string $template
      *
      * @return string
      */
@@ -104,5 +104,21 @@ class FileManager
         }
 
         return $this->pluginDirectory . 'views/' . $template;
+    }
+
+    /**
+     * @param string $template
+     * @param array $variables
+     *
+     * @return string
+     */
+    public function renderTemplate($template, array $variables = [])
+    {
+        ob_start();
+        $this->includeTemplate($template, $variables);
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        return $content;
     }
 }

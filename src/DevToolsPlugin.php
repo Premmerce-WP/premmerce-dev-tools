@@ -1,7 +1,6 @@
 <?php namespace Premmerce\DevTools;
 
 use Premmerce\DevTools\Admin\Admin;
-use Premmerce\DevTools\Frontend\Frontend;
 
 /**
  * Class PluginManager
@@ -42,5 +41,4 @@ class DevToolsPlugin
             new Admin($this->fileManager);
         }
     }
-
 }

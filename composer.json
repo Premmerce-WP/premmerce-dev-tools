@@ -1,12 +1,12 @@
 {
   "description": "Wordpress plugin developer tools",
-  "name": "premmerce/dev-tools",
+  "name": "premmerce/premmerce-dev-tools",
   "type": "wordpress-plugin",
   "license": "GPL-2.0",
   "authors": [
     {
-      "name": "Cray",
-      "email": "a.martynjuk@imagecms.net"
+      "name": "Premmerce",
+      "email": "info@premmerce.com"
     }
   ],
   "autoload": {

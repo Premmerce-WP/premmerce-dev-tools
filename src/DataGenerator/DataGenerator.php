@@ -5,7 +5,6 @@ use Faker\Factory;
 use Premmerce\DevTools\DataGenerator\Generators\AttributesGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\CategoryGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ProductGenerator;
-use Premmerce\DevTools\Services\DataCleaner;
 
 /**
  * Class DataGenerator
