@@ -35,7 +35,7 @@ class FileManager
     {
         $this->mainFile        = $mainFile;
         $this->pluginDirectory = plugin_dir_path($this->mainFile);
-        $this->pluginName      = pathinfo($mainFile, PATHINFO_FILENAME);
+	    $this->pluginName      = basename($this->pluginDirectory);
         $this->pluginUrl       = plugin_dir_url($this->getMainFile());
     }
 

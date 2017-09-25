@@ -3,7 +3,7 @@ Contributors: premmerce
 Tags: developers tools, code debug, debugging, wordpress debugging, plugin generator, data generator, database cleaner, data cleaner
 Requires at least: 4.8
 Tested up to: 4.8.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -59,6 +59,12 @@ Release Date: Sep 25, 2017
 * Added renderTemplate method to FileManager
 * Updated symfony/var-dumper v3.3.8 => v3.3.9
 * Updated symfony/stopwatch v3.3.8 => v3.3.9
+
+= 1.0.2 =
+
+Release Date: Sep 25, 2017
+
+* Fixed plugin name property in FileManager
 
 == Translators ==
 

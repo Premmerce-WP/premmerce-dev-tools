@@ -51,6 +51,12 @@ Release Date: Sep 25, 2017
 * Updated symfony/var-dumper v3.3.8 => v3.3.9
 * Updated symfony/stopwatch v3.3.8 => v3.3.9
 
+### 1.0.2
+
+Release Date: Sep 25, 2017
+
+* Fixed plugin name property in FileManager
+
 ## Translators
 
 ### Available Languages
