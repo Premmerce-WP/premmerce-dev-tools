@@ -27,12 +27,12 @@ class PluginGenerator
     const STUB_PLUGIN_VERSION = '___PLUGIN_VERSION___';
     const STUB_PLUGIN_DESCRIPTION = '___PLUGIN_DESCRIPTION___';
     const STUB_PLUGIN_CLASS = '___PLUGIN_CLASS___';
-    const STUB_AUTOLOAD = '___AUTOLOAD_PATH___';
+    const STUB_WP_VERSION = '___WP_VERSION___';
+    const STUB_DATE = '___DATE___';
 
     private $pluginPath;
 
-    public function generate($config)
-    {
+    public function generate($config) {
         $data = new PluginData();
 
         $data->setName($config['premmerce_plugin_name']);
@@ -41,7 +41,6 @@ class PluginGenerator
         $data->setDescription($config['premmerce_plugin_description']);
         $data->setNameSpace($config['premmerce_plugin_namespace']);
         $data->setVersion($config['premmerce_plugin_version']);
-        $data->setUseComposer($config['premmerce_plugin_use_composer']);
 
         $this->data = $data;
 
@@ -53,8 +52,7 @@ class PluginGenerator
     }
 
 
-    private function createPluginDirectories()
-    {
+    private function createPluginDirectories() {
         $path = $this->pluginPath;
 
         $dirs = [
@@ -68,7 +66,7 @@ class PluginGenerator
             $path . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_FRONTEND),
             $path . self::DIR_VIEWS,
             $path . self::DIR_VIEWS . DIRECTORY_SEPARATOR . self::DIR_ADMIN,
-            $path . self::DIR_VIEWS . DIRECTORY_SEPARATOR . self::DIR_FRONTEND
+            $path . self::DIR_VIEWS . DIRECTORY_SEPARATOR . self::DIR_FRONTEND,
         ];
 
         $res = true;
@@ -82,8 +80,7 @@ class PluginGenerator
         return $res;
     }
 
-    private function createFiles()
-    {
+    private function createFiles() {
         $stubs = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
         $files = [
             $stubs . 'index.php.stub'       => $this->pluginPath . 'index.php',
@@ -91,26 +88,20 @@ class PluginGenerator
             $stubs . 'license.txt.stub'     => $this->pluginPath . 'license.txt',
             $stubs . 'Admin.php.stub'       => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_ADMIN) . DIRECTORY_SEPARATOR . 'Admin.php',
             $stubs . 'Frontend.php.stub'    => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_FRONTEND) . DIRECTORY_SEPARATOR . 'Frontend.php',
-            $stubs . 'options.php.stub'     => $this->pluginPath . self::DIR_VIEWS . DIRECTORY_SEPARATOR . self::DIR_ADMIN . DIRECTORY_SEPARATOR . 'options.php',
             $stubs . 'Plugin.php.stub'      => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . $this->data->getClass() . '.php',
             $stubs . 'FileManager.php.stub' => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . 'FileManager.php',
             $stubs . 'main.php.stub'        => $this->pluginPath . $this->data->getMainFileName(),
+            $stubs . 'composer.json.stub'   => $this->pluginPath . 'composer.json',
         ];
-
-        if ($this->data->isUseComposer()) {
-            $files[ $stubs . 'composer.json.stub' ] = $this->pluginPath . 'composer.json';
-        } else {
-            $files[ $stubs . 'autoload.php.stub' ] = $this->pluginPath . 'autoload.php';
-        }
-
 
         foreach ($files as $from => $to) {
             $this->createFromStub($from, $to);
         }
     }
 
-    private function createFromStub($stub, $file)
-    {
+    private function createFromStub($stub, $file) {
+        global $wp_version;
+
         $content = file_get_contents($stub);
 
         $vars = [
@@ -122,7 +113,8 @@ class PluginGenerator
             self::STUB_PLUGIN_VERSION        => $this->data->getVersion(),
             self::STUB_PLUGIN_DESCRIPTION    => $this->data->getDescription(),
             self::STUB_PLUGIN_CLASS          => $this->data->getClass(),
-            self::STUB_AUTOLOAD              => $this->data->isUseComposer() ? 'vendor/autoload.php' : 'autoload.php',
+            self::STUB_WP_VERSION            => $wp_version,
+            self::STUB_DATE                  => date('M d, Y'),
         ];
 
         file_put_contents($file, strtr($content, $vars));

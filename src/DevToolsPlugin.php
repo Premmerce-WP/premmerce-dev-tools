@@ -1,6 +1,7 @@
 <?php namespace Premmerce\DevTools;
 
 use Premmerce\DevTools\Admin\Admin;
+use Premmerce\SDK\V1\FileManager\FileManager;
 
 /**
  * Class PluginManager
@@ -18,13 +19,10 @@ class DevToolsPlugin
     /**
      * PluginManager constructor.
      *
-     * @param FileManager $fileManager
-     *
-     * @internal param $mainFile
+     * @param string $mainFile
      */
-    public function __construct(FileManager $fileManager)
-    {
-        $this->fileManager = $fileManager;
+    public function __construct($mainFile) {
+        $this->fileManager = new FileManager($mainFile);
 
         add_action('plugins_loaded', function () {
             $name = $this->fileManager->getPluginName();
@@ -35,8 +33,7 @@ class DevToolsPlugin
     /**
      * Run plugin part
      */
-    public function run()
-    {
+    public function run() {
         if (is_admin()) {
             new Admin($this->fileManager);
         }

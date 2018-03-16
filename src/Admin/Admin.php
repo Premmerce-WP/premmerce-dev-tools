@@ -1,8 +1,8 @@
 <?php namespace Premmerce\DevTools\Admin;
 
 use Premmerce\DevTools\DataGenerator\DataGenerator;
-use Premmerce\DevTools\FileManager;
 use Premmerce\DevTools\PluginGenerator\PluginGenerator;
+use Premmerce\SDK\V1\FileManager\FileManager;
 
 /**
  * Class Admin

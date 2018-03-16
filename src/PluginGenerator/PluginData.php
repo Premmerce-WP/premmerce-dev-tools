@@ -38,11 +38,6 @@ class PluginData
     private $version;
 
     /**
-     * @var boolean
-     */
-    private $useComposer;
-
-    /**
      * @return mixed
      */
     public function getAuthor()
@@ -163,19 +158,5 @@ class PluginData
         return str_replace('\\', '\\\\', $this->nameSpace);
     }
 
-    /**
-     * @return bool
-     */
-    public function isUseComposer()
-    {
-        return ! ! $this->useComposer;
-    }
 
-    /**
-     * @param bool $useComposer
-     */
-    public function setUseComposer($useComposer)
-    {
-        $this->useComposer = $useComposer;
-    }
 }

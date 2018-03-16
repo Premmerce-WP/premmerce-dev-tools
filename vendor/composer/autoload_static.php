@@ -25,6 +25,7 @@ class ComposerStaticInitd5d485f6e34ee1158397f08a4d2ae890
         ),
         'P' => 
         array (
+            'Premmerce\\SDK\\' => 14,
             'Premmerce\\DevTools\\' => 19,
         ),
         'F' => 
@@ -49,6 +50,10 @@ class ComposerStaticInitd5d485f6e34ee1158397f08a4d2ae890
         'Symfony\\Component\\Stopwatch\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/stopwatch',
+        ),
+        'Premmerce\\SDK\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/premmerce/wordpress-sdk/src',
         ),
         'Premmerce\\DevTools\\' => 
         array (
