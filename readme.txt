@@ -66,6 +66,18 @@ Release Date: Sep 25, 2017
 
 * Fixed plugin name property in FileManager
 
+= 1.1 =
+
+Release Date: Mar 16, 2018
+
+* Updated symfony/stopwatch (v3.3.9 => v3.4.6)
+* Updated symfony/var-dumper (v3.3.9 => v3.4.6)
+* Updated stubs for Plugin generation
+* Updated autoload in Plugin generator - now composer usage is required
+* Updated initial readme generation
+* Added premmerce/wordpress-sdk
+* Removed autoload.php
+
 == Translators ==
 
 = Available Languages =

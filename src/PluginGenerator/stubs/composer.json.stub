@@ -16,7 +16,7 @@
     "psr-4": {
       "___PLUGIN_NAMESPACE_JSON___\\": "src"
     }
-  }
+  },
   "require": {
     "premmerce/wordpress-sdk": "dev-sdk"
   }

@@ -98,7 +98,7 @@ class PluginData
      */
     public function setNameSpace($nameSpace)
     {
-        $nameSpace       = trim(preg_replace('/\\\\+/', '\\', $nameSpace), '');
+        $nameSpace       = trim(preg_replace('/\\\\+/', '\\', $nameSpace), ' \/');
         $this->nameSpace = $nameSpace;
     }
 

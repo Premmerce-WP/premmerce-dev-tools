@@ -46,7 +46,7 @@ class ___PLUGIN_CLASS___ {
     public function loadTextDomain()
     {
         $name = $this->fileManager->getPluginName();
-        load_plugin_textdomain(___PLUGIN_NAME___, false, $name . '/languages/');
+        load_plugin_textdomain('___PLUGIN_NAME___', false, $name . '/languages/');
     }
 
 	/**

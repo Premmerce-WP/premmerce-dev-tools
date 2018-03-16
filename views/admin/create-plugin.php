@@ -60,7 +60,7 @@ $current_user = wp_get_current_user();
             </tr>
             </tbody>
         </table>
-        <p class="description">
+        <p >
             <?php _e('run > \'composer install\' command after generation, inside the plugin
                         directory', 'premmerce-dev-tools') ?>
         </p>

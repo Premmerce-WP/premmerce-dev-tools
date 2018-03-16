@@ -89,7 +89,6 @@ class PluginGenerator
             $stubs . 'Admin.php.stub'       => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_ADMIN) . DIRECTORY_SEPARATOR . 'Admin.php',
             $stubs . 'Frontend.php.stub'    => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_FRONTEND) . DIRECTORY_SEPARATOR . 'Frontend.php',
             $stubs . 'Plugin.php.stub'      => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . $this->data->getClass() . '.php',
-            $stubs . 'FileManager.php.stub' => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . 'FileManager.php',
             $stubs . 'main.php.stub'        => $this->pluginPath . $this->data->getMainFileName(),
             $stubs . 'composer.json.stub'   => $this->pluginPath . 'composer.json',
         ];
