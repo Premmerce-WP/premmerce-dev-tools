@@ -2,8 +2,8 @@
 Contributors: premmerce
 Tags: developers tools, code debug, debugging, wordpress debugging, plugin generator, data generator, database cleaner, data cleaner
 Requires at least: 4.8
-Tested up to: 4.8.2
-Stable tag: 1.0.2
+Tested up to: 4.8.4
+Stable tag: 1.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,7 +68,7 @@ Release Date: Sep 25, 2017
 
 = 1.1 =
 
-Release Date: Mar 16, 2018
+Release Date: Mar 20, 2018
 
 * Updated symfony/stopwatch (v3.3.9 => v3.4.6)
 * Updated symfony/var-dumper (v3.3.9 => v3.4.6)
