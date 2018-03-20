@@ -1,0 +1,24 @@
+{
+  "name": "___PLUGIN_NAME___",
+  "type": "wordpress-plugin",
+  "authors": [
+    {
+      "name": "___PLUGIN_AUTHOR___"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/Premmerce/wordpress-sdk.git"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "___PLUGIN_NAMESPACE_JSON___\\": "src"
+    }
+  },
+  "require": {
+    "premmerce/wordpress-sdk": "dev-sdk"
+  }
+
+}

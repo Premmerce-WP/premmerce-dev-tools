@@ -1,0 +1,28 @@
+=== ___PLUGIN_NAME_HUMANIZED___ ===
+Contributors: ___PLUGIN_AUTHOR___, premmerce
+Tags: tags
+Requires at least: ___WP_VERSION___
+Tested up to: ___WP_VERSION___
+Stable tag: ___PLUGIN_VERSION___
+Requires PHP: 5.6
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+___PLUGIN_DESCRIPTION___
+
+== Description ==
+
+
+== Installation ==
+
+1. Unzip the downloaded zip file.
+1. Upload the plugin folder into the `wp-content/plugins/` directory of your WordPress site.
+1. Activate `___PLUGIN_NAME_HUMANIZED___` from Plugins page
+
+== Changelog ==
+
+= ___PLUGIN_VERSION___ =
+
+Release Date: ___DATE___
+
+* Initial release
