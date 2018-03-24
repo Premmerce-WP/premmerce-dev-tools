@@ -65,11 +65,22 @@ class ComposerStaticInit55d7cc36fe0b0ab7047dc6c78df4cd05
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'C' => 
+        array (
+            'CompanyNameGenerator' => 
+            array (
+                0 => __DIR__ . '/..' . '/fzaninotto/company-name-generator/src',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit55d7cc36fe0b0ab7047dc6c78df4cd05::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit55d7cc36fe0b0ab7047dc6c78df4cd05::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit55d7cc36fe0b0ab7047dc6c78df4cd05::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

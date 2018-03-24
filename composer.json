@@ -9,12 +9,6 @@
       "email": "info@premmerce.com"
     }
   ],
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/Premmerce/wordpress-sdk.git"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "Premmerce\\DevTools\\": "src"
@@ -24,10 +18,11 @@
     ]
   },
   "require": {
-    "premmerce/wordpress-sdk": "dev-sdk",
+    "premmerce/wordpress-sdk": "^1.1",
     "symfony/var-dumper": "^3.3",
+    "symfony/stopwatch": "^3.3",
     "fzaninotto/faker": "^1.6",
-    "bheller/images-generator": "^1.0",
-    "symfony/stopwatch": "^3.3"
+    "fzaninotto/company-name-generator": "dev-master",
+    "bheller/images-generator": "^1.0"
   }
 }

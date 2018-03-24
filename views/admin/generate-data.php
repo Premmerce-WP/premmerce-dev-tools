@@ -54,6 +54,22 @@
                 </tr>
                 <tr>
                     <th>
+                        <label><?php _e( 'Categories levels', 'premmerce-dev-tools' ) ?></label>
+                    </th>
+                    <td>
+                        <input type="number" name="<?php echo DataGenerator::NAME_CATEGORY_LEVELS ?>" value="<?php ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label><?php _e( 'Brands number', 'premmerce-dev-tools' ) ?></label>
+                    </th>
+                    <td>
+                        <input type="number" name="<?php echo DataGenerator::NAME_BRANDS ?>" value="<?php ?>">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
                         <label><?php _e( 'Attributes number', 'premmerce-dev-tools' ) ?></label>
                     </th>
                     <td>

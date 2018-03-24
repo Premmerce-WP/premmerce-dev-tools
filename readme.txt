@@ -78,6 +78,15 @@ Release Date: Mar 20, 2018
 * Added premmerce/wordpress-sdk
 * Removed autoload.php
 
+= 1.1 =
+
+Release Date: Mar 20, 2018
+
+* Updated premmerce/wordpress-sdk
+* Added brands generator
+* Added brands cleaner
+* Added tags cleaner
+
 == Translators ==
 
 = Available Languages =

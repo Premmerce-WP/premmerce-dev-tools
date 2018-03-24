@@ -56,9 +56,11 @@ class AttributesGenerator
             $lastTermTaxonomy = $this->getLastTermTaxonomy();
 
             $terms = $this->createTermsGenerator($number * $numberTerms, $lastTermId);
+            dump($terms);
             $q->insert($wpdb->terms, $terms);
 
             $termTaxonomies = $this->createTermsTaxonomyGenerator($numberTerms, $lastTermTaxonomy);
+            dump($termTaxonomies);
             $q->insert($wpdb->term_taxonomy, $termTaxonomies);
         }
 

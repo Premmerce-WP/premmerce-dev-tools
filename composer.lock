@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4949c25ca57c135a38d2569786ef4af1",
+    "content-hash": "bf528cb5e5575fb4d042a434396135a0",
     "packages": [
         {
             "name": "bheller/images-generator",
@@ -55,6 +55,43 @@
                 "imagesgenerator"
             ],
             "time": "2016-03-03T08:40:48+00:00"
+        },
+        {
+            "name": "fzaninotto/company-name-generator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/CompanyNameGenerator.git",
+                "reference": "54c574e619201b25b5a26928e49684f45139a3df"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/CompanyNameGenerator/zipball/54c574e619201b25b5a26928e49684f45139a3df",
+                "reference": "54c574e619201b25b5a26928e49684f45139a3df",
+                "shasum": ""
+            },
+            "require": {
+                "fzaninotto/faker": "~1.4",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "CompanyNameGenerator": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Generate names for English tech companies with class",
+            "homepage": "https://github.com/fzaninotto/CompanyNameGenerator",
+            "time": "2018-02-20T11:03:29+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -108,11 +145,17 @@
         },
         {
             "name": "premmerce/wordpress-sdk",
-            "version": "dev-sdk",
+            "version": "v1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Premmerce/wordpress-sdk.git",
                 "reference": "461bf28923acccad2976b8ebdc9383761ecedc57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Premmerce/wordpress-sdk/zipball/461bf28923acccad2976b8ebdc9383761ecedc57",
+                "reference": "461bf28923acccad2976b8ebdc9383761ecedc57",
+                "shasum": ""
             },
             "type": "library",
             "autoload": {
@@ -120,6 +163,7 @@
                     "Premmerce\\SDK\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0+"
             ],
@@ -314,7 +358,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "premmerce/wordpress-sdk": 20
+        "fzaninotto/company-name-generator": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

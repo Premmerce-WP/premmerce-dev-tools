@@ -34,6 +34,11 @@ class ProductGenerator
     private $productType = 'simple';
 
     /**
+     * @var
+     */
+    private $brandIds;
+
+    /**
      * @var bool
      */
     private $generateImage;
@@ -79,51 +84,54 @@ class ProductGenerator
      *
      * @param Faker $faker
      */
-    public function __construct(Faker $faker)
-    {
-        $this->faker        = $faker;
-        $this->userId       = get_current_user_id();
+    public function __construct(Faker $faker) {
+        $this->faker = $faker;
+        $this->userId = get_current_user_id();
         $this->productTypes = $this->getProductTypes();
     }
 
     /**
      * @param array $categoryIds
      */
-    public function setCategoryIds(array $categoryIds)
-    {
+    public function setCategoryIds(array $categoryIds) {
         $this->categoryIds = $categoryIds;
     }
 
     /**
      * @param string $productType
      */
-    public function setProductType($productType)
-    {
+    public function setProductType($productType) {
         $this->productType = $productType;
     }
 
     /**
      * @param bool $generateImage
      */
-    public function setGenerateImage($generateImage)
-    {
+    public function setGenerateImage($generateImage) {
         $this->generateImage = $generateImage;
     }
 
     /**
      * @param bool $galleryPhotosNumber
      */
-    public function setGalleryPhotosNumber($galleryPhotosNumber)
-    {
+    public function setGalleryPhotosNumber($galleryPhotosNumber) {
         $this->galleryPhotosNumber = $galleryPhotosNumber;
     }
 
     /**
      * @param array $attributeTerms
      */
-    public function setAttributes(array $attributeTerms)
-    {
+    public function setAttributes(array $attributeTerms) {
         $this->attributeTerms = $attributeTerms;
+    }
+
+    /**
+     * @param array $brandIds
+     *
+     * @internal param array $attributeTerms
+     */
+    public function setBrands(array $brandIds) {
+        $this->brandIds = $brandIds;
     }
 
     /**
@@ -131,8 +139,7 @@ class ProductGenerator
      *
      * @return array|null
      */
-    public function generate($num)
-    {
+    public function generate($num) {
         $this->productIds = $this->insertProducts($num);
 
         $this->insertProductTerms($this->productIds);
@@ -169,8 +176,7 @@ class ProductGenerator
      *
      * @return array ids
      */
-    private function insertProducts($num)
-    {
+    private function insertProducts($num) {
         global $wpdb;
 
         $products = $this->generateProductsArray($num);
@@ -182,8 +188,7 @@ class ProductGenerator
         return $productIds;
     }
 
-    private function insertProductsMeta($productIds)
-    {
+    private function insertProductsMeta($productIds) {
         global $wpdb;
 
         $meta = $this->generatePostMeta($productIds);
@@ -192,8 +197,7 @@ class ProductGenerator
     }
 
 
-    private function generatePostMeta($productIds)
-    {
+    private function generatePostMeta($productIds) {
         $meta = [];
         foreach ($productIds as $id) {
             $price = $this->faker->randomFloat(2, 1, 1000);
@@ -221,8 +225,7 @@ class ProductGenerator
     /**
      * @param array $productIds
      */
-    private function insertProductTerms($productIds)
-    {
+    private function insertProductTerms($productIds) {
         global $wpdb;
 
         $terms = $this->generateProductTerms($productIds);
@@ -236,24 +239,27 @@ class ProductGenerator
      *
      * @return array
      */
-    private function generateProductTerms($ids)
-    {
-        $type  = $this->productTypes[ $this->productType ];
+    private function generateProductTerms($ids) {
+        $type = $this->productTypes[$this->productType];
         $terms = [];
-        foreach ($ids as $id) {
-            if (count($this->categoryIds)) {
-                $terms[] = [
-                    'object_id'        => $id,
-                    'term_taxonomy_id' => $this->faker->randomElement($this->categoryIds),
-                    'term_order'       => 0,
 
-                ];
+        foreach ($ids as $id) {
+            $tts = [];
+
+            if (count($this->categoryIds)) {
+                $tts[] = $this->faker->randomElement($this->categoryIds);
+            }
+            if (count($this->brandIds)) {
+                $tts[] = $this->faker->randomElement($this->brandIds);
+            }
+            if ($type) {
+                $tts[] = $type;
             }
 
-            if ($type) {
+            foreach ($tts as $tt) {
                 $terms[] = [
                     'object_id'        => $id,
-                    'term_taxonomy_id' => $type,
+                    'term_taxonomy_id' => $tt,
                     'term_order'       => 0,
 
                 ];
@@ -268,14 +274,13 @@ class ProductGenerator
      *
      * @return array
      */
-    private function generateProductsArray($num)
-    {
+    private function generateProductsArray($num) {
         $lastId = $this->getLastPost();
 
         $products = [];
-        for ($i = 1; $i <= $num; $i ++) {
-            $id              = $lastId + $i;
-            $products[ $id ] = $this->generateProduct($id);
+        for ($i = 1; $i <= $num; $i++) {
+            $id = $lastId + $i;
+            $products[$id] = $this->generateProduct($id);
         }
 
         return $products;
@@ -286,10 +291,9 @@ class ProductGenerator
      *
      * @return array
      */
-    private function generateProduct($id)
-    {
+    private function generateProduct($id) {
         $title = ucfirst($this->faker->word) . '-' . $id;
-        $data  = [
+        $data = [
             'ID'           => $id,
             'post_author'  => $this->userId,
             'post_title'   => $title,
@@ -309,14 +313,13 @@ class ProductGenerator
     /**
      * Add product images
      */
-    private function insertImage()
-    {
+    private function insertImage() {
         global $wpdb;
         $q = BulkInsertQuery::create();
 
         $images = $this->generateImagesArray($this->productIds);
 
-        $imagesMeta          = $this->generateImagesMeta($images);
+        $imagesMeta = $this->generateImagesMeta($images);
         $imageThumbnailsMeta = $this->generatePostThumbnailsMeta($this->productIds, array_keys($images));
 
         $q->insert($wpdb->posts, $images);
@@ -326,12 +329,11 @@ class ProductGenerator
 
     /**
      * @param array $postIds
-     * @param int $imagesNumber
+     * @param int   $imagesNumber
      *
      * @return array
      */
-    private function generateImagesArray($postIds, $imagesNumber = 1)
-    {
+    private function generateImagesArray($postIds, $imagesNumber = 1) {
         $lastId = $this->getLastPost();
 
         $images = [];
@@ -339,10 +341,10 @@ class ProductGenerator
         $i = 1;
         foreach ($postIds as $postId) {
             $postImages = $imagesNumber;
-            while ($postImages -- > 0) {
-                $id            = $lastId + $i;
-                $images[ $id ] = $this->generateImage($id, $postId);
-                $i ++;
+            while ($postImages-- > 0) {
+                $id = $lastId + $i;
+                $images[$id] = $this->generateImage($id, $postId);
+                $i++;
             }
         }
 
@@ -355,12 +357,11 @@ class ProductGenerator
      *
      * @return array
      */
-    private function generateImage($id, $postId)
-    {
+    private function generateImage($id, $postId) {
         $uploadDir = wp_upload_dir();
 
-        $image            = $this->faker->imageGenerator($uploadDir['path'], 640, 480, 'png', true, '', $this->faker->hexColor);
-        $baseImageName    = basename($image);
+        $image = $this->faker->imageGenerator($uploadDir['path'], 640, 480, 'png', true, '', $this->faker->hexColor);
+        $baseImageName = basename($image);
         $uploadedImageUrl = $uploadDir['url'] . '/' . $baseImageName;
 
         $attachment = [
@@ -383,14 +384,13 @@ class ProductGenerator
      *
      * @return array
      */
-    private function generateImagesMeta(array $images)
-    {
+    private function generateImagesMeta(array $images) {
         $uploadDir = wp_upload_dir();
 
         $meta = [];
 
         foreach ($images as $id => $image) {
-            $file    = basename($image ['guid']);
+            $file = basename($image ['guid']);
             $relPath = trim($uploadDir['subdir'] . '/' . $file, '/');
 
             $meta[] = [
@@ -402,7 +402,7 @@ class ProductGenerator
             $meta[] = [
                 'post_id'    => $id,
                 'meta_key'   => '_wp_attachment_metadata',
-                'meta_value' => serialize([ 'width' => 640, 'height' => 480, "file" => $relPath ]),
+                'meta_value' => serialize(['width' => 640, 'height' => 480, "file" => $relPath]),
             ];
         }
 
@@ -415,8 +415,7 @@ class ProductGenerator
      *
      * @return array
      */
-    private function generatePostThumbnailsMeta($postIds, $thumbnails)
-    {
+    private function generatePostThumbnailsMeta($postIds, $thumbnails) {
         $metadata = [];
         foreach ($postIds as $postId) {
             $metadata[] = [
@@ -429,13 +428,12 @@ class ProductGenerator
         return $metadata;
     }
 
-    private function insertImageGallery()
-    {
+    private function insertImageGallery() {
         global $wpdb;
         $q = BulkInsertQuery::create();
 
-        $galleryImages      = $this->generateImagesArray($this->productIds, $this->galleryPhotosNumber);
-        $imagesGalleryMeta  = $this->generateImagesMeta($galleryImages);
+        $galleryImages = $this->generateImagesArray($this->productIds, $this->galleryPhotosNumber);
+        $imagesGalleryMeta = $this->generateImagesMeta($galleryImages);
         $productGalleryMeta = $this->generateImageGalleryProductMeta($galleryImages);
 
         $q->insert($wpdb->posts, $galleryImages);
@@ -448,15 +446,14 @@ class ProductGenerator
      *
      * @return array
      */
-    private function generateImageGalleryProductMeta($imageGallery)
-    {
+    private function generateImageGalleryProductMeta($imageGallery) {
         $productMeta = [];
         foreach ($imageGallery as $id => $item) {
-            $productMeta[ $item['post_parent'] ][] = $item['ID'];
+            $productMeta[$item['post_parent']][] = $item['ID'];
         }
 
         foreach ($productMeta as $productId => $item) {
-            $productMeta[ $productId ] = [
+            $productMeta[$productId] = [
                 'post_id'    => $productId,
                 'meta_key'   => '_product_image_gallery',
                 'meta_value' => implode(',', $item),
@@ -473,14 +470,13 @@ class ProductGenerator
     /**
      * Add attributes and variations to product
      */
-    private function generateAttributes()
-    {
+    private function generateAttributes() {
         global $wpdb;
         $q = BulkInsertQuery::create();
 
 
         $rel = $this->generateAttributeTermRelations();
-        if (! $rel->valid()) {
+        if (!$rel->valid()) {
             return;
         }
         $q->insert($wpdb->term_relationships, $rel);
@@ -504,17 +500,16 @@ class ProductGenerator
      *
      * @return Generator
      */
-    public function generateAttributeTermRelations()
-    {
+    public function generateAttributeTermRelations() {
         foreach ($this->productIds as $productId) {
             $variationTrigger = $this->productType === 'variable' ? 1 : 0;
 
             foreach ($this->attributeTerms as $attribute => $terms) {
-                if (! is_array($terms) || ! count($terms)) {
+                if (!is_array($terms) || !count($terms)) {
                     continue;
                 }
 
-                $this->productsAttributes[ $productId ][ $attribute ] = [
+                $this->productsAttributes[$productId][$attribute] = [
                     'name'         => $attribute,
                     'value'        => '',
                     'is_visible'   => 1,
@@ -530,7 +525,7 @@ class ProductGenerator
                     ->randomElements($terms, $this->faker->numberBetween(1, $countTerms));
 
                 if ($variationTrigger) {
-                    $this->productVariations[ $productId ][ $attribute ] = $randomTerms;
+                    $this->productVariations[$productId][$attribute] = $randomTerms;
                 }
 
                 $variationTrigger = 0;
@@ -551,8 +546,7 @@ class ProductGenerator
      *
      * @return Generator
      */
-    private function generateAttributesMeta()
-    {
+    private function generateAttributesMeta() {
         foreach ($this->productsAttributes as $productId => $attributes) {
             yield [
                 'post_id'    => $productId,
@@ -567,8 +561,7 @@ class ProductGenerator
      *
      * @return Generator
      */
-    private function generateAttributesVariations()
-    {
+    private function generateAttributesVariations() {
         $id = $this->getLastPost() + 1;
 
         foreach ($this->productVariations as $productId => $variation) {
@@ -576,7 +569,7 @@ class ProductGenerator
                 foreach ($terms as $term) {
                     $title = ucfirst($this->faker->word) . '-' . $id;
 
-                    $variationId            = ++ $id;
+                    $variationId = ++$id;
                     $this->variationsMeta[] = [
                         'post_id'    => $variationId,
                         'meta_key'   => 'attribute_' . $attribute,
@@ -608,8 +601,7 @@ class ProductGenerator
     /**
      * @return array
      */
-    private function getProductTypes()
-    {
+    private function getProductTypes() {
         $terms = get_terms([
             'taxonomy'   => 'product_type',
             'hide_empty' => false,
@@ -617,7 +609,7 @@ class ProductGenerator
 
         $productTypes = [];
         foreach ($terms as $term) {
-            $productTypes[ $term->name ] = $term->term_id;
+            $productTypes[$term->name] = $term->term_id;
         }
 
 
@@ -627,8 +619,7 @@ class ProductGenerator
     /**
      * @return int
      */
-    private function getLastPost()
-    {
+    private function getLastPost() {
         global $wpdb;
 
         $query[] = 'SELECT ID';
@@ -638,6 +629,6 @@ class ProductGenerator
 
         $query = implode(' ', $query);
 
-        return (int) $wpdb->get_var($query);
+        return (int)$wpdb->get_var($query);
     }
 }

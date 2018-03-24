@@ -1,6 +1,7 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
 use Faker\Generator;
+use Premmerce\DevTools\DataGenerator\DataGenerator;
 use Premmerce\DevTools\Services\BulkInsertQuery;
 
 class CategoryGenerator
@@ -10,8 +11,6 @@ class CategoryGenerator
      * @var Generator
      */
     private $faker;
-
-    const WOO_CATEGORY = 'product_cat';
 
     /**
      * CategoryGenerator constructor.
@@ -76,7 +75,7 @@ class CategoryGenerator
         return [
             'term_id'          => $termId,
             'term_taxonomy_id' => $taxonomyId,
-            'taxonomy'         => self::WOO_CATEGORY,
+            'taxonomy'         => DataGenerator::WOO_CATEGORY,
             'description'      => $this->faker->paragraph,
         ];
     }

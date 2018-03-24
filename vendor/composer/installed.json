@@ -1,33 +1,5 @@
 [
     {
-        "name": "premmerce/wordpress-sdk",
-        "version": "dev-sdk",
-        "version_normalized": "dev-sdk",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Premmerce/wordpress-sdk.git",
-            "reference": "461bf28923acccad2976b8ebdc9383761ecedc57"
-        },
-        "time": "2018-03-16T13:21:44+00:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "Premmerce\\SDK\\": "src"
-            }
-        },
-        "license": [
-            "GPL-2.0+"
-        ],
-        "authors": [
-            {
-                "name": "Premmerce",
-                "email": "info@premme.com"
-            }
-        ],
-        "description": "Wordpress SDK for premmerce plugins"
-    },
-    {
         "name": "symfony/polyfill-mbstring",
         "version": "v1.7.0",
         "version_normalized": "1.7.0.0",
@@ -313,5 +285,79 @@
         ],
         "description": "Symfony Stopwatch Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "premmerce/wordpress-sdk",
+        "version": "v1.1",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Premmerce/wordpress-sdk.git",
+            "reference": "461bf28923acccad2976b8ebdc9383761ecedc57"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Premmerce/wordpress-sdk/zipball/461bf28923acccad2976b8ebdc9383761ecedc57",
+            "reference": "461bf28923acccad2976b8ebdc9383761ecedc57",
+            "shasum": ""
+        },
+        "time": "2018-03-16T13:21:44+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Premmerce\\SDK\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Premmerce",
+                "email": "info@premme.com"
+            }
+        ],
+        "description": "Wordpress SDK for premmerce plugins"
+    },
+    {
+        "name": "fzaninotto/company-name-generator",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fzaninotto/CompanyNameGenerator.git",
+            "reference": "54c574e619201b25b5a26928e49684f45139a3df"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fzaninotto/CompanyNameGenerator/zipball/54c574e619201b25b5a26928e49684f45139a3df",
+            "reference": "54c574e619201b25b5a26928e49684f45139a3df",
+            "shasum": ""
+        },
+        "require": {
+            "fzaninotto/faker": "~1.4",
+            "php": ">=5.3.0"
+        },
+        "time": "2018-02-20T11:03:29+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "CompanyNameGenerator": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "François Zaninotto"
+            }
+        ],
+        "description": "Generate names for English tech companies with class",
+        "homepage": "https://github.com/fzaninotto/CompanyNameGenerator"
     }
 ]
