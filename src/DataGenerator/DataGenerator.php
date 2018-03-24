@@ -4,11 +4,11 @@ use bheller\ImagesGenerator\ImagesGeneratorProvider;
 use CompanyNameGenerator\FakerProvider;
 use Faker\Factory;
 use Premmerce\DevTools\DataGenerator\Generators\AttributesGenerator;
-use Premmerce\DevTools\DataGenerator\Generators\BrandGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\CategoryGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ProductGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\TermGenerator;
 use Premmerce\DevTools\DataGenerator\Providers\CategoryProvider;
+use Premmerce\DevTools\Services\DataCleaner;
 
 /**
  * Class DataGenerator
@@ -21,7 +21,7 @@ use Premmerce\DevTools\DataGenerator\Providers\CategoryProvider;
 class DataGenerator
 {
     const NAME_CATEGORIES = 'premmerce_generator_categories';
-    const NAME_CATEGORY_LEVELS = 'premmerce_generator_category_levels';
+    const NAME_CATEGORIES_NESTING = 'premmerce_generator_category_levels';
     const NAME_PRODUCTS = 'premmerce_generator_product';
     const NAME_PRODUCT_PHOTO = 'premmerce_generator_product_photo';
     const NAME_PRODUCT_PHOTO_GALLERY_NUMBER = 'premmerce_generator_product_photo_gallery_number';
@@ -51,6 +51,7 @@ class DataGenerator
     public function __construct() {
         $this->data = [
             self::NAME_CATEGORIES                   => 0,
+            self::NAME_CATEGORIES_NESTING           => 0,
             self::NAME_PRODUCTS                     => 0,
             self::NAME_PRODUCT_PHOTO                => false,
             self::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 0,
@@ -71,6 +72,7 @@ class DataGenerator
 
 
         $categoriesNumber = $config[self::NAME_CATEGORIES];
+        $categoriesNestingLevel = $config[self::NAME_CATEGORIES_NESTING];
         $attributesNumber = $config[self::NAME_ATTRIBUTES];
         $brandsNumber = $config[self::NAME_BRANDS];
         $attributeTermsNumber = $config[self::NAME_ATTRIBUTE_TERMS];
@@ -83,13 +85,14 @@ class DataGenerator
         $attributes = [];
         $brandIds = [];
 
-        $tg = new TermGenerator($this->faker);
 
         if ($categoriesNumber) {
-            $categoryIds = $tg->generate($categoriesNumber, self::WOO_CATEGORY);
-//            $categoryGenerator = new CategoryGenerator($this->faker);
-//            $categoryIds = $categoryGenerator->generate($categoriesNumber);
+            $tg = new CategoryGenerator($this->faker);
+            $categoryIds = $tg->generate($categoriesNumber, DataGenerator::WOO_CATEGORY, $categoriesNestingLevel);
+            delete_option(self::WOO_CATEGORY . '_children');
         }
+
+        $tg = new TermGenerator($this->faker);
 
         if ($brandsNumber) {
 //            $bg = new BrandGenerator($this->faker);
@@ -132,10 +135,10 @@ class DataGenerator
      * @return array
      */
     private function configure(array $data) {
-        $config = [];
-        foreach ($this->data as $key => $defaultValue) {
-            if (isset($data[$key]) && $data[$key]) {
-                $config[$key] = $data[$key];
+        $config = $this->data;
+        foreach ($data as $key => $value) {
+            if (isset($config[$key]) && $value) {
+                $config[$key] = $value;
             }
         }
 

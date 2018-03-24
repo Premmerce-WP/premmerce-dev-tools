@@ -1,5 +1,6 @@
 <?php namespace Premmerce\DevTools\Services;
 
+
 class BulkInsertQuery
 {
     private $data = [];
@@ -72,7 +73,7 @@ class BulkInsertQuery
         foreach ($chunks as $chunk) {
             $values = [];
             foreach ($chunk as $currentValues) {
-                $values[] = "('" . implode("','", $currentValues) . "')";
+                $values[] = "('" . implode("','", esc_sql($currentValues)) . "')";
             }
 
             $query  = $insert . ' VALUES' . implode(',', $values) . ';';
