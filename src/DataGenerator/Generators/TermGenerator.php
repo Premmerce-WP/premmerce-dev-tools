@@ -2,7 +2,6 @@
 
 use Faker\Generator;
 use Premmerce\DevTools\Services\BulkInsertQuery;
-use Premmerce\Search\Behat\Transliterator\Transliterator;
 
 class TermGenerator
 {
@@ -11,17 +10,21 @@ class TermGenerator
 
     private $lastTermTaxId;
 
+    private $provider;
+
     private $faker;
 
     public function __construct(Generator $faker) {
         $this->faker = $faker;
     }
 
-    public function generate($num, $tax) {
+    public function generate($num, $tax, $provider = 'categoryName') {
         $term = $this->getLastTerm();
 
         $this->lastTermId = $term->term_id;
         $this->lastTermTaxId = $term->term_taxonomy_id;
+        $this->provider = $provider;
+
 
         $terms = $this->createTerms($num);
         $taxonomies = $this->createTermTaxonomies($terms, $tax);
@@ -83,7 +86,8 @@ class TermGenerator
     private function generateNames($num) {
         $names = [];
         for ($i = 0; $i <= $num; $i++) {
-            $name = $this->faker->companyName;
+            $p = $this->provider;
+            $name = $this->faker->{$p};
             while (in_array($name, $names)) {
                 $name .= $this->faker->word;
             }

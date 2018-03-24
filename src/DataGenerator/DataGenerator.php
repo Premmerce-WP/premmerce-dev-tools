@@ -67,12 +67,6 @@ class DataGenerator
     }
 
     public function generate(array $config) {
-
-        for ($i = 0;$i<=100 ;$i++) {
-            dump($this->faker->categoryName);
-        }
-        dd();
-
         $config = $this->configure($config);
 
 
