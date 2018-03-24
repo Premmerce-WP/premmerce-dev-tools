@@ -86,6 +86,8 @@ Release Date: Mar 20, 2018
 * Added brands generator
 * Added brands cleaner
 * Added tags cleaner
+* Added nesting categories
+* Added new category name generation provider for more readable naming
 
 == Translators ==
 
