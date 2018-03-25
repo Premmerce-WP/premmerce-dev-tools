@@ -4,11 +4,10 @@ use bheller\ImagesGenerator\ImagesGeneratorProvider;
 use CompanyNameGenerator\FakerProvider;
 use Faker\Factory;
 use Premmerce\DevTools\DataGenerator\Generators\AttributesGenerator;
+use Premmerce\DevTools\DataGenerator\Generators\BrandGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\CategoryGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ProductGenerator;
-use Premmerce\DevTools\DataGenerator\Generators\TermGenerator;
-use Premmerce\DevTools\DataGenerator\Providers\CategoryProvider;
-use Premmerce\DevTools\Services\DataCleaner;
+use Premmerce\DevTools\DataGenerator\Providers\MixProvider;
 
 /**
  * Class DataGenerator
@@ -63,13 +62,11 @@ class DataGenerator
 
         $this->faker = Factory::create();
         $this->faker->addProvider(new ImagesGeneratorProvider($this->faker));
-        $this->faker->addProvider(new FakerProvider($this->faker));
-        $this->faker->addProvider(new CategoryProvider($this->faker));
+        $this->faker->addProvider(new MixProvider($this->faker));
     }
 
     public function generate(array $config) {
         $config = $this->configure($config);
-
 
         $categoriesNumber = $config[self::NAME_CATEGORIES];
         $categoriesNestingLevel = $config[self::NAME_CATEGORIES_NESTING];
@@ -85,24 +82,20 @@ class DataGenerator
         $attributes = [];
         $brandIds = [];
 
-
         if ($categoriesNumber) {
             $tg = new CategoryGenerator($this->faker);
             $categoryIds = $tg->generate($categoriesNumber, DataGenerator::WOO_CATEGORY, $categoriesNestingLevel);
             delete_option(self::WOO_CATEGORY . '_children');
         }
 
-        $tg = new TermGenerator($this->faker);
-
         if ($brandsNumber) {
-//            $bg = new BrandGenerator($this->faker);
+            $tg = new BrandGenerator($this->faker);
             $brandIds = $tg->generate($brandsNumber, self::PREMMERCE_BRAND);
         }
 
         if ($attributesNumber) {
             $attributesGenerator = new AttributesGenerator($this->faker);
             $attributes = $attributesGenerator->generate($attributesNumber, $attributeTermsNumber);
-
             delete_transient('wc_attribute_taxonomies');
         }
 
