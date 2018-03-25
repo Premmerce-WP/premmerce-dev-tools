@@ -1,25 +1,34 @@
 <?php
 
 
+use Premmerce\DevTools\DataGenerator\DataGenerator;
+use Premmerce\DevTools\Services\DataCleaner;
+
 if (!defined('WP_CLI') || !WP_CLI) {
     die;
 }
 
-use Premmerce\DevTools\DataGenerator\Providers\AttributeProvider;
-use Premmerce\DevTools\DataGenerator\Providers\MixProvider;
-
-$faker = \Faker\Factory::create();
-$faker->addProvider(new AttributeProvider($faker));
-$faker->addProvider(new MixProvider($faker));
-
-function iterate($num, $callback) {
-    for ($i = 0; $i < $num; $i++) {
-        $callback();
-    }
+if ($args[0] === 'clear') {
+    $dc = new DataCleaner();
+    $dc->all();
 }
 
-iterate(100, function () use ($faker) {
-    dump($faker->attributeValue('Author'));
-});
+if ($args[0] === 'generate') {
+    $c = new DataGenerator();
 
+    $config = [
+//        DataGenerator::NAME_CATEGORIES                   => 10,
+//        DataGenerator::NAME_CATEGORIES_NESTING           => 2,
+        DataGenerator::NAME_PRODUCTS                     => 2,
+//        DataGenerator::NAME_PRODUCT_PHOTO                => false,
+//        DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 0,
+//        DataGenerator::NAME_BRANDS                       => 20,
+        DataGenerator::NAME_ATTRIBUTES      => 10,
+        DataGenerator::NAME_ATTRIBUTE_TERMS => 10,
+        DataGenerator::NAME_PRODUCT_TYPE                 => 'variable',
 
+    ];
+
+    $c->generate($config);
+
+}

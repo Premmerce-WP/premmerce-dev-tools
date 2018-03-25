@@ -1,9 +1,9 @@
 <?php namespace Premmerce\DevTools\DataGenerator;
 
 use bheller\ImagesGenerator\ImagesGeneratorProvider;
-use CompanyNameGenerator\FakerProvider;
 use Faker\Factory;
 use Premmerce\DevTools\DataGenerator\Generators\AttributesGenerator;
+use Premmerce\DevTools\DataGenerator\Generators\AttributesGeneratorImp;
 use Premmerce\DevTools\DataGenerator\Generators\BrandGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\CategoryGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ProductGenerator;
@@ -19,15 +19,15 @@ use Premmerce\DevTools\DataGenerator\Providers\MixProvider;
  */
 class DataGenerator
 {
-    const NAME_CATEGORIES = 'premmerce_generator_categories';
-    const NAME_CATEGORIES_NESTING = 'premmerce_generator_category_levels';
-    const NAME_PRODUCTS = 'premmerce_generator_product';
-    const NAME_PRODUCT_PHOTO = 'premmerce_generator_product_photo';
-    const NAME_PRODUCT_PHOTO_GALLERY_NUMBER = 'premmerce_generator_product_photo_gallery_number';
-    const NAME_ATTRIBUTES = 'premmerce_generator_attributes';
-    const NAME_BRANDS = 'premmerce_generator_brands';
-    const NAME_ATTRIBUTE_TERMS = 'premmerce_generator_attribute_terms';
-    const NAME_PRODUCT_TYPE = 'premmerce_generator_product_type';
+    const NAME_CATEGORIES = 'categories';
+    const NAME_CATEGORIES_NESTING = 'category_levels';
+    const NAME_PRODUCTS = 'product';
+    const NAME_PRODUCT_TYPE = 'product_type';
+    const NAME_PRODUCT_PHOTO = 'product_photo';
+    const NAME_PRODUCT_PHOTO_GALLERY_NUMBER = 'product_gallery_number';
+    const NAME_BRANDS = 'brands';
+    const NAME_ATTRIBUTES = 'attributes';
+    const NAME_ATTRIBUTE_TERMS = 'attribute_terms';
 
 
     const WOO_CATEGORY = 'product_cat';
@@ -94,8 +94,8 @@ class DataGenerator
         }
 
         if ($attributesNumber) {
-            $attributesGenerator = new AttributesGenerator($this->faker);
-            $attributes = $attributesGenerator->generate($attributesNumber, $attributeTermsNumber);
+            $attributesGenerator = new AttributesGeneratorImp($this->faker);
+            $attributes = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
             delete_transient('wc_attribute_taxonomies');
         }
 

@@ -573,7 +573,7 @@ class ProductGenerator
                     $this->variationsMeta[] = [
                         'post_id'    => $variationId,
                         'meta_key'   => 'attribute_' . $attribute,
-                        'meta_value' => $term['name'],
+                        'meta_value' => sanitize_title($term['name']),
 
                     ];
 

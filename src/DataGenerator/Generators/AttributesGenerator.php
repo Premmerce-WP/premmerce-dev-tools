@@ -27,8 +27,7 @@ class AttributesGenerator
      *
      * @param Faker $faker
      */
-    public function __construct(Faker $faker)
-    {
+    public function __construct(Faker $faker) {
         $this->faker = $faker;
     }
 
@@ -39,28 +38,26 @@ class AttributesGenerator
      *
      * @return array
      */
-    public function generate($number, $numberTerms)
-    {
+    public function generate($number, $numberTerms) {
         global $wpdb;
 
         $q = BulkInsertQuery::create();
 
         if ($number) {
-            $attributes = $this->getAttributesGenerator($number);
+            $attributes = $this->generateAttributes($number);
             $q->insert($wpdb->prefix . 'woocommerce_attribute_taxonomies', $attributes);
         }
 
 
         if ($numberTerms) {
-            $lastTermId       = $this->getLastTerm();
+            $lastTermId = $this->getLastTerm();
             $lastTermTaxonomy = $this->getLastTermTaxonomy();
 
             $terms = $this->createTermsGenerator($number * $numberTerms, $lastTermId);
-            dump($terms);
+
             $q->insert($wpdb->terms, $terms);
 
             $termTaxonomies = $this->createTermsTaxonomyGenerator($numberTerms, $lastTermTaxonomy);
-            dump($termTaxonomies);
             $q->insert($wpdb->term_taxonomy, $termTaxonomies);
         }
 
@@ -73,15 +70,14 @@ class AttributesGenerator
      *
      * @return Generator
      */
-    public function getAttributesGenerator($number)
-    {
+    public function generateAttributes($number) {
         $attributes = [];
 
-        for ($i = 1; $i <= $number; $i ++) {
+        for ($i = 1; $i <= $number; $i++) {
             $attrName = strtolower($this->faker->word) . '-' . $i;
 
-            $this->attributes[ 'pa_' . $attrName ] = null;
-            $attributes[]                          = [
+            $this->attributes['pa_' . $attrName] = null;
+            $attributes[] = [
                 'attribute_label'   => ucfirst($attrName),
                 'attribute_name'    => $attrName,
                 'attribute_type'    => 'select',
@@ -100,19 +96,18 @@ class AttributesGenerator
      *
      * @return Generator
      */
-    public function createTermsGenerator($num, $lastId)
-    {
-        for ($i = 1; $i <= $num; $i ++) {
+    public function createTermsGenerator($num, $lastId) {
+        for ($i = 1; $i <= $num; $i++) {
             $name = $this->faker->word;
-            $id   = $lastId + $i;
+            $id = $lastId + $i;
 
-            $this->terms[ $id ] = $name;
+            $this->terms[$id] = $name;
 
             yield [
                 'term_id'    => $id,
                 'name'       => $name,
                 'slug'       => $name,
-                'term_group' => 0
+                'term_group' => 0,
             ];
         }
     }
@@ -123,8 +118,7 @@ class AttributesGenerator
      *
      * @return Generator
      */
-    public function createTermsTaxonomyGenerator($num, $lastId)
-    {
+    public function createTermsTaxonomyGenerator($num, $lastId) {
         $termIds = array_keys($this->terms);
 
         $termTaxonomyIdCounter = 1;
@@ -132,21 +126,21 @@ class AttributesGenerator
         foreach (array_keys($this->attributes) as $attribute) {
             $termsNumber = $num;
 
-            for ($i = 1; $i <= $termsNumber; $i ++) {
+            for ($i = 1; $i <= $termsNumber; $i++) {
                 $termId = array_shift($termIds);
 
                 $termTaxonomyId = $lastId + $termTaxonomyIdCounter;
 
-                $termTaxonomyIdCounter ++;
+                $termTaxonomyIdCounter++;
 
-                $this->attributes[ $attribute ][ $termId ]['term_id']          = $termId;
-                $this->attributes[ $attribute ][ $termId ]['name']             = $this->terms[ $termId ];
-                $this->attributes[ $attribute ][ $termId ]['term_taxonomy_id'] = $termTaxonomyId;
+                $this->attributes[$attribute][$termId]['term_id'] = $termId;
+                $this->attributes[$attribute][$termId]['name'] = $this->terms[$termId];
+                $this->attributes[$attribute][$termId]['term_taxonomy_id'] = $termTaxonomyId;
                 yield [
                     'term_taxonomy_id' => $termTaxonomyId,
                     'term_id'          => $termId,
                     'taxonomy'         => $attribute,
-                    'count'            => 1
+                    'count'            => 1,
                 ];
             }
         }
@@ -156,8 +150,7 @@ class AttributesGenerator
     /**
      * @return int
      */
-    private function getLastTermTaxonomy()
-    {
+    private function getLastTermTaxonomy() {
         global $wpdb;
 
         $query[] = 'SELECT term_taxonomy_id';
@@ -167,14 +160,13 @@ class AttributesGenerator
 
         $query = implode(' ', $query);
 
-        return (int) $wpdb->get_var($query);
+        return (int)$wpdb->get_var($query);
     }
 
     /**
      * @return int
      */
-    private function getLastTerm()
-    {
+    private function getLastTerm() {
         global $wpdb;
 
         $query[] = 'SELECT term_id';
@@ -184,6 +176,6 @@ class AttributesGenerator
 
         $query = implode(' ', $query);
 
-        return (int) $wpdb->get_var($query);
+        return (int)$wpdb->get_var($query);
     }
 }

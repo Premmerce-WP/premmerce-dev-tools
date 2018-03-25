@@ -49,7 +49,7 @@ class TermGenerator
         $this->faker = $faker;
     }
 
-    public function generate($num, $tax, $nestingLevel = 1) {
+    public function generate($num, $tax, $nestingLevel = 1, $returnIds = true) {
 
         $this->nestingLevel = $nestingLevel;
         $this->itemsInParent = floor(pow($num, 1 / ($nestingLevel)));
@@ -77,11 +77,11 @@ class TermGenerator
 //        $q->insert($wpdb->termmeta, $termMeta);
 
 
-        return array_keys($taxonomies);
+        return $returnIds ? array_keys($taxonomies) : [$taxonomies,$terms];
 
     }
 
-    public function createTermMeta($terms) {
+    protected function createTermMeta($terms) {
         $meta = [];
         $metaValues = [
             'order'        => 0,

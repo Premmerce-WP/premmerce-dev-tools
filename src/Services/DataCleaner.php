@@ -3,6 +3,22 @@
 class DataCleaner
 {
 
+    public function all() {
+        $this->removeProducts();
+        $this->removeCategories();
+        $this->removeBrands();
+        $this->removeTags();
+        $this->removeAttributes();
+        $this->removeAttributeTaxonomyTerms();
+        $this->removeAllTransients();
+        $this->clearTermRelations();
+        $this->clearTerms();
+        $this->clearTermMetaWithoutTerm();
+        $this->clearPostMetaWithoutPost();
+        $this->clearPostWithNonExistedParent();
+        $this->cleanUploads();
+    }
+
 
     /**
      * Remove posts, child posts, post_meta, term_relationships
