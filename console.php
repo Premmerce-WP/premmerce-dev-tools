@@ -19,7 +19,7 @@ function iterate($num, $callback) {
 }
 
 iterate(100, function () use ($faker) {
-    dump($faker->attributeValue('Rotational Speed'));
+    dump($faker->attributeValue('Author'));
 });
 
 
