@@ -60,7 +60,7 @@ class AttributesGeneratorImp extends TermGenerator
     /**
      * @param int $number
      *
-     * @return Generator
+     * @return array
      */
     public function createAttributes($number) {
         $attributes = [];
