@@ -194,7 +194,7 @@ class TermGenerator
         return !isset($this->unique[$context][$value]);
     }
 
-    protected function unique($current, $context = 'slug', $callback = null, $separator = ' ', $provider = 'word') {
+    protected function unique($current, $context = 'slug', $callback = null, $separator = ' ', $provider = 'randomLetter') {
 
         while (!$this->isUnique($current, $context)) {
             $current .= $separator . $this->faker->format($provider);

@@ -1,7 +1,6 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
 use Faker\Generator as Faker;
-use Generator;
 use Premmerce\DevTools\DataGenerator\Providers\AttributeProvider;
 use Premmerce\DevTools\Services\BulkInsertQuery;
 
@@ -67,7 +66,7 @@ class AttributesGeneratorImp extends TermGenerator
 
         for ($i = 1; $i <= $number; $i++) {
             $attrName = $this->faker->attributeName;
-            $attrName = substr($attrName, 0, 32);
+            $attrName = substr($attrName, 0, 28);
             $slug = $this->uniqueSlug($attrName);
 
             $attributes['pa_' . $slug] = [

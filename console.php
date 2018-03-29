@@ -18,16 +18,16 @@ $commands = [
 		$c = new DataGenerator();
 
 		$config = [
-			DataGenerator::NAME_CATEGORIES                   => 100,
-			DataGenerator::NAME_CATEGORIES_NESTING           => 3,
+			DataGenerator::NAME_CATEGORIES                   => 300,
+			DataGenerator::NAME_CATEGORIES_NESTING           => 4,
 			DataGenerator::NAME_SHOP_MENU                    => true,
-			DataGenerator::NAME_PRODUCTS                     => 10000,
-			DataGenerator::NAME_PRODUCT_PHOTO                => false,
-			DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 0,
-			DataGenerator::NAME_BRANDS                       => 20,
-			DataGenerator::NAME_ATTRIBUTES                   => 10,
-			DataGenerator::NAME_ATTRIBUTE_TERMS              => 30,
-			DataGenerator::NAME_PRODUCT_TYPE                 => 'simple',
+//			DataGenerator::NAME_PRODUCTS                     => 1,
+//			DataGenerator::NAME_PRODUCT_PHOTO                => false,
+//			DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 0,
+			DataGenerator::NAME_BRANDS => 10000,
+//			DataGenerator::NAME_ATTRIBUTES                   => 100,
+//			DataGenerator::NAME_ATTRIBUTE_TERMS              => 30,
+//			DataGenerator::NAME_PRODUCT_TYPE                 => 'simple',
 		];
 
 

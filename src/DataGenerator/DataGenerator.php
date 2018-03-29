@@ -103,6 +103,7 @@ class DataGenerator{
 
 		if($attributesNumber){
 			$attributesGenerator = new AttributesGeneratorImp($this->faker);
+//			$attributesGenerator = new AttributesGenerator($this->faker);
 			$attributes          = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
 			delete_transient('wc_attribute_taxonomies');
 		}

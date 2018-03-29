@@ -1,181 +1,75 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
-use Faker\Generator as Faker;
-use Generator;
 use Premmerce\DevTools\Services\BulkInsertQuery;
 
-class AttributesGenerator
+class AttributesGenerator extends TermGenerator
 {
 
-    /**
-     * @var Faker
-     */
-    private $faker;
 
-    /**
-     * @var array
-     */
-    private $attributes = [];
+	public function generateAttributes($number, $numberTerms) {
+		global $wpdb;
+		$q = BulkInsertQuery::create();
 
-    /**
-     * @var array
-     */
-    private $terms = [];
+		$attributes = $this->createAttributes($number);
+		$q->insert($wpdb->prefix . 'woocommerce_attribute_taxonomies', $attributes);
+		foreach ($attributes as $taxonomy => $attribute) {
+			$tt = $this->generate($numberTerms, $taxonomy, 1, false);
 
-    /**
-     * AttributesGenerator constructor.
-     *
-     * @param Faker $faker
-     */
-    public function __construct(Faker $faker) {
-        $this->faker = $faker;
-    }
+			$tt = $this->mergeTermTaxonomy($tt[0], $tt[1]);
 
-    /**
-     * @param int $number
-     *
-     * @param int $numberTerms
-     *
-     * @return array
-     */
-    public function generate($number, $numberTerms) {
-        global $wpdb;
-
-        $q = BulkInsertQuery::create();
-
-        if ($number) {
-            $attributes = $this->generateAttributes($number);
-            $q->insert($wpdb->prefix . 'woocommerce_attribute_taxonomies', $attributes);
-        }
+			$attributes[$taxonomy] = $tt;
+		}
 
 
-        if ($numberTerms) {
-            $lastTermId = $this->getLastTerm();
-            $lastTermTaxonomy = $this->getLastTermTaxonomy();
+		return $attributes;
+	}
 
-            $terms = $this->createTermsGenerator($number * $numberTerms, $lastTermId);
+	protected function mergeTermTaxonomy($termTaxonomies, $terms) {
 
-            $q->insert($wpdb->terms, $terms);
+		foreach ($termTaxonomies as $id => $taxonomy) {
+			$term = $terms[$taxonomy['term_id']];
+			$termTaxonomies[$id] = [
+				'term_id'          => $taxonomy['term_id'],
+				'name'             => $term['name'],
+				'term_taxonomy_id' => $id,
+			];
+		}
 
-            $termTaxonomies = $this->createTermsTaxonomyGenerator($numberTerms, $lastTermTaxonomy);
-            $q->insert($wpdb->term_taxonomy, $termTaxonomies);
-        }
+		return $termTaxonomies;
 
-        return $this->attributes;
-    }
+	}
 
+	protected function uniqueName() {
+		$name = $this->faker->word;
 
-    /**
-     * @param int $number
-     *
-     * @return Generator
-     */
-    public function generateAttributes($number) {
-        $attributes = [];
+		return $this->unique($name, 'name', 'ucwords');
+	}
 
-        for ($i = 1; $i <= $number; $i++) {
-            $attrName = strtolower($this->faker->word) . '-' . $i;
+	/**
+	 * @param int $number
+	 *
+	 * @return array
+	 */
+	public function createAttributes($number) {
+		$attributes = [];
 
-            $this->attributes['pa_' . $attrName] = null;
-            $attributes[] = [
-                'attribute_label'   => ucfirst($attrName),
-                'attribute_name'    => $attrName,
-                'attribute_type'    => 'select',
-                'attribute_orderby' => 'menu_order',
-                'attribute_public'  => 0,
+		for ($i = 1; $i <= $number; $i++) {
+			$attrName = $this->faker->word;
+			$attrName = substr($attrName, 0, 28);
+			$slug = $this->uniqueSlug($attrName);
 
-            ];
-        }
+			$attributes['pa_' . $slug] = [
+				'attribute_label'   => $attrName,
+				'attribute_name'    => $slug,
+				'attribute_type'    => 'select',
+				'attribute_orderby' => 'menu_order',
+				'attribute_public'  => 0,
 
-        return $attributes;
-    }
+			];
+		}
 
-    /**
-     * @param int $num
-     * @param int $lastId
-     *
-     * @return Generator
-     */
-    public function createTermsGenerator($num, $lastId) {
-        for ($i = 1; $i <= $num; $i++) {
-            $name = $this->faker->word;
-            $id = $lastId + $i;
-
-            $this->terms[$id] = $name;
-
-            yield [
-                'term_id'    => $id,
-                'name'       => $name,
-                'slug'       => $name,
-                'term_group' => 0,
-            ];
-        }
-    }
-
-    /**
-     * @param $num
-     * @param $lastId
-     *
-     * @return Generator
-     */
-    public function createTermsTaxonomyGenerator($num, $lastId) {
-        $termIds = array_keys($this->terms);
-
-        $termTaxonomyIdCounter = 1;
-
-        foreach (array_keys($this->attributes) as $attribute) {
-            $termsNumber = $num;
-
-            for ($i = 1; $i <= $termsNumber; $i++) {
-                $termId = array_shift($termIds);
-
-                $termTaxonomyId = $lastId + $termTaxonomyIdCounter;
-
-                $termTaxonomyIdCounter++;
-
-                $this->attributes[$attribute][$termId]['term_id'] = $termId;
-                $this->attributes[$attribute][$termId]['name'] = $this->terms[$termId];
-                $this->attributes[$attribute][$termId]['term_taxonomy_id'] = $termTaxonomyId;
-                yield [
-                    'term_taxonomy_id' => $termTaxonomyId,
-                    'term_id'          => $termId,
-                    'taxonomy'         => $attribute,
-                    'count'            => 1,
-                ];
-            }
-        }
-    }
+		return $attributes;
+	}
 
 
-    /**
-     * @return int
-     */
-    private function getLastTermTaxonomy() {
-        global $wpdb;
-
-        $query[] = 'SELECT term_taxonomy_id';
-        $query[] = 'FROM ' . $wpdb->term_taxonomy;
-        $query[] = 'ORDER BY term_taxonomy_id DESC';
-        $query[] = 'LIMIT 1';
-
-        $query = implode(' ', $query);
-
-        return (int)$wpdb->get_var($query);
-    }
-
-    /**
-     * @return int
-     */
-    private function getLastTerm() {
-        global $wpdb;
-
-        $query[] = 'SELECT term_id';
-        $query[] = 'FROM ' . $wpdb->terms;
-        $query[] = 'ORDER BY term_id DESC';
-        $query[] = 'LIMIT 1';
-
-        $query = implode(' ', $query);
-
-        return (int)$wpdb->get_var($query);
-    }
 }
