@@ -4,7 +4,6 @@ use Faker\Provider\Base;
 
 class AttributeProvider extends Base
 {
-	
     private $attributes = [
         'Processor'               => '{{processorName}}',
         'Graphics Processor'      => '{{processorName}}',
