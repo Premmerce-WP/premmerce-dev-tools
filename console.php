@@ -26,20 +26,36 @@ $commands = [
 		$c = new DataGenerator();
 
 		$config = [
-			DataGenerator::NAME_CATEGORIES         => 300,
-			DataGenerator::NAME_CATEGORIES_NESTING => 4,
-			DataGenerator::NAME_SHOP_MENU          => true,
-			DataGenerator::NAME_PRODUCTS           => 100000,
+			DataGenerator::NAME_PRODUCTS                     => 10,
+			DataGenerator::NAME_PRODUCT_PHOTO                => true,
+			DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 3,
+		];
+		$c->generate($config);
+
+		return;
+		$parts = 10;
+
+		for($i = 1;$i <= $parts;$i ++){
+
+			$config = [
+				DataGenerator::NAME_CATEGORIES         => 30,
+				DataGenerator::NAME_CATEGORIES_NESTING => 4,
+				DataGenerator::NAME_SHOP_MENU          => false,
+				DataGenerator::NAME_PRODUCTS           => 50000,
 //			DataGenerator::NAME_PRODUCT_PHOTO                => false,
 //			DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 0,
-//			DataGenerator::NAME_BRANDS => 10000,
-//			DataGenerator::NAME_ATTRIBUTES                   => 100,
-//			DataGenerator::NAME_ATTRIBUTE_TERMS              => 30,
-//			DataGenerator::NAME_PRODUCT_TYPE                 => 'simple',
-		];
+				DataGenerator::NAME_BRANDS             => 10,
+				DataGenerator::NAME_ATTRIBUTES         => 20,
+				DataGenerator::NAME_ATTRIBUTE_TERMS    => 10,
+				DataGenerator::NAME_PRODUCT_TYPE       => 'simple',
+			];
+			$c->generate($config);
+		}
 
+		$config = [DataGenerator::NAME_SHOP_MENU => true,];
 
 		$c->generate($config);
+
 
 	},
 ];

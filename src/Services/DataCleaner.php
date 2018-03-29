@@ -7,6 +7,7 @@ class DataCleaner{
 		$this->removeCategories();
 		$this->removeBrands();
 		$this->removeTags();
+		$this->removeAttachments();
 		$this->removeAttributes();
 		$this->removeAttributeTaxonomyTerms();
 		$this->removeMenus();
@@ -48,6 +49,13 @@ class DataCleaner{
 	 */
 	public function removePages(){
 		return $this->removePostTypes(['page']);
+	}
+
+	/**
+	 * @return false|int
+	 */
+	public function removeAttachments(){
+		return $this->removePostTypes(['attachment']);
 	}
 
 	/**

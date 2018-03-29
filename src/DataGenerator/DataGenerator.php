@@ -6,6 +6,7 @@ use Premmerce\DevTools\DataGenerator\Generators\AttributesGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\AttributesGeneratorImp;
 use Premmerce\DevTools\DataGenerator\Generators\BrandGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\CategoryGenerator;
+use Premmerce\DevTools\DataGenerator\Generators\ImagesGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ProductGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ShopMenuGenerator;
 use Premmerce\DevTools\DataGenerator\Providers\MixProvider;
@@ -85,13 +86,13 @@ class DataGenerator{
 		$attributes  = [];
 		$brandIds    = [];
 
+		if($shopMenu){
+			(new ShopMenuGenerator())->generate();
+		}
 		if($categoriesNumber){
 			$tg          = new CategoryGenerator($this->faker);
 			$categoryIds = $tg->generate($categoriesNumber, DataGenerator::WOO_CATEGORY, $categoriesNestingLevel);
 
-			if($shopMenu){
-				(new ShopMenuGenerator())->generate();
-			}
 
 			delete_option(self::WOO_CATEGORY . '_children');
 		}
@@ -104,12 +105,18 @@ class DataGenerator{
 		if($attributesNumber){
 			$attributesGenerator = new AttributesGeneratorImp($this->faker);
 //			$attributesGenerator = new AttributesGenerator($this->faker);
-			$attributes          = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
+			$attributes = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
 			delete_transient('wc_attribute_taxonomies');
 		}
 
 
 		if($productsNumber){
+
+			if($productPhoto || $productGallery){
+				$ig     = new ImagesGenerator($this->faker);
+				$images = $ig->generateImagesArray(10);
+			}
+
 			$productGenerator = new ProductGenerator($this->faker);
 
 			$productGenerator->setProductType($productType);
@@ -126,7 +133,7 @@ class DataGenerator{
 				$productGenerator->setAttributes($attributes);
 			}
 
-			$productGenerator->generate($productsNumber);
+			$productGenerator->generate($productsNumber, $images);
 
 		}
 	}
