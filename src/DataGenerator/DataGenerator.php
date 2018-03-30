@@ -112,6 +112,7 @@ class DataGenerator{
 
 		if($productsNumber){
 
+			$images = [];
 			if($productPhoto || $productGallery){
 				$ig     = new ImagesGenerator($this->faker);
 				$images = $ig->generateImagesArray(10);
