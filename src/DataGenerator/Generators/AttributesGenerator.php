@@ -1,9 +1,19 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
+use Faker\Generator as Faker;
+use Premmerce\DevTools\DataGenerator\Providers\AttributeProvider;
 use Premmerce\DevTools\Services\Query;
 
 class AttributesGenerator extends TermGenerator
 {
+
+
+    private $currentName = '';
+
+    public function __construct(Faker $faker) {
+        $faker->addProvider(new AttributeProvider($faker));
+        parent::__construct($faker);
+    }
 
 
     public function generateAttributes($number, $numberTerms) {
@@ -12,6 +22,7 @@ class AttributesGenerator extends TermGenerator
         Query::create()->insertWoocommerceAttributeTaxonomies($attributes);
 
         foreach ($attributes as $taxonomy => $attribute) {
+            $this->currentName = $attribute['attribute_label'];
             $tt = $this->generate($numberTerms, $taxonomy, 1, false);
 
             $tt = $this->mergeTermTaxonomy($tt[0], $tt[1]);
@@ -39,7 +50,7 @@ class AttributesGenerator extends TermGenerator
     }
 
     protected function uniqueName() {
-        $name = $this->faker->word;
+        $name = $this->faker->attributeValue($this->currentName);
 
         return $this->unique($name, 'name', 'ucwords');
     }
@@ -53,7 +64,7 @@ class AttributesGenerator extends TermGenerator
         $attributes = [];
 
         for ($i = 1; $i <= $number; $i++) {
-            $attrName = $this->faker->word;
+            $attrName = $this->faker->attributeName;
             $attrName = substr($attrName, 0, 28);
             $slug = $this->uniqueSlug($attrName);
 

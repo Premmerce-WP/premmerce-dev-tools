@@ -53,20 +53,12 @@ class ProductGenerator
      */
     private $productIds;
 
-    /**
-     * @var array
-     */
-    private $productsAttributes = [];
 
     /**
      * @var array
      */
     private $productVariations = [];
 
-    /**
-     * @var array
-     */
-    private $variationsMeta = [];
 
     /**
      * @var array
@@ -77,11 +69,6 @@ class ProductGenerator
      * @var array
      */
     private $attributeTerms;
-
-    /**
-     * @var array
-     */
-    private $variationIds;
 
 
     /**
@@ -133,7 +120,6 @@ class ProductGenerator
     /**
      * @param array $brandIds
      *
-     * @internal param array $attributeTerms
      */
     public function setBrands(array $brandIds) {
         $this->brandIds = $brandIds;
@@ -191,21 +177,18 @@ class ProductGenerator
         $products = $this->generateProductsArray($num);
         Query::create()->insertPosts($products);
 
+        $this->log(__METHOD__);
+
         $productIds = array_keys($products);
 
 
         return $productIds;
     }
 
+
     private function insertProductsMeta($productIds) {
-        $meta = $this->generatePostMeta($productIds);
-
-        Query::create()->insertPostMeta($meta);
-    }
-
-
-    private function generatePostMeta($productIds) {
         $meta = [];
+        $i = 0;
         foreach ($productIds as $id) {
             $price = $this->faker->randomFloat(2, 1, 1000);
 
@@ -222,9 +205,13 @@ class ProductGenerator
                     'meta_value' => $value,
                 ];
             }
+
+            $this->log(__METHOD__ . ' ' . ++$i);
         }
 
-        return $meta;
+        Query::create()->insertPostMeta($meta);
+        $this->log(__METHOD__ . ' insert');
+
     }
 
     /**
@@ -233,6 +220,8 @@ class ProductGenerator
     private function insertProductTerms($productIds) {
         $terms = $this->generateProductTerms($productIds);
         Query::create()->insertTermRelationships($terms);
+
+        $this->log(__METHOD__);
     }
 
     /**
@@ -246,6 +235,7 @@ class ProductGenerator
         $type = $this->productTypes[$this->productType];
         $terms = [];
 
+        $i = 0;
         foreach ($ids as $id) {
             $tts = [];
 
@@ -267,6 +257,7 @@ class ProductGenerator
 
                 ];
             }
+            $this->log(__METHOD__ . ' ' . ++$i);
         }
 
         return $terms;
@@ -284,6 +275,7 @@ class ProductGenerator
         for ($i = 1; $i <= $num; $i++) {
             $id = $lastId + $i;
             $products[$id] = $this->generateProduct($id);
+            $this->log(__METHOD__ . ' ' . $i);
         }
 
         return $products;
@@ -317,30 +309,22 @@ class ProductGenerator
      * Add product images
      */
     private function insertThumbnails() {
-        $imageThumbnailsMeta = $this->generatePostThumbnailsMeta(
-            $this->productIds, array_keys($this->images)
-        );
-
-        Query::create()->insertPostMeta($imageThumbnailsMeta);
-    }
-
-    /**
-     * @param array $postIds
-     * @param array $thumbnails
-     *
-     * @return array
-     */
-    private function generatePostThumbnailsMeta($postIds, $thumbnails) {
+        $thumbnails = array_keys($this->images);
         $metadata = [];
-        foreach ($postIds as $postId) {
+        $i = 0;
+        foreach ($this->productIds as $postId) {
             $metadata[] = [
                 'post_id'    => $postId,
                 'meta_key'   => '_thumbnail_id',
                 'meta_value' => $this->faker->randomElement($thumbnails),
             ];
+            $this->log(__METHOD__ . ' ' . ++$i);
         }
 
-        return $metadata;
+
+        Query::create()->insertPostMeta($metadata);
+
+        $this->log(__METHOD__);
     }
 
     /**
@@ -350,6 +334,7 @@ class ProductGenerator
         $ids = array_keys($this->images);
 
         $productMeta = [];
+        $i = 0;
         foreach ($this->productIds as $productId) {
             $pImages = $this->faker->randomElements($ids, $this->galleryPhotosNumber);
 
@@ -358,9 +343,13 @@ class ProductGenerator
                 'meta_key'   => '_product_image_gallery',
                 'meta_value' => implode(',', $pImages),
             ];
+            $this->log(__METHOD__ . ' ' . ++$i);
         }
 
         Query::create()->insertPostMeta($productMeta);
+
+        $this->log(__METHOD__);
+
     }
 
     /*******************************************************************************************************************
@@ -372,23 +361,10 @@ class ProductGenerator
      */
     private function generateAttributes() {
 
-        $rel = $this->generateAttributeTermRelations();
-        if (!$rel->valid()) {
-            return;
-        }
-        Query::create()->insertTermRelationships($rel);
-
-        $productAttributes = $this->generateAttributesMeta();
-        Query::create()->insertPostMeta($productAttributes);
+        $this->generateAttributesData();
 
         if ($this->productVariations) {
-            $variations = $this->generateAttributesVariations();
-
-            Query::create()->insertPosts($variations);
-            Query::create()->insertPostMeta($this->variationsMeta);
-
-            $meta = $this->generatePostMeta($this->variationIds);
-            Query::create()->insertPostMeta($meta);
+            $this->generateVariations();
         }
     }
 
@@ -397,16 +373,22 @@ class ProductGenerator
      *
      * @return Generator
      */
-    public function generateAttributeTermRelations() {
+    public function generateAttributesData() {
+
+        $rel = [];
+        $meta = [];
+
+        $i = 0;
         foreach ($this->productIds as $productId) {
             $variationTrigger = $this->productType === 'variable' ? 1 : 0;
 
+            $attributes = [];
             foreach ($this->attributeTerms as $attribute => $terms) {
-                if (!is_array($terms) || !count($terms)) {
+                if (empty($terms)) {
                     continue;
                 }
 
-                $this->productsAttributes[$productId][$attribute] = [
+                $attributes[$attribute] = [
                     'name'         => $attribute,
                     'value'        => '',
                     'is_visible'   => 1,
@@ -416,41 +398,40 @@ class ProductGenerator
 
                 ];
 
-                $countTerms = intval(count($terms) / 2);
-
-                $randomTerms = $this->faker
-                    ->randomElements($terms, $this->faker->numberBetween(1, $countTerms));
 
                 if ($variationTrigger) {
+                    $countTerms = intval(count($terms) / 2);
+
+                    $randomTerms = $this->faker->randomElements($terms, $this->faker->numberBetween(1, $countTerms));
+
                     $this->productVariations[$productId][$attribute] = $randomTerms;
+                    $variationTrigger = 0;
+                } else {
+                    $randomTerms = $this->faker->randomElements($terms, 1);
                 }
 
-                $variationTrigger = 0;
 
                 foreach ($randomTerms as $term) {
-                    yield [
+                    $rel[] = [
                         'object_id'        => $productId,
                         'term_taxonomy_id' => $term['term_taxonomy_id'],
                         'term_order'       => 0,
                     ];
                 }
             }
-        }
-    }
-
-    /**
-     * Create _product_attributes meta value generator for post_meta table
-     *
-     * @return Generator
-     */
-    private function generateAttributesMeta() {
-        foreach ($this->productsAttributes as $productId => $attributes) {
-            yield [
+            $meta[] = [
                 'post_id'    => $productId,
                 'meta_key'   => '_product_attributes',
                 'meta_value' => serialize($attributes),
             ];
+
+            $this->log(__METHOD__ . ' ' . ++$i);
         }
+
+        Query::create()->insertTermRelationships($rel);
+        $this->log(__METHOD__ . 'insert term relationships');
+        Query::create()->insertPostMeta($meta);
+        $this->log(__METHOD__ . 'insert post meta');
     }
 
     /**
@@ -458,25 +439,31 @@ class ProductGenerator
      *
      * @return Generator
      */
-    private function generateAttributesVariations() {
+    private function generateVariations() {
         $id = Query::create()->getLastPostId();
 
+
+        $meta = [];
+        $posts = [];
+        $ids = [];
+
+        $i = 0;
         foreach ($this->productVariations as $productId => $variation) {
             foreach ($variation as $attribute => $terms) {
                 foreach ($terms as $term) {
                     $id++;
+
                     $title = ucfirst($this->faker->word) . '-' . $id;
 
-                    $variationId = $id;
-                    $this->variationsMeta[] = [
-                        'post_id'    => $variationId,
+                    $meta[] = [
+                        'post_id'    => $id,
                         'meta_key'   => 'attribute_' . $attribute,
                         'meta_value' => sanitize_title($term['name']),
 
                     ];
 
-                    $this->variationIds[] = $variationId;
-                    yield [
+                    $ids[] = $id;
+                    $posts[] = [
                         'ID'           => $id,
                         'post_author'  => $this->userId,
                         'post_title'   => $title,
@@ -488,7 +475,16 @@ class ProductGenerator
                     ];
                 }
             }
+            $this->log(__METHOD__ . ' ' . ++$i);
         }
+
+        Query::create()->insertPosts($posts);
+        $this->log(__METHOD__ . ' insert posts');
+
+        Query::create()->insertPostMeta($meta);
+        $this->log(__METHOD__ . ' insert posts meta attribute');
+
+        $this->insertProductsMeta($ids);
     }
 
 
@@ -512,6 +508,10 @@ class ProductGenerator
 
 
         return $productTypes;
+    }
+
+    private function log($value) {
+        dump($value);
     }
 
 }

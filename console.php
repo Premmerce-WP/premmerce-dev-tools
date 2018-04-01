@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 
 use Premmerce\DevTools\DataGenerator\DataGenerator;
@@ -10,44 +10,27 @@ if (!defined('WP_CLI') || !WP_CLI) {
 }
 
 $commands = [
-    'test'     => function () {
-        $p = \Faker\Factory::create();
-        $p->addProvider(new \Premmerce\DevTools\DataGenerator\Providers\AttributesProviderRand($p));
-        $m = $p->mod;
-
-        dump($p->nm($m));
-        dump($p->val($m, 10, true));
-    },
     'clear'    => function () {
-
         (new DataCleaner())->all();
         (new Storage())->clear();
     },
     'generate' => function () {
         $c = new DataGenerator();
 
-
         $config = [
-//            DataGenerator::NAME_CATEGORIES         => 500,
-//            DataGenerator::NAME_CATEGORIES_NESTING => 3,
-//            DataGenerator::NAME_SHOP_MENU          => true,
-            DataGenerator::NAME_PRODUCTS => 1000,
-//            DataGenerator::NAME_PRODUCT_PHOTO                => true,
-//            DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 3,
-//            DataGenerator::NAME_BRANDS             => 100,
-//            DataGenerator::NAME_ATTRIBUTES         => 100,
-//            DataGenerator::NAME_ATTRIBUTE_TERMS    => 10,
-//            DataGenerator::NAME_PRODUCT_TYPE       => 'simple',
+            DataGenerator::NAME_CATEGORIES                   => 100,
+            DataGenerator::NAME_CATEGORIES_NESTING           => 3,
+            DataGenerator::NAME_SHOP_MENU                    => true,
+            DataGenerator::NAME_PRODUCTS                     => 100000,
+            DataGenerator::NAME_PRODUCT_PHOTO                => true,
+            DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 2,
+            DataGenerator::NAME_BRANDS                       => 20,
+            DataGenerator::NAME_ATTRIBUTES                   => 10,
+            DataGenerator::NAME_ATTRIBUTE_TERMS              => 10,
+            DataGenerator::NAME_PRODUCT_TYPE                 => 'simple',
         ];
 
-//        $c->generate($config);
-
-//        $config = [DataGenerator::NAME_SHOP_MENU => true,];
-
         $c->generate($config);
-        dump((memory_get_usage() / (1024 * 1024)) . ' MB');
-
-
     },
 ];
 

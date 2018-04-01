@@ -1,6 +1,7 @@
 <?php namespace Premmerce\DevTools\DataGenerator;
 
 use Faker\Factory;
+use Premmerce\DevTools\DataGenerator\Generators\AttributesGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\AttributesGeneratorImp;
 use Premmerce\DevTools\DataGenerator\Generators\BrandGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\CategoryGenerator;
@@ -145,8 +146,7 @@ class DataGenerator
         $attributeTermsNumber = $config[self::NAME_ATTRIBUTE_TERMS];
 
         if ($attributesNumber) {
-            $attributesGenerator = new AttributesGeneratorImp($this->faker);
-//			$attributesGenerator = new AttributesGenerator($this->faker);
+			$attributesGenerator = new AttributesGenerator($this->faker);
             $attributes = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
             delete_transient('wc_attribute_taxonomies');
 

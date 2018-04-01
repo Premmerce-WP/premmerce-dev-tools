@@ -1,34 +1,12 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Providers;
 
-
 use Faker\Provider\Base;
-use Premmerce\DevTools\DataGenerator\Providers\Attributes\MixTrait;
-use Premmerce\DevTools\DataGenerator\Providers\Attributes\ProcessorTrait;
 
-class AttributesProviderRand extends Base
+class AttributeProvider_ extends Base
 {
-
-    use ProcessorTrait;
-    use MixTrait;
-
-    private $base = [
-        '(cpu)' => [
-            'prefix' => ['Graphics', 'Central', 'General', 'Micro', 'Sound'],
-            'base'   => ['CPU', 'GPU', 'Processor'],
-            'suffix' => ['Name', 'Model'],
-            'value'  => '{{processorName}}',
-        ],
-    ];
-
     private $attributes = [
-        'CPU'                => '{{processorName}}',
-        'CPU Model'          => '{{processorName}}',
-        'Processor'          => '{{processorName}}',
-        'Central Processor'  => '{{processorName}}',
-        'Graphics Processor' => '{{processorName}}',
-        'Sound Processor'    => '{{processorName}}',
-        'Micro Processor'    => '{{processorName}}',
-
+        'Processor'               => '{{processorName}}',
+        'Graphics Processor'      => '{{processorName}}',
         'Operating System'        => '{{operatingSystem}}',
         'Computer Platform'       => '{{operatingSystem}}',
         'RAM Size'                => '{{powTwo}} {{ciPrefix}}B',
@@ -138,7 +116,6 @@ class AttributesProviderRand extends Base
     ];
 
     protected $clothesSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-
     protected $fruits = [
         'Apple',
         'Apricot',
@@ -400,19 +377,7 @@ class AttributesProviderRand extends Base
         'Zoo',
     ];
 
-    protected $activitySuffixes = [
-        'fighting',
-        'board games',
-        'racing',
-        'sports',
-        'ball',
-        'games',
-        'family',
-        'twirling',
-        'swimming',
-        'activities',
-        'discipline',
-    ];
+    protected $activitySuffixes = ['fighting', 'board games', 'racing', 'sports', 'ball', 'games', 'family', 'twirling', 'swimming', 'activities', 'discipline'];
 
     protected $shapes = [
         'Arched',
@@ -840,222 +805,31 @@ class AttributesProviderRand extends Base
 
     ];
 
-    protected $connectionTypes = [
-        'Fibre Channel',
-        'SCSI',
-        'SAS',
-        'Ethernet',
-        'USB',
-        'Firewire',
-        'Bluetooth',
-        'Serial',
-        'ATA',
-        'SATA',
-        'WIFI',
-        'DSL',
-        'Cable',
-        'Wireless',
-        'LAN',
-        'WAN',
-        'NFC',
-        'IDE',
-        'ATA',
-        'UDMA',
-        'DMA',
-        'MCA',
-        'PCI',
-        'AGP',
-        'ISA',
-    ];
+    protected $connectionTypes = ['Fibre Channel', 'SCSI', 'SAS', 'Ethernet', 'USB', 'Firewire', 'Bluetooth', 'Serial', 'ATA', 'SATA', 'WIFI', 'DSL', 'Cable', 'Wireless', 'LAN', 'WAN', 'NFC', 'IDE', 'ATA', 'UDMA', 'DMA', 'MCA', 'PCI', 'AGP', 'ISA'];
 
     protected $weightUnits = ['g', 'kg', 'lb', 'oz', 'pg', 'mg'];
 
     protected $lengthUnits = ['km', 'cm', 'm', 'mm', 'um', 'nm', 'in', 'ft', 'yd', 'mi'];
 
-    protected $display = [
-        'LED',
-        'RED',
-        'IPS',
-        'Backlit',
-        'Screen',
-        'LCD',
-        'TFT',
-        'Plasma',
-        'Liquid',
-        'Laser',
-        'Quantum',
-        'AMOLED',
-        'OLED',
-        'Retina',
-        'Glass',
-    ];
+    protected $display = ['LED', 'RED', 'IPS', 'Backlit', 'Screen', 'LCD', 'TFT', 'Plasma', 'Liquid', 'Laser', 'Quantum', 'AMOLED', 'OLED', 'Retina', 'Glass',];
 
-    protected $prefixes = [
-        'm',
-        'SO',
-        'Extended',
-        'ex',
-        'X',
-        'L',
-        'A',
-        'Hydro',
-        'Resistive',
-        'Super',
-        'Mega',
-        'Extra',
-        'Multi',
-        'Ultra',
-        'Mini',
-        'Mid',
-        'Full',
-        'Micro',
-        'Flex',
-        'Digital',
-        'Touch',
-        'Capacitive',
-        'Organic',
-        'Tactile',
-    ];
+    protected $prefixes = ['m', 'SO', 'Extended', 'ex', 'X', 'L', 'A', 'Hydro', 'Resistive', 'Super', 'Mega', 'Extra', 'Multi', 'Ultra', 'Mini', 'Mid', 'Full', 'Micro', 'Flex', 'Digital', 'Touch', 'Capacitive', 'Organic', 'Tactile'];
 
-    protected $suffixes = [
-        'II',
-        'III',
-        'v1',
-        'v2',
-        'v3',
-        '3.x',
-        '+',
-        '3D',
-        'x',
-        'XL',
-        's',
-        'Plus',
-        'One',
-        'X',
-        'LTE',
-        'Express',
-        'Exp',
-        'g',
-        'G',
-    ];
+    protected $suffixes = ['II', 'III', 'v1', 'v2', 'v3', '3.x', '+', '3D', 'x', 'XL', 's', 'Plus', 'One', 'X', 'LTE', 'Express', 'Exp', 'g', 'G'];
 
     protected $arabicNumbers = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',];
 
     protected $ciPrefixes = ['h', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
 
-    protected $operatingSystems = [
-        'Android',
-        'FreeBSD',
-        'ChromeOS',
-        'Debian',
-        'Linux',
-        'CentOS',
-        'Kubuntu',
-        'ReactOS',
-        'Xubuntu',
-        'Lubuntu',
-        'SteamOS',
-        'Ubuntu',
-        'MacOS',
-        'iOS',
-        'Raspberry Pi',
-        'JavaOS',
-        'MS-DOS',
-        'Red Hat',
-        'openSUSE',
-        'Symbian',
-        'Unix',
-        'Windows',
-        'Arch Linux',
-        'Solaris',
-        'Fedora',
-        'Elementary OS',
-    ];
+    protected $operatingSystems = ['Android', 'FreeBSD', 'ChromeOS', 'Debian', 'Linux', 'CentOS', 'Kubuntu', 'ReactOS', 'Xubuntu', 'Lubuntu', 'SteamOS', 'Ubuntu', 'MacOS', 'iOS', 'Raspberry Pi', 'JavaOS', 'MS-DOS', 'Red Hat', 'openSUSE', 'Symbian', 'Unix', 'Windows', 'Arch Linux', 'Solaris', 'Fedora', 'Elementary OS',];
 
-    protected $versionNames = [
-        'Phone',
-        'Cupcake',
-        'Donut',
-        'Eclair',
-        'Froyo',
-        'Gingerbread',
-        'Honeycomb',
-        'Sandwich',
-        'Jelly Bean',
-        'KitKat',
-        'Lollipop',
-        'Marshmallow',
-        'Nougat',
-        'Oreo',
-        'Warthog',
-        'Hedgehog',
-        'Badger',
-        'Drake',
-        'Eft',
-        'Fawn',
-        'Gibbon',
-        'Heron',
-        'Ibex',
-        'Jackalope',
-        'Koala',
-        'Lynx',
-        'Meerkat',
-        'Narwhal',
-        'Ocelot',
-        'Pangolin',
-        'Quetzal',
-        'Ringtail',
-        'Salamander',
-        'Tahr',
-        'Unicorn',
-        'Vervet',
-        'Werewolf',
-        'Xerus',
-        'Yak',
-        'Zapus',
-        'Aardvark',
-        'Beaver',
-        'X',
-        'N',
-        'XP',
-        'Server',
-        'Me',
-        'NT',
-    ];
+    protected $versionNames = ['Phone', 'Cupcake', 'Donut', 'Eclair', 'Froyo', 'Gingerbread', 'Honeycomb', 'Sandwich', 'Jelly Bean', 'KitKat', 'Lollipop', 'Marshmallow', 'Nougat', 'Oreo', 'Warthog', 'Hedgehog', 'Badger', 'Drake', 'Eft', 'Fawn', 'Gibbon', 'Heron', 'Ibex', 'Jackalope', 'Koala', 'Lynx', 'Meerkat', 'Narwhal', 'Ocelot', 'Pangolin', 'Quetzal', 'Ringtail', 'Salamander', 'Tahr', 'Unicorn', 'Vervet', 'Werewolf', 'Xerus', 'Yak', 'Zapus', 'Aardvark', 'Beaver', 'X', 'N', 'XP', 'Server', 'Me', 'NT',];
 
-//	protected $processorManufacturer = [
-//		'Intel',
-//		'AMD',
-//		'Qualcomm',
-//		'MediaTek',
-//		'ARM',
-//		'Atmel',
-//		'NVIDIA',
-//		'VIA',
-//		'IBM',
-//		'Cyrix',
-//	];
-//
-//	protected $processorModel = [
-//		'Core',
-//		'Celeron',
-//		'Pentium',
-//		'Xeon',
-//		'Atom',
-//		'Athlon',
-//		'Turion',
-//		'Phenom',
-//		'Sempron',
-//		'Snapdragon',
-//	];
-//
-//	protected $processorVersion = [
-//		'i{{versionOdd}}',
-//		'A{{versionEven}}',
-//		'{{versionArabic}}',
-//		'S{{versionNum}}',
-//		'{{versionHS}}',
-//	];
+    protected $processorManufacturer = ['Intel', 'AMD', 'Qualcomm', 'MediaTek', 'ARM', 'Atmel', 'NVIDIA', 'VIA', 'IBM', 'Cyrix',];
+
+    protected $processorModel = ['Core', 'Celeron', 'Pentium', 'Xeon', 'Atom', 'Athlon', 'Turion', 'Phenom', 'Sempron', 'Snapdragon'];
+
+    protected $processorVersion = ['i{{versionOdd}}', 'A{{versionEven}}', '{{versionArabic}}', 'S{{versionNum}}', '{{versionHS}}'];
 
     public function attributeName() {
         $format = static::randomElement(array_keys($this->attributes));
@@ -1226,6 +1000,59 @@ class AttributesProviderRand extends Base
     public function operatingSystemVersion() {
         return $this->generator->boolean ? self::randomElement($this->versionNames) : $this->versionNum();
     }
+
+
+    public function processorName() {
+        $name = $this->processorManufacturer();
+        $model = '';
+        $version = '';
+
+        if ($this->generator->boolean()) {
+            $model = ' ' . $this->processorModel();
+        }
+
+        if ($this->generator->boolean()) {
+            $version = ' ' . $this->processorVersion();
+        }
+
+
+        return $name . $model . $version;
+    }
+
+
+    public function processorManufacturer() {
+        return $this->generator->boolean ? $this->processorManufacturerReal() : $this->processorManufacturerFake();
+    }
+
+    public function processorModel() {
+        return $this->generator->boolean ? $this->processorModelReal() : $this->processorModelFake();
+    }
+
+    public function processorVersion() {
+        $version = self::randomElement($this->processorVersion);
+        $version = $this->generator->parse($version);
+
+        return $version;
+    }
+
+    public function processorModelReal() {
+        return self::randomElement($this->processorModel);
+    }
+
+    public function processorManufacturerReal() {
+        return self::randomElement($this->processorManufacturer);
+    }
+
+
+    public function processorManufacturerFake() {
+        return $this->generator->mixTwo($this->processorManufacturerReal(), $this->processorManufacturerReal());
+    }
+
+
+    public function processorModelFake() {
+        return $this->generator->mixTwo($this->processorModel(), $this->processorModel());
+    }
+
 
     public function versionArabic() {
         return self::randomElement($this->arabicNumbers);

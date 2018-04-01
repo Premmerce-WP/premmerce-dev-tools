@@ -1,88 +1,96 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Providers\Attributes;
 
-trait ProcessorTrait{
+trait ProcessorTrait
+{
 
-	protected $processorManufacturer = [
-		'Intel',
-		'AMD',
-		'Qualcomm',
-		'MediaTek',
-		'ARM',
-		'Atmel',
-		'NVIDIA',
-		'VIA',
-		'IBM',
-		'Cyrix',
-	];
+    protected $processorManufacturer = [
+        'Intel',
+        'AMD',
+        'Qualcomm',
+        'MediaTek',
+        'ARM',
+        'Atmel',
+        'NVIDIA',
+        'VIA',
+        'IBM',
+        'Cyrix',
+    ];
 
-	protected $processorModel = [
-		'Core',
-		'Celeron',
-		'Pentium',
-		'Xeon',
-		'Atom',
-		'Athlon',
-		'Turion',
-		'Phenom',
-		'Sempron',
-		'Snapdragon',
-	];
+    protected $processorModel = [
+        'Core',
+        'Celeron',
+        'Pentium',
+        'Xeon',
+        'Atom',
+        'Athlon',
+        'Turion',
+        'Phenom',
+        'Sempron',
+        'Snapdragon',
+    ];
 
-	protected $processorVersion = [
-		'i{{versionOdd}}',
-		'A{{versionEven}}',
-		'S{{versionNum}}',
-		'{{versionArabic}}',
-		'{{versionHS}}',
-	];
+    protected $processorVersion = [
+        'i#',
+        'A#',
+        'S#',
+        '{{versionArabic}}',
+        '####',
+    ];
 
-	public function processorName(){
-		$name    = $this->processorManufacturer();
-		$model   = '';
-		$version = '';
+    protected $arabicNumbers = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',];
 
-		if($this->generator->boolean){
-			$model = ' ' . $this->processorModel();
-		}
+    public function processorName() {
+        $name = $this->processorManufacturer();
+        $model = '';
+        $version = '';
 
-		if($this->generator->boolean){
-			$version = ' ' . $this->processorVersion();
-		}
+        if ($this->generator->boolean) {
+            $model = ' ' . $this->processorModel();
+        }
 
-
-		return $name . $model . $version;
-	}
-
-
-	public function processorManufacturer(){
-		return $this->generator->boolean? $this->processorManufacturerReal() : $this->processorManufacturerFake();
-	}
-
-	public function processorModel(){
-		return $this->generator->boolean? $this->processorModelReal() : $this->processorModelFake();
-	}
-
-	public function processorVersion(){
-		$version = self::randomElement($this->processorVersion);
-		$version = $this->generator->parse($version);
-
-		return $version;
-	}
-
-	public function processorModelReal(){
-		return self::randomElement($this->processorModel);
-	}
-
-	public function processorManufacturerReal(){
-		return self::randomElement($this->processorManufacturer);
-	}
+        if ($this->generator->boolean) {
+            $version = ' ' . $this->processorVersion();
+        }
 
 
-	public function processorManufacturerFake(){
-		return $this->generator->mixTwo($this->processorManufacturerReal(), $this->processorManufacturerReal());
-	}
+        return $name . $model . $version;
+    }
 
-	public function processorModelFake(){
-		return $this->generator->mixTwo($this->processorModel(), $this->processorModel());
-	}
+
+    public function processorManufacturer() {
+        return $this->generator->boolean ? $this->processorManufacturerReal() : $this->processorManufacturerFake();
+    }
+
+    public function processorModel() {
+        return $this->generator->boolean ? $this->processorModelReal() : $this->processorModelFake();
+    }
+
+    public function processorVersion() {
+        $version = $this->generator->randomElement($this->processorVersion);
+        $version = $this->generator->parse($version);
+        $version = $this->generator->bothify($version);
+
+        return $version;
+    }
+
+    public function processorModelReal() {
+        return $this->generator->randomElement($this->processorModel);
+    }
+
+    public function processorManufacturerReal() {
+        return $this->generator->randomElement($this->processorManufacturer);
+    }
+
+
+    public function processorManufacturerFake() {
+        return $this->generator->mixTwo($this->processorManufacturerReal(), $this->processorManufacturerReal());
+    }
+
+    public function processorModelFake() {
+        return $this->generator->mixTwo($this->processorModel(), $this->processorModel());
+    }
+
+    public function versionArabic() {
+        return $this->generator->randomElement($this->arabicNumbers);
+    }
 }

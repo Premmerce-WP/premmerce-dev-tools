@@ -1,838 +1,434 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Providers;
 
+
 use Faker\Provider\Base;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\ActivityTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\DesignTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\DisplayTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\FSTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\MaterialTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\MixTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\OSTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\ProcessorTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\TechTrait;
+use Premmerce\DevTools\DataGenerator\Providers\Attributes\UnitTrait;
 
 class AttributeProvider extends Base
 {
+
+    use ActivityTrait;
+    use DesignTrait;
+    use DisplayTrait;
+    use FSTrait;
+    use MaterialTrait;
+    use MixTrait;
+    use OSTrait;
+    use ProcessorTrait;
+    use TechTrait;
+    use UnitTrait;
+
     private $attributes = [
-        'Processor'               => '{{processorName}}',
-        'Graphics Processor'      => '{{processorName}}',
-        'Operating System'        => '{{operatingSystem}}',
-        'Computer Platform'       => '{{operatingSystem}}',
-        'RAM Size'                => '{{powTwo}} {{ciPrefix}}B',
-        'RAM Capacity'            => '{{powTwo}} {{ciPrefix}}B',
-        'Capacity'                => '{{powTwo}} {{ciPrefix}}B',
-        'Storage Memory'          => '{{powTwo}} {{ciPrefix}}B',
-        'Memory Capacity'         => '{{powTwo}} {{ciPrefix}}B',
-        'Drive Capacity'          => '{{powTwo}} {{ciPrefix}}B',
-        'Hard Drive Size'         => '{{intSize}} {{ciPrefix}}B',
-        'Flash Size'              => '{{intSize}} {{ciPrefix}}B',
-        'CPU Speed'               => '{{dotSize}} {{ciPrefix}}Hz',
-        'Color'                   => '{{colorName}}',
-        'Frame Finish'            => '{{colorName}}',
-        'Wood Finish'             => '{{colorName}}',
-        'Furniture Finish'        => '{{colorName}}',
-        'Desk Design'             => '{{shape}} {{colorName}}',
-        'Design'                  => '{{shape}} {{colorName}}',
-        'Display'                 => '{{displayType}}',
-        'Display Technology'      => '{{displayType}}',
-        'Display Size'            => '{{dotSize}}"',
-        'Drive Size'              => '{{dotSizeLarge}} Inch',
-        'Aspect Ratio'            => '{{aspectRatio}}',
-        'Resolution'              => '{{resolution}}',
-        'Native Resolution'       => '{{resolution}}',
-        'Display Resolution'      => '{{resolution}}',
-        'Weight'                  => '{{dotSize}} {{weightUnit}}',
-        'Width'                   => '{{dotSize}} {{lengthUnit}}',
-        'Height'                  => '{{dotSize}} {{lengthUnit}}',
-        'Length'                  => '{{dotSize}} {{lengthUnit}}',
-        'Stool Seat Height'       => '{{dotSize}} {{lengthUnit}}',
-        'Box Height'              => '{{dotSize}} {{lengthUnit}}',
-        'GPM'                     => '{{dotSize}} GPM',
-        'Weight Capacity'         => '{{intSize}} pounds',
-        'Pieces in Set'           => '{{intSize}} Pieces',
-        'Number of Pieces'        => '{{intSize}} Pieces',
-        'Table Length'            => '{{intSize}} Inches',
-        'Maximum Pressure'        => '{{intSize}} PSI',
-        'Air Flow'                => '{{intSize}} CFM',
-        'Power HP'                => '{{dotSizeLarge}} HP',
-        'Voltage'                 => '{{dotSizeLarge}} Volts',
-        'Optical Zoom'            => '{{dotSizeLarge}}x',
-        'Tank Capacity'           => '{{dotSizeLarge}} Gallons',
-        'Number of CPU Cores'     => '{{intSize}}',
-        'Number of Ports'         => '{{intSize}} Ports',
-        'Connectivity Technology' => '{{prefixLight}}{{intSize}}{{suffixLight}}',
-        'Connection Type'         => '{{prefixLight}}{{connectionType}} {{suffix}}',
-        'Protocol Compatibility'  => '{{prefixLight}}{{connectionType}} {{suffix}}',
-        'Gateway Compatibility'   => '{{prefixLight}}{{connectionType}} {{suffix}}',
-        'Interface'               => '{{prefixLight}}{{connectionType}} {{suffix}}',
-        'Connectivity Type'       => '{{prefixLight}}{{connectionType}} {{suffix}}',
-        'File System'             => '{{prefixLight}}{{fileSystem}} {{suffix}}',
-        'Rotational Speed'        => '{{intSizeLarge}}00 RPM',
-        'Print Resolution'        => '{{intSizeLarge}}00 DPI',
-        'Pressure'                => '{{intSizeLarge}} PSI',
-        'BTU Output'              => '{{intSizeLarge}}00 BTU',
-        'Calories'                => '{{intSizeLarge}} Calories',
-        'Heating Area'            => '{{intSizeLarge}} square feet',
-        'Brightness'              => '{{intSizeLarge}} Lumens',
-        'Contrast Ratio'          => '{{intSizeLarge}},{{threeDigits}}:1',
-        'Textile'                 => '{{textile}} {{colorName}}',
-        'Cover Material'          => '{{textile}} {{colorName}}',
-        'Fabric Type'             => '{{textile}} {{colorName}}',
-        'Material'                => '{{material}}',
-        'Upholstery Material'     => '{{material}}',
-        'Fill Material'           => '{{material}}',
-        'Frame Material'          => '{{material}}',
-        'Seat Material'           => '{{material}}',
-        'Cookware Finish'         => '{{material}}',
-        'Cookware Material'       => '{{material}}',
-        'Fuel Type'               => '{{material}}',
-        'Top Material'            => '{{material}}',
-        'Base Material'           => '{{material}}',
-        'Surface Material'        => '{{material}}',
-        'Activity Type'           => '{{activityType}} {{activitySuffix}}',
-        'Activity'                => '{{activityType}} {{activitySuffix}}',
-        'Memory Type'             => 'DDR{{versionNum}} {{suffix}}',
-        'Case Type'               => '{{prefix}} Towel {{suffix}}',
-        'Memory Technology'       => 'DDR{{versionNum}} {{suffix}}',
-        'Form Factor'             => '{{prefix}} ATX {{suffix}}',
-        'Connectors'              => '{{intSizeLarge}} Pin',
-        'Power'                   => '{{intSizeLarge}} Watts',
-        'Wattage'                 => '{{intSizeLarge}} Watts',
-        'Memory Form Factor'      => '{{intSizeLarge}}-pin {{prefix}}-DIMM',
-        'Frame Size'              => '{{sizeX}}',
-        'Picture Size'            => '{{sizeX}}',
-        'Shape'                   => '{{shape}} {{sizeX}}',
-        'Size & Type'             => '{{shape}} {{sizeX}}',
-        'Theme'                   => '{{theme}} & {{theme}}',
-        'Tabletop Occasion'       => '{{theme}} & {{theme}}',
-        'Sculpture Type'          => '{{theme}} & {{theme}}',
-        'Weathervane Theme'       => '{{theme}} & {{theme}}',
-        'Genre'                   => '{{theme}}',
-        'Subject'                 => '{{theme}}',
-        'Pattern'                 => '{{pattern}} {{shape}}',
-        'Chair Back Style'        => '{{pattern}} {{shape}}',
-        'Style'                   => '{{pattern}} {{shape}}',
-        'Scent'                   => '{{fruit}} {{theme}}',
-        'Size'                    => '{{prefix}} {{clothesSize}}',
-        'Thickness'               => '{{intSizeLarge}} Inches',
-        'Piece Count'             => '{{intSize}}}',
-        'Thread Count'            => '{{intSizeLarge}}',
-        'Seating Capacity'        => '{{intSizeLarge}}',
-        'Language'                => '{{country}}',
-        'Country'                 => '{{country}}',
-        'Manufacturer Country'    => '{{country}}',
-        'Author'                  => '{{firstName}} {{lastName}}',
+        'CPU'                      => '{{processorName}}',
+        'CPU Model'                => '{{processorName}}',
+        'CPU Name'                 => '{{processorName}}',
+        'Central CPU'              => '{{processorName}}',
+        'Central CPU Model'        => '{{processorName}}',
+        'Central CPU Name'         => '{{processorName}}',
+        'Central Processor'        => '{{processorName}}',
+        'Central Processor Model'  => '{{processorName}}',
+        'Central Processor Name'   => '{{processorName}}',
+        'Core CPU'                 => '{{processorName}}',
+        'Core CPU Model'           => '{{processorName}}',
+        'Core CPU Name'            => '{{processorName}}',
+        'Core Processor'           => '{{processorName}}',
+        'Core Processor Model'     => '{{processorName}}',
+        'Core Processor Name'      => '{{processorName}}',
+        'General CPU'              => '{{processorName}}',
+        'General CPU Model'        => '{{processorName}}',
+        'General CPU Name'         => '{{processorName}}',
+        'General Processor'        => '{{processorName}}',
+        'General Processor Model'  => '{{processorName}}',
+        'General Processor Name'   => '{{processorName}}',
+        'Graphics CPU'             => '{{processorName}}',
+        'Graphics CPU Model'       => '{{processorName}}',
+        'Graphics CPU Name'        => '{{processorName}}',
+        'Graphics Processor'       => '{{processorName}}',
+        'Graphics Processor Model' => '{{processorName}}',
+        'Graphics Processor Name'  => '{{processorName}}',
+        'Main CPU'                 => '{{processorName}}',
+        'Main CPU Model'           => '{{processorName}}',
+        'Main CPU Name'            => '{{processorName}}',
+        'Main Processor'           => '{{processorName}}',
+        'Main Processor Model'     => '{{processorName}}',
+        'Main Processor Name'      => '{{processorName}}',
+        'Micro CPU'                => '{{processorName}}',
+        'Micro CPU Model'          => '{{processorName}}',
+        'Micro CPU Name'           => '{{processorName}}',
+        'Micro Processor'          => '{{processorName}}',
+        'Micro Processor Model'    => '{{processorName}}',
+        'Micro Processor Name'     => '{{processorName}}',
+        'Processor'                => '{{processorName}}',
+        'Processor Model'          => '{{processorName}}',
+        'Processor Name'           => '{{processorName}}',
+        'Sound CPU'                => '{{processorName}}',
+        'Sound CPU Model'          => '{{processorName}}',
+        'Sound CPU Name'           => '{{processorName}}',
+        'Sound Processor'          => '{{processorName}}',
+        'Sound Processor Model'    => '{{processorName}}',
+        'Sound Processor Name'     => '{{processorName}}',
+
+        'Available OS'       => '{{operatingSystem}}',
+        'Available Platform' => '{{operatingSystem}}',
+        'Available System'   => '{{operatingSystem}}',
+        'Computer OS'        => '{{operatingSystem}}',
+        'Computer Platform'  => '{{operatingSystem}}',
+        'Computer System'    => '{{operatingSystem}}',
+        'OS'                 => '{{operatingSystem}}',
+        'Operating OS'       => '{{operatingSystem}}',
+        'Operating Platform' => '{{operatingSystem}}',
+        'Operating System'   => '{{operatingSystem}}',
+        'Platform'           => '{{operatingSystem}}',
+        'System'             => '{{operatingSystem}}',
+
+        'Available Flash Memory'          => '{{powTwo}} {{ciPrefix}}B',
+        'Available Flash Memory Capacity' => '{{powTwo}} {{ciPrefix}}B',
+        'Available Flash Memory Memory'   => '{{powTwo}} {{ciPrefix}}B',
+        'Available Flash Memory Size'     => '{{powTwo}} {{ciPrefix}}B',
+        'Available Hard Drive'            => '{{powTwo}} {{ciPrefix}}B',
+        'Available Hard Drive Capacity'   => '{{powTwo}} {{ciPrefix}}B',
+        'Available Hard Drive Memory'     => '{{powTwo}} {{ciPrefix}}B',
+        'Available Hard Drive Size'       => '{{powTwo}} {{ciPrefix}}B',
+        'Available Memory'                => '{{powTwo}} {{ciPrefix}}B',
+        'Available Memory Capacity'       => '{{powTwo}} {{ciPrefix}}B',
+        'Available Memory Memory'         => '{{powTwo}} {{ciPrefix}}B',
+        'Available Memory Size'           => '{{powTwo}} {{ciPrefix}}B',
+        'Available RAM'                   => '{{powTwo}} {{ciPrefix}}B',
+        'Available RAM Capacity'          => '{{powTwo}} {{ciPrefix}}B',
+        'Available RAM Memory'            => '{{powTwo}} {{ciPrefix}}B',
+        'Available RAM Size'              => '{{powTwo}} {{ciPrefix}}B',
+        'Available Storage'               => '{{powTwo}} {{ciPrefix}}B',
+        'Available Storage Capacity'      => '{{powTwo}} {{ciPrefix}}B',
+        'Available Storage Memory'        => '{{powTwo}} {{ciPrefix}}B',
+        'Available Storage Size'          => '{{powTwo}} {{ciPrefix}}B',
+        'Flash Memory'                    => '{{powTwo}} {{ciPrefix}}B',
+        'Flash Memory Capacity'           => '{{powTwo}} {{ciPrefix}}B',
+        'Flash Memory Memory'             => '{{powTwo}} {{ciPrefix}}B',
+        'Flash Memory Size'               => '{{powTwo}} {{ciPrefix}}B',
+        'Hard Drive'                      => '{{powTwo}} {{ciPrefix}}B',
+        'Hard Drive Capacity'             => '{{powTwo}} {{ciPrefix}}B',
+        'Hard Drive Memory'               => '{{powTwo}} {{ciPrefix}}B',
+        'Hard Drive Size'                 => '{{powTwo}} {{ciPrefix}}B',
+        'Memory'                          => '{{powTwo}} {{ciPrefix}}B',
+        'Memory Capacity'                 => '{{powTwo}} {{ciPrefix}}B',
+        'Memory Memory'                   => '{{powTwo}} {{ciPrefix}}B',
+        'Memory Size'                     => '{{powTwo}} {{ciPrefix}}B',
+        'RAM'                             => '{{powTwo}} {{ciPrefix}}B',
+        'RAM Capacity'                    => '{{powTwo}} {{ciPrefix}}B',
+        'RAM Memory'                      => '{{powTwo}} {{ciPrefix}}B',
+        'RAM Size'                        => '{{powTwo}} {{ciPrefix}}B',
+        'Storage'                         => '{{powTwo}} {{ciPrefix}}B',
+        'Storage Capacity'                => '{{powTwo}} {{ciPrefix}}B',
+        'Storage Memory'                  => '{{powTwo}} {{ciPrefix}}B',
+        'Storage Size'                    => '{{powTwo}} {{ciPrefix}}B',
+
+
+        'CPU Speed'            => '#.# {{ciPrefix}}Hz',
+        'CPU Speed (Hz)'       => '#.# {{ciPrefix}}Hz',
+        'Max Speed'            => '#.# {{ciPrefix}}Hz',
+        'Max Speed (Hz)'       => '#.# {{ciPrefix}}Hz',
+        'Processor Speed'      => '#.# {{ciPrefix}}Hz',
+        'Processor Speed (Hz)' => '#.# {{ciPrefix}}Hz',
+        'Speed'                => '#.# {{ciPrefix}}Hz',
+        'Speed (Hz)'           => '#.# {{ciPrefix}}Hz',
+
+        'Base Color'       => '{{colorName}}',
+        'Base Colour'      => '{{colorName}}',
+        'Base Tone'        => '{{colorName}}',
+        'Bottom Color'     => '{{colorName}}',
+        'Bottom Colour'    => '{{colorName}}',
+        'Bottom Tone'      => '{{colorName}}',
+        'Color'            => '{{colorName}}',
+        'Colour'           => '{{colorName}}',
+        'Frame Color'      => '{{colorName}}',
+        'Frame Colour'     => '{{colorName}}',
+        'Frame Tone'       => '{{colorName}}',
+        'Front Color'      => '{{colorName}}',
+        'Front Colour'     => '{{colorName}}',
+        'Front Tone'       => '{{colorName}}',
+        'Furniture Color'  => '{{colorName}}',
+        'Furniture Colour' => '{{colorName}}',
+        'Furniture Tone'   => '{{colorName}}',
+        'Image Color'      => '{{colorName}}',
+        'Image Colour'     => '{{colorName}}',
+        'Image Tone'       => '{{colorName}}',
+        'Logo Color'       => '{{colorName}}',
+        'Logo Colour'      => '{{colorName}}',
+        'Logo Tone'        => '{{colorName}}',
+        'Main Color'       => '{{colorName}}',
+        'Main Colour'      => '{{colorName}}',
+        'Main Tone'        => '{{colorName}}',
+        'Picture Color'    => '{{colorName}}',
+        'Picture Colour'   => '{{colorName}}',
+        'Picture Tone'     => '{{colorName}}',
+        'Secondary Color'  => '{{colorName}}',
+        'Secondary Colour' => '{{colorName}}',
+        'Secondary Tone'   => '{{colorName}}',
+        'Side Color'       => '{{colorName}}',
+        'Side Colour'      => '{{colorName}}',
+        'Side Tone'        => '{{colorName}}',
+        'Textile Color'    => '{{colorName}}',
+        'Textile Colour'   => '{{colorName}}',
+        'Textile Tone'     => '{{colorName}}',
+        'Tone'             => '{{colorName}}',
+        'Top Color'        => '{{colorName}}',
+        'Top Colour'       => '{{colorName}}',
+        'Top Tone'         => '{{colorName}}',
+        'Wood Color'       => '{{colorName}}',
+        'Wood Colour'      => '{{colorName}}',
+        'Wood Tone'        => '{{colorName}}',
+
+        'Base Design'      => '{{shape}} {{colorName}}',
+        'Desc Design'      => '{{shape}} {{colorName}}',
+        'Design'           => '{{shape}} {{colorName}}',
+        'Frame Design'     => '{{shape}} {{colorName}}',
+        'Furniture Design' => '{{shape}} {{colorName}}',
+        'Image Design'     => '{{shape}} {{colorName}}',
+        'Logo Design'      => '{{shape}} {{colorName}}',
+        'Main Design'      => '{{shape}} {{colorName}}',
+        'Secondary Design' => '{{shape}} {{colorName}}',
+        'Wood Design'      => '{{shape}} {{colorName}}',
+
+
+        'Base Display'                 => '{{displayType}}',
+        'Base Display Technology'      => '{{displayType}}',
+        'Base Display Type'            => '{{displayType}}',
+        'Display'                      => '{{displayType}}',
+        'Display Technology'           => '{{displayType}}',
+        'Display Type'                 => '{{displayType}}',
+        'Main Display'                 => '{{displayType}}',
+        'Main Display Technology'      => '{{displayType}}',
+        'Main Display Type'            => '{{displayType}}',
+        'Secondary Display'            => '{{displayType}}',
+        'Secondary Display Technology' => '{{displayType}}',
+        'Secondary Display Type'       => '{{displayType}}',
+
+        'Base Resolution'      => '{{resolution}}',
+        'Display Resolution'   => '{{resolution}}',
+        'Main Resolution'      => '{{resolution}}',
+        'Max Resolution'       => '{{resolution}}',
+        'Min Resolution'       => '{{resolution}}',
+        'Native Resolution'    => '{{resolution}}',
+        'Resolution'           => '{{resolution}}',
+        'Secondary Resolution' => '{{resolution}}',
+
+        'Base Weight'      => '#.# {{weightUnit}}',
+        'Box Weight'       => '#.# {{weightUnit}}',
+        'Main Weight'      => '#.# {{weightUnit}}',
+        'Secondary Weight' => '#.# {{weightUnit}}',
+        'Weight'           => '#.# {{weightUnit}}',
+
+        'Base Height'      => '#.# {{lengthUnit}}',
+        'Base Length'      => '#.# {{lengthUnit}}',
+        'Base Width'       => '#.# {{lengthUnit}}',
+        'Box Height'       => '#.# {{lengthUnit}}',
+        'Box Length'       => '#.# {{lengthUnit}}',
+        'Box Width'        => '#.# {{lengthUnit}}',
+        'Height'           => '#.# {{lengthUnit}}',
+        'Length'           => '#.# {{lengthUnit}}',
+        'Main Height'      => '#.# {{lengthUnit}}',
+        'Main Length'      => '#.# {{lengthUnit}}',
+        'Main Width'       => '#.# {{lengthUnit}}',
+        'Secondary Height' => '#.# {{lengthUnit}}',
+        'Secondary Length' => '#.# {{lengthUnit}}',
+        'Secondary Width'  => '#.# {{lengthUnit}}',
+        'Width'            => '#.# {{lengthUnit}}',
+
+
+        'Base Connection'                      => '*{{connectionType}} {{suffix}}',
+        'Base Connection Compatibility'        => '*{{connectionType}} {{suffix}}',
+        'Base Connection Type'                 => '*{{connectionType}} {{suffix}}',
+        'Base Connectivity'                    => '*{{connectionType}} {{suffix}}',
+        'Base Connectivity Compatibility'      => '*{{connectionType}} {{suffix}}',
+        'Base Connectivity Type'               => '*{{connectionType}} {{suffix}}',
+        'Base Gateway'                         => '*{{connectionType}} {{suffix}}',
+        'Base Gateway Compatibility'           => '*{{connectionType}} {{suffix}}',
+        'Base Gateway Type'                    => '*{{connectionType}} {{suffix}}',
+        'Base Interface'                       => '*{{connectionType}} {{suffix}}',
+        'Base Interface Compatibility'         => '*{{connectionType}} {{suffix}}',
+        'Base Interface Type'                  => '*{{connectionType}} {{suffix}}',
+        'Base Protocol'                        => '*{{connectionType}} {{suffix}}',
+        'Base Protocol Compatibility'          => '*{{connectionType}} {{suffix}}',
+        'Base Protocol Type'                   => '*{{connectionType}} {{suffix}}',
+        'Connection'                           => '*{{connectionType}} {{suffix}}',
+        'Connection Compatibility'             => '*{{connectionType}} {{suffix}}',
+        'Connection Type'                      => '*{{connectionType}} {{suffix}}',
+        'Connectivity'                         => '*{{connectionType}} {{suffix}}',
+        'Connectivity Compatibility'           => '*{{connectionType}} {{suffix}}',
+        'Connectivity Type'                    => '*{{connectionType}} {{suffix}}',
+        'Gateway'                              => '*{{connectionType}} {{suffix}}',
+        'Gateway Compatibility'                => '*{{connectionType}} {{suffix}}',
+        'Gateway Type'                         => '*{{connectionType}} {{suffix}}',
+        'Interface'                            => '*{{connectionType}} {{suffix}}',
+        'Interface Compatibility'              => '*{{connectionType}} {{suffix}}',
+        'Interface Type'                       => '*{{connectionType}} {{suffix}}',
+        'Main Connection'                      => '*{{connectionType}} {{suffix}}',
+        'Main Connection Compatibility'        => '*{{connectionType}} {{suffix}}',
+        'Main Connection Type'                 => '*{{connectionType}} {{suffix}}',
+        'Main Connectivity'                    => '*{{connectionType}} {{suffix}}',
+        'Main Connectivity Compatibility'      => '*{{connectionType}} {{suffix}}',
+        'Main Connectivity Type'               => '*{{connectionType}} {{suffix}}',
+        'Main Gateway'                         => '*{{connectionType}} {{suffix}}',
+        'Main Gateway Compatibility'           => '*{{connectionType}} {{suffix}}',
+        'Main Gateway Type'                    => '*{{connectionType}} {{suffix}}',
+        'Main Interface'                       => '*{{connectionType}} {{suffix}}',
+        'Main Interface Compatibility'         => '*{{connectionType}} {{suffix}}',
+        'Main Interface Type'                  => '*{{connectionType}} {{suffix}}',
+        'Main Protocol'                        => '*{{connectionType}} {{suffix}}',
+        'Main Protocol Compatibility'          => '*{{connectionType}} {{suffix}}',
+        'Main Protocol Type'                   => '*{{connectionType}} {{suffix}}',
+        'Protocol'                             => '*{{connectionType}} {{suffix}}',
+        'Protocol Compatibility'               => '*{{connectionType}} {{suffix}}',
+        'Protocol Type'                        => '*{{connectionType}} {{suffix}}',
+        'Secondary Connection'                 => '*{{connectionType}} {{suffix}}',
+        'Secondary Connection Compatibility'   => '*{{connectionType}} {{suffix}}',
+        'Secondary Connection Type'            => '*{{connectionType}} {{suffix}}',
+        'Secondary Connectivity'               => '*{{connectionType}} {{suffix}}',
+        'Secondary Connectivity Compatibility' => '*{{connectionType}} {{suffix}}',
+        'Secondary Connectivity Type'          => '*{{connectionType}} {{suffix}}',
+        'Secondary Gateway'                    => '*{{connectionType}} {{suffix}}',
+        'Secondary Gateway Compatibility'      => '*{{connectionType}} {{suffix}}',
+        'Secondary Gateway Type'               => '*{{connectionType}} {{suffix}}',
+        'Secondary Interface'                  => '*{{connectionType}} {{suffix}}',
+        'Secondary Interface Compatibility'    => '*{{connectionType}} {{suffix}}',
+        'Secondary Interface Type'             => '*{{connectionType}} {{suffix}}',
+        'Secondary Protocol'                   => '*{{connectionType}} {{suffix}}',
+        'Secondary Protocol Compatibility'     => '*{{connectionType}} {{suffix}}',
+        'Secondary Protocol Type'              => '*{{connectionType}} {{suffix}}',
+
+
+        'Base FS'                             => '*{{fileSystem}} {{suffix}}',
+        'Base FS Compatibility'               => '*{{fileSystem}} {{suffix}}',
+        'Base FS Type'                        => '*{{fileSystem}} {{suffix}}',
+        'Base File System'                    => '*{{fileSystem}} {{suffix}}',
+        'Base File System Compatibility'      => '*{{fileSystem}} {{suffix}}',
+        'Base File System Type'               => '*{{fileSystem}} {{suffix}}',
+        'FS'                                  => '*{{fileSystem}} {{suffix}}',
+        'FS Compatibility'                    => '*{{fileSystem}} {{suffix}}',
+        'FS Type'                             => '*{{fileSystem}} {{suffix}}',
+        'File System'                         => '*{{fileSystem}} {{suffix}}',
+        'File System Compatibility'           => '*{{fileSystem}} {{suffix}}',
+        'File System Type'                    => '*{{fileSystem}} {{suffix}}',
+        'Main FS'                             => '*{{fileSystem}} {{suffix}}',
+        'Main FS Compatibility'               => '*{{fileSystem}} {{suffix}}',
+        'Main FS Type'                        => '*{{fileSystem}} {{suffix}}',
+        'Main File System'                    => '*{{fileSystem}} {{suffix}}',
+        'Main File System Compatibility'      => '*{{fileSystem}} {{suffix}}',
+        'Main File System Type'               => '*{{fileSystem}} {{suffix}}',
+        'Secondary FS'                        => '*{{fileSystem}} {{suffix}}',
+        'Secondary FS Compatibility'          => '*{{fileSystem}} {{suffix}}',
+        'Secondary FS Type'                   => '*{{fileSystem}} {{suffix}}',
+        'Secondary File System'               => '*{{fileSystem}} {{suffix}}',
+        'Secondary File System Compatibility' => '*{{fileSystem}} {{suffix}}',
+        'Secondary File System Type'          => '*{{fileSystem}} {{suffix}}',
+
+        'Textile'        => '{{textile}} {{colorName}}',
+        'Cover Material' => '{{textile}} {{colorName}}',
+        'Fabric Type'    => '{{textile}} {{colorName}}',
+
+        'Material'            => '{{material}}',
+        'Upholstery Material' => '{{material}}',
+        'Fill Material'       => '{{material}}',
+        'Frame Material'      => '{{material}}',
+        'Seat Material'       => '{{material}}',
+        'Cookware Finish'     => '{{material}}',
+        'Cookware Material'   => '{{material}}',
+        'Fuel Type'           => '{{material}}',
+        'Top Material'        => '{{material}}',
+        'Base Material'       => '{{material}}',
+        'Surface Material'    => '{{material}}',
+
+        'Activity Type' => '{{activityType}} {{activitySuffix}}',
+        'Activity'      => '{{activityType}} {{activitySuffix}}',
+
+        'Memory Type'       => 'DDR# {{suffix}}',
+        'Memory Technology' => 'DDR# {{suffix}}',
+
+        'Power HP' => '##.# HP',
+        'HP'       => '##.# HP',
+
+        'Case Type'   => '{{prefix}} Towel {{suffix}}',
+        'Form Factor' => '{{prefix}} ATX {{suffix}}',
+
+        'Voltage'       => '##.# Volts',
+        'Power Voltage' => '##.# Volts',
+
+        'Rotational Speed' => '#####00 RPM',
+        'Print Resolution' => '#####00 DPI',
+        'Pressure'         => '##### PSI',
+        'BTU Output'       => '#####00 BTU',
+        'Calories'         => '##### Calories',
+        'Heating Area'     => '##### square feet',
+        'Brightness'       => '##### Lumens',
+        'Contrast Ratio'   => '#####,###:1',
+
+        'Display Size'     => '#.#"',
+        'Drive Size'       => '##.# Inch',
+        'Aspect Ratio'     => '{{aspectRatio}}',
+        'GPM'              => '#.# GPM',
+        'Weight Capacity'  => '{{intSize}} pounds',
+        'Pieces in Set'    => '{{intSize}} Pieces',
+        'Piece Count'      => '{{intSize}} Pieces',
+        'Number of Pieces' => '{{intSize}} Pieces',
+        'Table Length'     => '{{intSize}} Inches',
+        'Maximum Pressure' => '{{intSize}} PSI',
+        'Air Flow'         => '{{intSize}} CFM',
+
+
+        'Zoom'                => '##.#x',
+        'Optical Zoom'        => '##.#x',
+        'Tank Capacity'       => '##.# Gallons',
+        'Number of CPU Cores' => '{{intSize}}',
+        'Number of Ports'     => '{{intSize}} Ports',
+
+        'Connectors'         => '##### Pin',
+        'Power'              => '##### Watts',
+        'Wattage'            => '##### Watts',
+        'Memory Form Factor' => '#####-pin {{prefix}}-DIMM',
+        'Frame Size'         => '{{sizeX}}',
+        'Picture Size'       => '{{sizeX}}',
+
+        'Shape'       => '{{shape}} {{sizeX}}',
+        'Size & Type' => '{{shape}} {{sizeX}}',
+
+        'Genre'   => '{{theme}}',
+        'Subject' => '{{theme}}',
+
+        'Theme'             => '{{theme}} & {{theme}}',
+        'Tabletop Occasion' => '{{theme}} & {{theme}}',
+        'Sculpture Type'    => '{{theme}} & {{theme}}',
+        'Weathervane Theme' => '{{theme}} & {{theme}}',
+
+        'Pattern'          => '{{pattern}} {{shape}}',
+        'Chair Back Style' => '{{pattern}} {{shape}}',
+        'Style'            => '{{pattern}} {{shape}}',
+
+        'Scent'     => '{{fruit}} {{theme}}',
+        'Size'      => '{{prefix}} {{clothesSize}}',
+        'Thickness' => '##### Inches',
+
+        'Thread Count'     => '#####',
+        'Seating Capacity' => '#####',
+
+        'Language'             => '{{country}}',
+        'Country'              => '{{country}}',
+        'Manufacturer Country' => '{{country}}',
+
+        'Author'    => '{{firstName}} {{lastName}}',
+        'Publisher' => '{{firstName}} {{lastName}}',
     ];
-
-    protected $clothesSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-    protected $fruits = [
-        'Apple',
-        'Apricot',
-        'Avocado',
-        'Banana',
-        'Bilberry',
-        'Blackberry',
-        'Blackcurrant',
-        'Blood Orange',
-        'Blueberry',
-        'Boysenberry',
-        'Cantaloupe',
-        'Cherimoya',
-        'Cherry',
-        'Chico Fruit',
-        'Chili Pepper',
-        'Clementine',
-        'Cloudberry',
-        'Coconut',
-        'Corn Kernel',
-        'Crab Apples',
-        'Cranberry',
-        'Cucumber',
-        'Currant',
-        'Custard Apple',
-        'Damson',
-        'Date',
-        'Dragonfruit',
-        'Durian',
-        'Eggplant',
-        'Elderberry',
-        'Feijoa',
-        'Fig',
-        'Goji Berry',
-        'Gonzoberry',
-        'Gooseberry',
-        'Grape',
-        'Grapefruit',
-        'Guava',
-        'Honeyberry',
-        'Honeydew',
-        'Huckleberry',
-        'Jabuticaba',
-        'Jackfruit',
-        'Jambul',
-        'Jujube',
-        'Juniper Berry',
-        'Kiwano',
-        'Kiwifruit',
-        'Kumquat',
-        'Lemon',
-        'Lime',
-        'Longan',
-        'Loquat',
-        'Lychee',
-        'Mandarine',
-        'Mango',
-        'Mangosteen',
-        'Marionberry',
-        'Melon',
-        'Miracle Fruit',
-        'Mulberry',
-        'Nance',
-        'Nectarine',
-        'Olive',
-        'Orange',
-        'Papaya',
-        'Passionfruit',
-        'Pea',
-        'Peach',
-        'Pear',
-        'Persimmon',
-        'Pineapple',
-        'Plantain',
-        'Plum',
-        'Plumcot',
-        'Pomegranate',
-        'Pomelo',
-        'Prune',
-        'Pumpkin',
-        'Purple Mangosteen',
-        'Quince',
-        'Raisin',
-        'Rambutan',
-        'Raspberry',
-        'Redcurrant',
-        'Salak',
-        'Salal Berry',
-        'Salmonberry',
-        'Satsuma',
-        'Soursop',
-        'Squash',
-        'Star Fruit',
-        'Strawberry',
-        'Tamarillo',
-        'Tamarind',
-        'Tangerine',
-        'Tomato',
-        'Ugli Fruit',
-        'Watermelon',
-        'Yuzu',
-    ];
-
-    protected $patterns = [
-        'Bordered',
-        'Checkered',
-        'Floral',
-        'Geometric',
-        'Gingham',
-        'Moiré',
-        'Paisley',
-        'Patchwork',
-        'Plaid',
-        'Polka Dot',
-        'Print',
-        'Solid',
-        'Striped',
-    ];
-
-    protected $themes = [
-        'Bibles',
-        'Dieting',
-        'Entertainment',
-        'Fantasy',
-        'Fiction',
-        'Graphic Novels',
-        'Home',
-        'Math',
-        'Memoirs',
-        'Money',
-        'Outdoors',
-        'Photography',
-        'Relationships',
-        'Social Sciences',
-        'Spirituality',
-        'Suspense',
-        'Teaching',
-        'Technology',
-        'Transportation',
-        'Wine',
-        'Alphabet',
-        'Angels',
-        'Animal',
-        'Animals',
-        'Arts ',
-        'Beach Party',
-        'Bears ',
-        'Beverages',
-        'Biographies ',
-        'Buildings',
-        'Business ',
-        'Cactus',
-        'Calendars',
-        'Candy',
-        'Canes',
-        'Carnival',
-        'Cars',
-        'Casino',
-        'Cats ',
-        'Characters',
-        'Churches',
-        'Cityscapes',
-        'Classic ',
-        'Colleges',
-        'Colors ',
-        'Comics ',
-        'Computers ',
-        'Cookbooks, Food ',
-        'Counting ',
-        'Crafts, Hobbies ',
-        'Crosses',
-        'Dinosaurs',
-        'Education ',
-        'Elves',
-        'Engineering ',
-        'Fantasy',
-        'Feelings',
-        'Fiesta',
-        'Flowers',
-        'Food ',
-        'Foods',
-        'Fruit',
-        'Gingerbread',
-        'Gothic',
-        'Health, Fitness ',
-        'Hearts',
-        'Heroes',
-        'History',
-        'Houses',
-        'Humor ',
-        'Icicles',
-        'Inspirational',
-        'Landscapes',
-        'Law',
-        'Literature ',
-        'Love',
-        'Luau',
-        'Medical',
-        'Military',
-        'Monster',
-        'Moon',
-        'Moon ',
-        'Movie Night',
-        'Music',
-        'Mystery',
-        'Nativity',
-        'Nautical',
-        'Ninja',
-        'Novelty',
-        'Numbers',
-        'Nutcracker',
-        'Oktoberfest',
-        'Parenting ',
-        'Paris',
-        'Patriotic',
-        'People',
-        'Pets',
-        'Pineapple',
-        'Pirate',
-        'Plants',
-        'Politics ',
-        'Popular',
-        'Princess',
-        'Reference',
-        'Religion ',
-        'Religious',
-        'Restaurants',
-        'Rockstar',
-        'Romance',
-        'Santa',
-        'Schools',
-        'Science ',
-        'Science Fiction ',
-        'Seascapes',
-        'Self-help',
-        'Shapes',
-        'Shops',
-        'Sleds',
-        'Sleighs',
-        'Snowflakes',
-        'Snowmen',
-        'Sports',
-        'Sports ',
-        'Stars',
-        'Stockings',
-        'Superhero',
-        'Teddy Bears',
-        'Trains',
-        'Transportation',
-        'Travel',
-        'Trees',
-        'Unicorn',
-        'Universities',
-        'Vegetables',
-        'Vehicles',
-        'Weddings',
-        'Western',
-        'Wreaths',
-        'Zoo',
-    ];
-
-    protected $activitySuffixes = ['fighting', 'board games', 'racing', 'sports', 'ball', 'games', 'family', 'twirling', 'swimming', 'activities', 'discipline'];
-
-    protected $shapes = [
-        'Arched',
-        'Circle',
-        'Cone',
-        'Cylinder',
-        'Ellipse',
-        'Hexagon',
-        'Irregular',
-        'Irregular Shape',
-        'Octagon',
-        'Oval',
-        'Parallelogram',
-        'Pentagon',
-        'Pyramid',
-        'Rectangle',
-        'Rectangular',
-        'Round',
-        'Semicircle',
-        'Sphere',
-        'Square',
-        'Star',
-        'Sunburst',
-        'Trapezoid',
-        'Triangle',
-        'Wedge',
-        'Whorl',
-    ];
-
-    protected $activityTypes = [
-        'ATV',
-        'Acro',
-        'Air',
-        'Aquatic',
-        'Aquatic ',
-        'Archery',
-        'Auto',
-        'Ball-over-net ',
-        'Baseball',
-        'Basketball',
-        'Basketball',
-        'Bat-and-ball',
-        'Baton ',
-        'Bicycle',
-        'Board',
-        'Boating',
-        'Bowling',
-        'Boxing',
-        'Camping',
-        'Canoeing',
-        'Card games',
-        'Catch games',
-        'Cheerleading',
-        'Climbing',
-        'Combat sports',
-        'Competitive',
-        'Cue sports',
-        'Cycling',
-        'Dance',
-        'Diving',
-        'Equestrian',
-        'Equine',
-        'Exercise',
-        'Fantasy',
-        'Field',
-        'Fishing',
-        'Flying disc',
-        'Football',
-        'Golf',
-        'Grappling',
-        'Gymnastics',
-        'Handball',
-        'Hockey',
-        'Hunting',
-        'Hurling',
-        'Ice',
-        'Kayaking',
-        'Kindred',
-        'Kite',
-        'Lacrosse',
-        'Marker',
-        'Martial',
-        'Mind',
-        'Mixed',
-        'Motorboat',
-        'Motorcycle',
-        'Motorized',
-        'Musical',
-        'Orienteering',
-        'Outdoor',
-        'Overlapping',
-        'Performance',
-        'Pilates',
-        'Pilota',
-        'Polo',
-        'Racquet',
-        'Racquetball',
-        'Rafting',
-        'Remote',
-        'Rodeo-originated',
-        'Rowing',
-        'Rugby',
-        'Running',
-        'Sailing',
-        'Shooting',
-        'Skateboarding',
-        'Skibob',
-        'Skiing',
-        'Skirmish',
-        'Sled',
-        'Snow',
-        'Snowboarding',
-        'Snowmobiling',
-        'Snowshoeing',
-        'Soccer',
-        'Speedcubing',
-        'Squash',
-        'Stacking',
-        'Stick',
-        'Strategy',
-        'Street',
-        'Striking',
-        'Subsurface',
-        'Surface',
-        'Surfing',
-        'Swimming',
-        'Tag games',
-        'Tennis',
-        'Track',
-        'Triathlon',
-        'Underwater',
-        'Unicycle',
-        'Volleyball',
-        'Walking',
-        'Wall-and-ball',
-        'Water',
-        'Weapons',
-        'Weightlifting',
-        'Windsurfing',
-        'Yoga',
-    ];
-
-    protected $materials = [
-        'ABS',
-        'Acacia',
-        'Acetal',
-        'Acrylic',
-        'Aluminium',
-        'Aluminum',
-        'Antimony',
-        'Aramid',
-        'Ash',
-        'Balsa',
-        'Basswood',
-        'Beech',
-        'Beryllium',
-        'Birch',
-        'Bismuth',
-        'Bloodwood',
-        'Bocote',
-        'Bone',
-        'Boron',
-        'Brass',
-        'Brazilwood',
-        'Bronze',
-        'Bubinga',
-        'Butternut',
-        'Cadmium',
-        'Carbon',
-        'Cast',
-        'Cedar',
-        'Chakte',
-        'Chechen',
-        'Cherry',
-        'Chromium',
-        'Cobalt',
-        'Cocobolo',
-        'Concrete',
-        'Copper',
-        'Diamond',
-        'Douglas',
-        'Ebony',
-        'Elm',
-        'Fiberboard',
-        'Flax',
-        'Glass',
-        'Gold',
-        'Goncalo',
-        'Granite',
-        'Graphene',
-        'Grey',
-        'HDPE',
-        'Hemp',
-        'Hickory',
-        'Holly',
-        'Human',
-        'Iridium',
-        'Iron',
-        'Jarrah',
-        'Jatoba',
-        'Kiaat',
-        'Kingwood',
-        'Koa',
-        'Kwila',
-        'LDPE',
-        'Lead',
-        'Lemonwood',
-        'Lignum',
-        'MDF',
-        'Magnesium',
-        'Mahogany',
-        'Makore',
-        'Manganese',
-        'Mango',
-        'Maple',
-        'Marble',
-        'Mercury',
-        'Molybdenum',
-        'Neoprene',
-        'Nickel',
-        'Niobium',
-        'Nylon',
-        'Oak',
-        'Osmium',
-        'PVC',
-        'Padauk',
-        'Panga',
-        'Phosphor',
-        'Pine',
-        'Pink',
-        'Platinum',
-        'Plutonium',
-        'Polyamide',
-        'Polycarbonate',
-        'Polyethylene',
-        'Polyimide',
-        'Polypropylene',
-        'Polystyrene',
-        'Polytehylene',
-        'Poplar',
-        'Potassium',
-        'Purpleheart',
-        'Redwood',
-        'Rhodium',
-        'Rosewood',
-        'Rubber',
-        'Sapele',
-        'Sapphire',
-        'Selenium',
-        'Shedua',
-        'Silicon',
-        'Silver',
-        'Snakewood',
-        'Sodium',
-        'Spruce',
-        'Stainless',
-        'Steel',
-        'Tantalum',
-        'Teak',
-        'Teflon',
-        'Thorium',
-        'Tin',
-        'Titanium',
-        'Tooth',
-        'Tulipwood',
-        'Tungsten',
-        'Uranium',
-        'Vanadium',
-        'Verawood',
-        'Walnut',
-        'Water',
-        'Wenge',
-        'Wrought',
-        'Yellowheart',
-        'Zebrawood',
-        'Zinc',
-        'Ziricote',
-    ];
-
-    protected $textiles = [
-        'Azlon',
-        'Bombazine',
-        'Brocade',
-        'Calico',
-        'Cambric',
-        'Camel hair',
-        'Canvas',
-        'Cashmere',
-        'Cheviot',
-        'Chiffon',
-        'Chintz',
-        'Corduroy',
-        'Cotton',
-        'Crash',
-        'Crepe',
-        'Cretonne',
-        'Damask',
-        'Delaine',
-        'Denim',
-        'Dimity',
-        'Duck',
-        'Flannel',
-        'Flax',
-        'Foulard',
-        'Fustian',
-        'Gabardine',
-        'Gauze',
-        'Gingham',
-        'Hemp',
-        'Holland',
-        'Horsehair',
-        'Jamdani',
-        'Jute',
-        'Khaki',
-        'Kimkhwāb',
-        'Lace',
-        'Linen',
-        'Mohair',
-        'Muslin',
-        'Nankeen',
-        'Poplin',
-        'Rabbit hair',
-        'Rayon',
-        'Reticella',
-        'Satin',
-        'Serge',
-        'Silk',
-        'Taffeta',
-        'Toile de Jouy',
-        'Tweed',
-        'Twill',
-        'Velvet',
-        'Velveteen',
-        'Wool',
-        'Yarn',
-    ];
-
-    protected $fileSystems = [
-        'DECtape',
-        'DASD',
-        'RT-11',
-        'GEC DOS',
-        'CP/M',
-        'ODS',
-        'GEC DOS',
-        'FAT',
-        'DOS ',
-        'UCSD',
-        'CBM DOS',
-        'ODS-2',
-        'FAT12',
-        'DFS',
-        'ADFS',
-        'FFS',
-        'ProDOS',
-        'FAT16',
-        'MFS',
-        'Elektronika',
-        'HFS',
-        'GEMDOS',
-        'NWFS',
-        'High Sierra',
-        'FAT16B',
-        'Minix',
-        'Amiga',
-        'ISO',
-        'HPFS',
-        'Rock',
-        'JFS1',
-        'VxFS',
-        'ext',
-        'AdvFS',
-        'NTFS',
-        'LFS',
-        'ext2',
-        'Xiafs',
-        'UFS1',
-        'XFS',
-        'FAT16X',
-        'Joliet',
-        'UDF',
-        'FAT32X',
-        'QFS',
-        'GPFS',
-        'Be',
-        'Minix',
-        'HFS',
-        'NSS',
-        'ODS-5',
-        'WAFL',
-        'ext3',
-        'ISO',
-        'JFS',
-        'GFS',
-        'ReiserFS',
-        'zFS',
-        'FATX',
-        'UFS2',
-        'OCFS',
-        'SquashFS',
-        'VMFS2',
-        'Lustre',
-        'Fossil',
-        'Google',
-        'ZFS',
-        'Reiser4',
-        'Non-Volatile',
-        'BeeGFS',
-        'Minix',
-        'OCFS2',
-        'NILFS',
-        'VMFS3',
-        'GFS2',
-        'ext4',
-        'exFAT',
-        'Btrfs',
-        'HAMMER',
-        'LSFS',
-        'UniFS',
-        'OrangeFS',
-        'ReFS',
-        'F2FS',
-        'APFS',
-        'NOVA',
-
-    ];
-
-    protected $connectionTypes = ['Fibre Channel', 'SCSI', 'SAS', 'Ethernet', 'USB', 'Firewire', 'Bluetooth', 'Serial', 'ATA', 'SATA', 'WIFI', 'DSL', 'Cable', 'Wireless', 'LAN', 'WAN', 'NFC', 'IDE', 'ATA', 'UDMA', 'DMA', 'MCA', 'PCI', 'AGP', 'ISA'];
-
-    protected $weightUnits = ['g', 'kg', 'lb', 'oz', 'pg', 'mg'];
-
-    protected $lengthUnits = ['km', 'cm', 'm', 'mm', 'um', 'nm', 'in', 'ft', 'yd', 'mi'];
-
-    protected $display = ['LED', 'RED', 'IPS', 'Backlit', 'Screen', 'LCD', 'TFT', 'Plasma', 'Liquid', 'Laser', 'Quantum', 'AMOLED', 'OLED', 'Retina', 'Glass',];
-
-    protected $prefixes = ['m', 'SO', 'Extended', 'ex', 'X', 'L', 'A', 'Hydro', 'Resistive', 'Super', 'Mega', 'Extra', 'Multi', 'Ultra', 'Mini', 'Mid', 'Full', 'Micro', 'Flex', 'Digital', 'Touch', 'Capacitive', 'Organic', 'Tactile'];
-
-    protected $suffixes = ['II', 'III', 'v1', 'v2', 'v3', '3.x', '+', '3D', 'x', 'XL', 's', 'Plus', 'One', 'X', 'LTE', 'Express', 'Exp', 'g', 'G'];
-
-    protected $arabicNumbers = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',];
-
-    protected $ciPrefixes = ['h', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
-
-    protected $operatingSystems = ['Android', 'FreeBSD', 'ChromeOS', 'Debian', 'Linux', 'CentOS', 'Kubuntu', 'ReactOS', 'Xubuntu', 'Lubuntu', 'SteamOS', 'Ubuntu', 'MacOS', 'iOS', 'Raspberry Pi', 'JavaOS', 'MS-DOS', 'Red Hat', 'openSUSE', 'Symbian', 'Unix', 'Windows', 'Arch Linux', 'Solaris', 'Fedora', 'Elementary OS',];
-
-    protected $versionNames = ['Phone', 'Cupcake', 'Donut', 'Eclair', 'Froyo', 'Gingerbread', 'Honeycomb', 'Sandwich', 'Jelly Bean', 'KitKat', 'Lollipop', 'Marshmallow', 'Nougat', 'Oreo', 'Warthog', 'Hedgehog', 'Badger', 'Drake', 'Eft', 'Fawn', 'Gibbon', 'Heron', 'Ibex', 'Jackalope', 'Koala', 'Lynx', 'Meerkat', 'Narwhal', 'Ocelot', 'Pangolin', 'Quetzal', 'Ringtail', 'Salamander', 'Tahr', 'Unicorn', 'Vervet', 'Werewolf', 'Xerus', 'Yak', 'Zapus', 'Aardvark', 'Beaver', 'X', 'N', 'XP', 'Server', 'Me', 'NT',];
-
-    protected $processorManufacturer = ['Intel', 'AMD', 'Qualcomm', 'MediaTek', 'ARM', 'Atmel', 'NVIDIA', 'VIA', 'IBM', 'Cyrix',];
-
-    protected $processorModel = ['Core', 'Celeron', 'Pentium', 'Xeon', 'Atom', 'Athlon', 'Turion', 'Phenom', 'Sempron', 'Snapdragon'];
-
-    protected $processorVersion = ['i{{versionOdd}}', 'A{{versionEven}}', '{{versionArabic}}', 'S{{versionNum}}', '{{versionHS}}'];
 
     public function attributeName() {
-        $format = static::randomElement(array_keys($this->attributes));
+        $format = $this->generator->randomElement(array_keys($this->attributes));
 
         return $this->generator->parse($format);
     }
@@ -845,238 +441,23 @@ class AttributeProvider extends Base
 
         $valueFormat = $this->attributes[$attributeName];
 
-        return $this->generator->parse($valueFormat);
-    }
-
-    public function clothesSize() {
-        return static::randomElement($this->clothesSizes);
-    }
-
-    public function fruit() {
-        return static::randomElement($this->fruits);
-    }
-
-    public function pattern() {
-        return static::randomElement($this->patterns);
-    }
-
-    public function theme() {
-        return static::randomElement($this->themes);
-    }
-
-    public function shape() {
-        return static::randomElement($this->shapes);
-    }
-
-    public function activitySuffix() {
-        return static::randomElement($this->activitySuffixes);
-    }
-
-    public function activityType() {
-        return static::randomElement($this->activityTypes);
-    }
-
-    public function material() {
-        return static::randomElement($this->materials);
-    }
-
-    public function textile() {
-        return static::randomElement($this->textiles);
-    }
-
-    public function fileSystem() {
-        return static::randomElement($this->fileSystems);
-    }
-
-    public function connectionType() {
-        return static::randomElement($this->connectionTypes);
-    }
-
-    public function lengthUnit() {
-        return static::randomElement($this->lengthUnits);
-    }
-
-    public function weightUnit() {
-        return static::randomElement($this->weightUnits);
-    }
-
-    public function aspectRatio($glue = ':') {
-        return implode($glue, $this->aspectRatioArray());
-    }
-
-
-    public function aspectRatioX() {
-        return $this->aspectRatio('x');
-    }
-
-    public function sizeX() {
-        return implode('x', $this->aspectRatioArray(1, 1000));
-
-    }
-
-    public function aspectRatioArray($min = 3, $max = 21) {
-        return [
-            self::numberBetween($min, $max),
-            self::numberBetween($min, $max),
-        ];
-    }
-
-    public function resolution() {
-        $ar = $this->aspectRatioArray();
-        $base = $this->powTwo();
-
-        return $ar[0] * $base . 'x' . $ar[1] * $base;
-
-    }
-
-
-    public function prefix() {
-        $prefix = self::randomElement($this->prefixes);
-
-        return $prefix;
-    }
-
-
-    public function suffix() {
-        $suffix = self::randomElement($this->suffixes);
-
-        return $suffix;
-    }
-
-    public function suffixLight() {
-        $str = $this->suffix();
-
-        return isset($str[0]) ? $str[0] : '';
-    }
-
-    public function prefixLight() {
-        $str = $this->prefix();
-
-        return isset($str[0]) ? $str[0] : '';
-    }
-
-    public function displayType() {
-        return $this->prefix() . ' ' . self::randomElement($this->display) . ' ' . $this->suffix();
-    }
-
-
-    public function ciPrefix() {
-        return self::randomElement($this->ciPrefixes);
-    }
-
-    public function dotSizeLarge() {
-        return self::numberBetween(1, 50) . '.' . self::numberBetween(0, 9);
-    }
-
-    public function dotSize() {
-        return self::numberBetween(0, 9) . '.' . self::numberBetween(0, 9);
-    }
-
-    public function intSizeLarge() {
-        return self::numberBetween(1, 10000);
-    }
-
-
-    public function threeDigits() {
-        return $this->generator->randomNumber(3, true);
+        return $this->generator->parse(
+            $this->generator->asciify(
+                $this->generator->bothify($valueFormat)
+            )
+        );
     }
 
     public function intSize() {
-        return self::numberBetween(1, 500);
+        return $this->generator->numberBetween(1, 500);
     }
 
     public function powTwo() {
-        return pow(2, self::numberBetween(1, 15));
+        return pow(2, $this->generator->numberBetween(1, 15));
     }
 
-    public function operatingSystem() {
-        return $this->operatingSystemName() . ' ' . $this->operatingSystemVersion();
+    public function all() {
+        return array_keys($this->attributes);
     }
-
-    public function operatingSystemName() {
-        return self::randomElement($this->operatingSystems);
-    }
-
-    public function operatingSystemVersion() {
-        return $this->generator->boolean ? self::randomElement($this->versionNames) : $this->versionNum();
-    }
-
-
-    public function processorName() {
-        $name = $this->processorManufacturer();
-        $model = '';
-        $version = '';
-
-        if ($this->generator->boolean()) {
-            $model = ' ' . $this->processorModel();
-        }
-
-        if ($this->generator->boolean()) {
-            $version = ' ' . $this->processorVersion();
-        }
-
-
-        return $name . $model . $version;
-    }
-
-
-    public function processorManufacturer() {
-        return $this->generator->boolean ? $this->processorManufacturerReal() : $this->processorManufacturerFake();
-    }
-
-    public function processorModel() {
-        return $this->generator->boolean ? $this->processorModelReal() : $this->processorModelFake();
-    }
-
-    public function processorVersion() {
-        $version = self::randomElement($this->processorVersion);
-        $version = $this->generator->parse($version);
-
-        return $version;
-    }
-
-    public function processorModelReal() {
-        return self::randomElement($this->processorModel);
-    }
-
-    public function processorManufacturerReal() {
-        return self::randomElement($this->processorManufacturer);
-    }
-
-
-    public function processorManufacturerFake() {
-        return $this->generator->mixTwo($this->processorManufacturerReal(), $this->processorManufacturerReal());
-    }
-
-
-    public function processorModelFake() {
-        return $this->generator->mixTwo($this->processorModel(), $this->processorModel());
-    }
-
-
-    public function versionArabic() {
-        return self::randomElement($this->arabicNumbers);
-    }
-
-    public function versionHS() {
-        return self::numberBetween(100, 1000);
-    }
-
-    public function versionNum() {
-        return self::numberBetween(1, 9);
-    }
-
-    public function versionOdd() {
-        $num = $this->versionNum();
-
-        return $num % 2 === 0 ? ++$num : $num;
-    }
-
-    public function versionEven() {
-        $num = $this->versionNum();
-
-        return $num % 2 === 1 ? ++$num : $num;
-    }
-
 
 }
