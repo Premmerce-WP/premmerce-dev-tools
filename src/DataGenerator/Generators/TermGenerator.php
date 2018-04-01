@@ -1,30 +1,23 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
 use Faker\Generator;
+use Premmerce\DevTools\DataGenerator\Providers\TreeBuilder;
 use Premmerce\DevTools\Services\BulkInsertQuery;
 
 class TermGenerator
 {
 
+
     /**
-     * @var int
+     * @var array
      */
-    private $currentLevel;
+    private $tree;
 
     /**
      * @var int
      */
     private $nestingLevel;
 
-    /**
-     * @var int
-     */
-    private $itemsInParent;
-
-    /**
-     * @var array
-     */
-    private $itemsByLevel = [];
     /**
      * @var int
      */
@@ -36,6 +29,11 @@ class TermGenerator
     protected $lastTermTaxId;
 
     /**
+     * @var boolean
+     */
+    protected $generateMeta = false;
+
+    /**
      * @var Generator
      */
     protected $faker;
@@ -45,24 +43,32 @@ class TermGenerator
      */
     protected $unique = [];
 
+    /**
+     * @var TreeBuilder
+     */
+    private $treeBuilder;
+
     public function __construct(Generator $faker) {
         $this->faker = $faker;
+        $this->treeBuilder = new TreeBuilder();
     }
 
     public function generate($num, $tax, $nestingLevel = 1, $returnIds = true) {
 
         $this->nestingLevel = $nestingLevel;
-        $this->itemsInParent = floor(pow($num, 1 / ($nestingLevel)));
-        $this->itemsByLevel = [];
-        $this->currentLevel = 1;
 
         $term = $this->getLastTerm();
+
         $this->lastTermId = $term->term_id;
         $this->lastTermTaxId = $term->term_taxonomy_id;
 
         $this->unique = [];
 
         $terms = $this->createTerms($num);
+
+        if ($nestingLevel > 1) {
+            $this->tree = $this->treeBuilder->createTree(array_keys($terms), $nestingLevel);
+        }
 
         $taxonomies = $this->createTermTaxonomies($terms, $tax);
 
@@ -73,11 +79,13 @@ class TermGenerator
         $q->insert($wpdb->terms, $terms);
         $q->insert($wpdb->term_taxonomy, $taxonomies);
 
-//        $termMeta = $this->createTermMeta(array_keys($terms));
-//        $q->insert($wpdb->termmeta, $termMeta);
+        if ($this->generateMeta) {
+            $termMeta = $this->createTermMeta(array_keys($terms));
+            $q->insert($wpdb->termmeta, $termMeta);
+        }
 
 
-        return $returnIds ? array_keys($taxonomies) : [$taxonomies,$terms];
+        return $returnIds ? array_keys($taxonomies) : [$taxonomies, $terms];
 
     }
 
@@ -150,31 +158,12 @@ class TermGenerator
         return $taxonomies;
     }
 
+    public function getTree() {
+        return $this->tree;
+    }
+
     protected function getParentTerm($termId) {
-
-        if ($this->nestingLevel < 2) {
-            return 0;
-        }
-        $parentLevel = $this->currentLevel - 1;
-        $parents = isset($this->itemsByLevel[$parentLevel]) ? $this->itemsByLevel[$parentLevel] : null;
-
-        $parent = 0;
-        if ($parents) {
-            $parent = $this->faker->randomElement($parents);
-        }
-
-        $this->itemsByLevel[$this->currentLevel][] = $termId;
-
-        $numParents = $this->currentLevel === 1 ? 1 : count($parents);
-
-        $catsInCurrentLevel = count($this->itemsByLevel[$this->currentLevel]);
-        $maxInCurrentLevel = $this->itemsInParent * $numParents;
-
-        if ($maxInCurrentLevel && $catsInCurrentLevel >= $maxInCurrentLevel) {
-            $this->currentLevel++;
-        }
-
-        return $parent;
+        return $this->treeBuilder->findParent($this->tree, $termId) ?: 0;
     }
 
     protected function uniqueName() {
