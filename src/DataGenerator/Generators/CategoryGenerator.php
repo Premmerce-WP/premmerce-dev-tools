@@ -7,18 +7,16 @@ class CategoryGenerator extends TermGenerator
 {
 
 
-
     public function __construct(Generator $faker) {
         $faker->addProvider(new CategoryProvider($faker));
         parent::__construct($faker);
     }
 
 
-
     protected function uniqueName() {
         $name = $this->faker->format('categoryName');
 
-        return $this->unique($name, 'name', null, $this->faker->categorySeparator, 'categoryNameSingle');
+        return $name;
     }
 
 

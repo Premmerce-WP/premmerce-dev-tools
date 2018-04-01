@@ -2,120 +2,104 @@
 
 
 use Faker\Generator;
-use Premmerce\DevTools\Services\BulkInsertQuery;
+use Premmerce\DevTools\Services\Query;
 
-class ImagesGenerator{
-
-
-	/**
-	 * @var Generator
-	 */
-	private $faker;
-
-	/**
-	 * FastProductGenerator constructor.
-	 *
-	 * @param Generator $faker
-	 */
-	public function __construct(Generator $faker){
-		$this->faker = $faker;
-	}
-
-	/**
-	 * @param $number
-	 *
-	 * @return array
-	 */
-	public function generateImagesArray($number){
-		global $wpdb;
-		$q = BulkInsertQuery::create();
-
-		$id = $this->getLastPost();
-
-		$images = [];
-
-		for($i = 1;$i <= $number;$i ++){
-			$id ++;
-			$images[ $id ] = $this->generateImage($id);
-		}
+class ImagesGenerator
+{
 
 
-		$imagesMeta = $this->generateImagesMeta($images);
-		$q->insert($wpdb->posts, $images);
-		$q->insert($wpdb->postmeta, $imagesMeta);
+    /**
+     * @var Generator
+     */
+    private $faker;
 
-		return $images;
-	}
+    /**
+     * FastProductGenerator constructor.
+     *
+     * @param Generator $faker
+     */
+    public function __construct(Generator $faker) {
+        $this->faker = $faker;
+    }
 
-	/**
-	 * @param int $id
-	 *
-	 * @return array
-	 */
-	private function generateImage($id){
-		$uploadDir = wp_upload_dir();
+    /**
+     * @param $number
+     *
+     * @return array
+     */
+    public function generateImagesArray($number) {
 
-		$image            = $this->faker->imageGenerator($uploadDir['path'], 640, 480, 'png', true, '', $this->faker->hexColor);
-		$baseImageName    = basename($image);
-		$uploadedImageUrl = $uploadDir['url'] . '/' . $baseImageName;
+        $id = Query::create()->getLastPostId();
 
-		$attachment = [
-			'ID'             => $id,
-			'guid'           => $uploadedImageUrl,
-			'post_mime_type' => wp_check_filetype($baseImageName)['type'],
-			'post_title'     => pathinfo($baseImageName)['filename'],
-			'post_content'   => '',
-			'post_status'    => 'inherit',
-			'post_type'      => 'attachment',
-		];
+        $images = [];
 
-		return $attachment;
-	}
+        for ($i = 1; $i <= $number; $i++) {
+            $id++;
+            $images[$id] = $this->generateImage($id);
+        }
 
 
-	/**
-	 * @param $images
-	 *
-	 * @return array
-	 */
-	private function generateImagesMeta(array $images){
-		$uploadDir = wp_upload_dir();
+        $imagesMeta = $this->generateImagesMeta($images);
+        Query::create()->insertPosts($images);
+        Query::create()->insertPostMeta($imagesMeta);
 
-		$meta = [];
+        return $images;
+    }
 
-		foreach($images as $id => $image){
-			$file    = basename($image ['guid']);
-			$relPath = trim($uploadDir['subdir'] . '/' . $file, '/');
+    /**
+     * @param int $id
+     *
+     * @return array
+     */
+    private function generateImage($id) {
+        $uploadDir = wp_upload_dir();
 
-			$meta[] = [
-				'post_id'    => $id,
-				'meta_key'   => '_wp_attached_file',
-				'meta_value' => $relPath,
-			];
+        $image = $this->faker->imageGenerator($uploadDir['path'], 640, 480, 'png', true, '', $this->faker->hexColor);
+        $baseImageName = basename($image);
+        $uploadedImageUrl = $uploadDir['url'] . '/' . $baseImageName;
 
-			$meta[] = [
-				'post_id'    => $id,
-				'meta_key'   => '_wp_attachment_metadata',
-				'meta_value' => serialize(['width' => 640, 'height' => 480, 'file' => $relPath]),
-			];
-		}
+        $attachment = [
+            'ID'             => $id,
+            'guid'           => $uploadedImageUrl,
+            'post_mime_type' => wp_check_filetype($baseImageName)['type'],
+            'post_title'     => pathinfo($baseImageName)['filename'],
+            'post_content'   => '',
+            'post_status'    => 'inherit',
+            'post_type'      => 'attachment',
+        ];
 
-		return $meta;
-	}
+        return $attachment;
+    }
 
-	/**
-	 * @return int
-	 */
-	private function getLastPost(){
-		global $wpdb;
 
-		$query[] = 'SELECT ID';
-		$query[] = 'FROM ' . $wpdb->posts;
-		$query[] = 'ORDER BY ID DESC';
-		$query[] = 'LIMIT 1';
+    /**
+     * @param $images
+     *
+     * @return array
+     */
+    private function generateImagesMeta(array $images) {
+        $uploadDir = wp_upload_dir();
 
-		$query = implode(' ', $query);
+        $meta = [];
 
-		return (int)$wpdb->get_var($query);
-	}
+        foreach ($images as $id => $image) {
+            $file = basename($image ['guid']);
+            $relPath = trim($uploadDir['subdir'] . '/' . $file, '/');
+
+            $meta[] = [
+                'post_id'    => $id,
+                'meta_key'   => '_wp_attached_file',
+                'meta_value' => $relPath,
+            ];
+
+            $meta[] = [
+                'post_id'    => $id,
+                'meta_key'   => '_wp_attachment_metadata',
+                'meta_value' => serialize(['width' => 640, 'height' => 480, 'file' => $relPath]),
+            ];
+        }
+
+        return $meta;
+    }
+
 }

@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 use Premmerce\DevTools\DataGenerator\Providers\AttributeProvider;
-use Premmerce\DevTools\Services\BulkInsertQuery;
+use Premmerce\DevTools\Services\Query;
 
 class AttributesGeneratorImp extends TermGenerator
 {
@@ -17,11 +17,10 @@ class AttributesGeneratorImp extends TermGenerator
 
 
     public function generateAttributes($number, $numberTerms) {
-        global $wpdb;
-        $q = BulkInsertQuery::create();
-
         $attributes = $this->createAttributes($number);
-        $q->insert($wpdb->prefix . 'woocommerce_attribute_taxonomies', $attributes);
+
+        Query::create()->insertWoocommerceAttributeTaxonomies($attributes);
+
         foreach ($attributes as $taxonomy => $attribute) {
             $this->currentName = $attribute['attribute_label'];
             $tt = $this->generate($numberTerms, $taxonomy, 1, false);

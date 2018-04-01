@@ -5,7 +5,7 @@ use Faker\Provider\Base;
 class CategoryProvider extends Base
 {
 
-    protected static $categories = [
+    protected $categories = [
         '3D',
         'Abacuses',
         'Abrasive',
@@ -3851,25 +3851,27 @@ class CategoryProvider extends Base
         'Zoom',
     ];
 
-    protected static $separators = [' and ', ' & ', ', ', ' '];
+    protected $separators = [' and ', ' & ', ', ', ' '];
 
-    public static function categorySeparator() {
-        return static::randomElement(static::$separators);
+    public function categorySeparator() {
+        return static::randomElement($this->separators);
     }
 
-    public static function categoryTitle() {
-        return static::randomElement(static::$categories);
+    public function categoryTitle() {
+        $num = self::numberBetween(0, count($this->categories) - 1);
+
+        return $this->categories[$num];
     }
 
 
-    public function categoryName($min = 1, $max = 3) {
+    public function categoryName($min = 1, $max = 2) {
 
         $num = self::numberBetween($min, $max);
 
-        $name = self::categoryTitle();
+        $name = $this->categoryTitle();
 
         for ($i = 1; $i < $num; $i++) {
-            $name .= self::categorySeparator() . self::categoryTitle();
+            $name .= $this->categorySeparator() . $this->categoryTitle();
 
         }
 
@@ -3877,7 +3879,7 @@ class CategoryProvider extends Base
     }
 
     public function categoryNameSingle() {
-        return $this->categoryName(1,1);
+        return $this->categoryName(1, 1);
     }
 
 }

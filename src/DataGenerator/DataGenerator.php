@@ -64,6 +64,7 @@ class DataGenerator
         ];
 
         $this->faker = Factory::create();
+
         $this->faker->addProvider(new ImagesGeneratorProvider($this->faker));
         $this->faker->addProvider(new MixProvider($this->faker));
     }
@@ -71,40 +72,18 @@ class DataGenerator
     public function generate(array $config) {
         $config = $this->configure($config);
 
-        $categoriesNumber = $config[self::NAME_CATEGORIES];
-        $categoriesNestingLevel = $config[self::NAME_CATEGORIES_NESTING];
-        $attributesNumber = $config[self::NAME_ATTRIBUTES];
-        $brandsNumber = $config[self::NAME_BRANDS];
-        $attributeTermsNumber = $config[self::NAME_ATTRIBUTE_TERMS];
+        $categoryIds = $this->generateCategories($config);
+
+        $brandIds = $this->generateBrands($config);
+
+        $attributes = $this->generateAttributes($config);
+
         $productsNumber = $config[self::NAME_PRODUCTS];
         $productPhoto = $config[self::NAME_PRODUCT_PHOTO];
         $productType = $config[self::NAME_PRODUCT_TYPE];
-        $shopMenu = $config[self::NAME_SHOP_MENU];
         $productGallery = $config[self::NAME_PRODUCT_PHOTO_GALLERY_NUMBER];
 
-        $categoryIds = [];
-        $attributes = [];
-        $brandIds = [];
-
-
-        if ($categoriesNumber) {
-            $tg = new CategoryGenerator($this->faker);
-            $categoryIds = $tg->generate($categoriesNumber, DataGenerator::WOO_CATEGORY, $categoriesNestingLevel);
-            delete_option(self::WOO_CATEGORY . '_children');
-        }
-
-        if ($brandsNumber) {
-            $tg = new BrandGenerator($this->faker);
-            $brandIds = $tg->generate($brandsNumber, self::PREMMERCE_BRAND);
-        }
-
-        if ($attributesNumber) {
-            $attributesGenerator = new AttributesGeneratorImp($this->faker);
-//			$attributesGenerator = new AttributesGenerator($this->faker);
-            $attributes = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
-            delete_transient('wc_attribute_taxonomies');
-        }
-
+        $this->generateShopMenu($config);
 
         if ($productsNumber) {
 
@@ -120,13 +99,15 @@ class DataGenerator
             $productGenerator->setGenerateImage($productPhoto);
             $productGenerator->setGalleryPhotosNumber($productGallery);
 
-            if ($categoriesNumber) {
+            if (!empty($categoryIds)) {
                 $productGenerator->setCategoryIds($categoryIds);
             }
-            if ($brandsNumber) {
+
+            if (!empty($brandIds)) {
                 $productGenerator->setBrands($brandIds);
             }
-            if ($attributesNumber && $attributeTermsNumber) {
+
+            if (!empty($attributes)) {
                 $productGenerator->setAttributes($attributes);
             }
 
@@ -134,9 +115,54 @@ class DataGenerator
 
         }
 
-        if ($shopMenu) {
+
+    }
+
+    private function generateShopMenu($config) {
+        if ($config[self::NAME_SHOP_MENU]) {
             (new ShopMenuGenerator())->generate();
         }
+
+    }
+
+    private function generateAttributes($config) {
+        $attributesNumber = $config[self::NAME_ATTRIBUTES];
+        $attributeTermsNumber = $config[self::NAME_ATTRIBUTE_TERMS];
+
+        if ($attributesNumber) {
+            $attributesGenerator = new AttributesGeneratorImp($this->faker);
+//			$attributesGenerator = new AttributesGenerator($this->faker);
+            $attributes = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
+            delete_transient('wc_attribute_taxonomies');
+
+            return $attributes;
+        }
+    }
+
+    private function generateBrands($config) {
+        $brandsNumber = $config[self::NAME_BRANDS];
+
+        if ($brandsNumber) {
+            $tg = new BrandGenerator($this->faker);
+            $brandIds = $tg->generate($brandsNumber, self::PREMMERCE_BRAND);
+
+            return $brandIds;
+        }
+
+    }
+
+    private function generateCategories($config) {
+        $categoriesNumber = $config[self::NAME_CATEGORIES];
+        $categoriesNestingLevel = $config[self::NAME_CATEGORIES_NESTING];
+
+        if ($categoriesNumber) {
+            $tg = new CategoryGenerator($this->faker);
+            $categoryIds = $tg->generate($categoriesNumber, DataGenerator::WOO_CATEGORY, $categoriesNestingLevel);
+            delete_option(self::WOO_CATEGORY . '_children');
+
+            return $categoryIds;
+        }
+
     }
 
     /**

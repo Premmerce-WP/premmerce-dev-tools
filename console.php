@@ -27,22 +27,24 @@ $commands = [
 
 
         $config = [
-            DataGenerator::NAME_CATEGORIES         => 10,
+            DataGenerator::NAME_CATEGORIES         => 500,
             DataGenerator::NAME_CATEGORIES_NESTING => 3,
             DataGenerator::NAME_SHOP_MENU          => true,
 //            DataGenerator::NAME_PRODUCTS                     => 50000,
 //            DataGenerator::NAME_PRODUCT_PHOTO                => true,
 //            DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 3,
-//            DataGenerator::NAME_BRANDS                       => 10,
-//            DataGenerator::NAME_ATTRIBUTES                   => 20,
-//            DataGenerator::NAME_ATTRIBUTE_TERMS              => 10,
-//            DataGenerator::NAME_PRODUCT_TYPE                 => 'simple',
+            DataGenerator::NAME_BRANDS             => 100,
+            DataGenerator::NAME_ATTRIBUTES         => 100,
+            DataGenerator::NAME_ATTRIBUTE_TERMS    => 10,
+            DataGenerator::NAME_PRODUCT_TYPE       => 'simple',
         ];
+
 //        $c->generate($config);
 
 //        $config = [DataGenerator::NAME_SHOP_MENU => true,];
 
         $c->generate($config);
+        dump((memory_get_usage() / (1024 * 1024)) . ' MB');
 
 
     },

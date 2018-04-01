@@ -2,7 +2,7 @@
 
 use Faker\Generator;
 use Premmerce\DevTools\DataGenerator\Providers\TreeBuilder;
-use Premmerce\DevTools\Services\BulkInsertQuery;
+use Premmerce\DevTools\Services\Query;
 
 class TermGenerator
 {
@@ -63,10 +63,8 @@ class TermGenerator
 
         $this->nestingLevel = $nestingLevel;
 
-        $term = $this->getLastTerm();
-
-        $this->lastTermId = $term->term_id;
-        $this->lastTermTaxId = $term->term_taxonomy_id;
+        $this->lastTermId = Query::create()->getLastTermId();
+        $this->lastTermTaxId = Query::create()->getLastTermTaxonomyId();
 
         $this->unique = [];
 
@@ -81,15 +79,12 @@ class TermGenerator
         $taxonomies = $this->createTermTaxonomies($terms, $tax);
 
 
-        global $wpdb;
-        $q = BulkInsertQuery::create();
-
-        $q->insert($wpdb->terms, $terms);
-        $q->insert($wpdb->term_taxonomy, $taxonomies);
+        Query::create()->insertTerms($terms);
+        Query::create()->insertTermTaxonomies($taxonomies);
 
         if ($this->generateMeta) {
             $termMeta = $this->createTermMeta(array_keys($terms));
-            $q->insert($wpdb->termmeta, $termMeta);
+            Query::create()->insertTermMeta($termMeta);
         }
 
 
@@ -204,19 +199,6 @@ class TermGenerator
         $this->unique[$context][$current] = true;
 
         return $current;
-    }
-
-    protected function getLastTerm() {
-        global $wpdb;
-
-        $query[] = 'SELECT term_id, term_taxonomy_id';
-        $query[] = 'FROM ' . $wpdb->term_taxonomy;
-        $query[] = 'ORDER BY term_taxonomy_id DESC';
-        $query[] = 'LIMIT 1';
-
-        $query = implode(' ', $query);
-
-        return $wpdb->get_row($query);
     }
 
 

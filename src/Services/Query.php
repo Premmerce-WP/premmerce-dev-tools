@@ -1,12 +1,12 @@
 <?php namespace Premmerce\DevTools\Services;
 
 
-class BulkInsertQuery
+class Query
 {
     private $data = [];
 
     /**
-     * @return BulkInsertQuery
+     * @return Query
      */
     public static function create() {
         return new self();
@@ -32,6 +32,12 @@ class BulkInsertQuery
         $this->data['values'] = $values;
 
         return $this;
+    }
+
+    public function insertWoocommerceAttributeTaxonomies($data) {
+        global $wpdb;
+
+        return $this->insert($wpdb->prefix . 'woocommerce_attribute_taxonomies', $data);
     }
 
     public function insertTerms($data) {
@@ -114,5 +120,54 @@ class BulkInsertQuery
         $this->data = [];
 
         return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLastTermTaxonomyId() {
+        global $wpdb;
+
+        $query[] = 'SELECT term_taxonomy_id';
+        $query[] = 'FROM ' . $wpdb->term_taxonomy;
+        $query[] = 'ORDER BY term_taxonomy_id DESC';
+        $query[] = 'LIMIT 1';
+
+        $query = implode(' ', $query);
+
+        return $wpdb->get_var($query);
+    }
+
+    /**
+     * @return int
+     */
+    public function getLastTermId() {
+        global $wpdb;
+
+        $query[] = 'SELECT term_id';
+        $query[] = 'FROM ' . $wpdb->term_taxonomy;
+        $query[] = 'ORDER BY term_id DESC';
+        $query[] = 'LIMIT 1';
+
+        $query = implode(' ', $query);
+
+        return $wpdb->get_var($query);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getLastPostId() {
+        global $wpdb;
+
+        $query[] = 'SELECT ID';
+        $query[] = 'FROM ' . $wpdb->posts;
+        $query[] = 'ORDER BY ID DESC';
+        $query[] = 'LIMIT 1';
+
+        $query = implode(' ', $query);
+
+        return (int)$wpdb->get_var($query);
     }
 }

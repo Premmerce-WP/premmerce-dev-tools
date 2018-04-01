@@ -1,7 +1,7 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
 use Premmerce\DevTools\DataGenerator\DataGenerator;
-use Premmerce\DevTools\Services\BulkInsertQuery;
+use Premmerce\DevTools\Services\Query;
 
 class ShopMenuGenerator
 {
@@ -87,9 +87,9 @@ class ShopMenuGenerator
             ];
         }
 
-        BulkInsertQuery::create()->insertPosts($data);
-        BulkInsertQuery::create()->insertPostMeta($meta);
-        BulkInsertQuery::create()->insertTermRelationships($rel);
+        Query::create()->insertPosts($data);
+        Query::create()->insertPostMeta($meta);
+        Query::create()->insertTermRelationships($rel);
 
     }
 
