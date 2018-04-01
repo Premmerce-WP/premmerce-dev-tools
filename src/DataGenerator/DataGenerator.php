@@ -84,7 +84,12 @@ class DataGenerator
 
         $this->generateAttributes($config);
 
-        $this->generateProducts($config);
+
+        $categoryIds = $this->storage->getCategories();
+        $brandIds = $this->storage->getBrands();
+        $attributes = $this->storage->getAttributes();
+
+        $this->generateProducts($config, $categoryIds, $brandIds, $attributes);
 
         $this->generateShopMenu($config);
 
@@ -93,7 +98,7 @@ class DataGenerator
 
     }
 
-    private function generateProducts($config) {
+    private function generateProducts($config, $categoryIds, $brandIds, $attributes) {
         $productsNumber = $config[self::NAME_PRODUCTS];
         $productPhoto = $config[self::NAME_PRODUCT_PHOTO];
         $productType = $config[self::NAME_PRODUCT_TYPE];
@@ -114,17 +119,14 @@ class DataGenerator
             $productGenerator->setGenerateImage($productPhoto);
             $productGenerator->setGalleryPhotosNumber($productGallery);
 
-            $categoryIds = $this->storage->getCategories();
             if (!empty($categoryIds)) {
                 $productGenerator->setCategoryIds($categoryIds);
             }
 
-            $brandIds = $this->storage->getBrands();
             if (!empty($brandIds)) {
                 $productGenerator->setBrands($brandIds);
             }
 
-            $attributes = $this->storage->getAttributes();
             if (!empty($attributes)) {
                 $productGenerator->setAttributes($attributes);
             }
@@ -146,7 +148,7 @@ class DataGenerator
         $attributeTermsNumber = $config[self::NAME_ATTRIBUTE_TERMS];
 
         if ($attributesNumber) {
-			$attributesGenerator = new AttributesGenerator($this->faker);
+            $attributesGenerator = new AttributesGenerator($this->faker);
             $attributes = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
             delete_transient('wc_attribute_taxonomies');
 

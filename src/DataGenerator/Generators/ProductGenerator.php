@@ -90,6 +90,21 @@ class ProductGenerator
     }
 
     /**
+     * @param array $attributeTerms
+     */
+    public function setAttributes(array $attributeTerms) {
+        $this->attributeTerms = $attributeTerms;
+    }
+
+    /**
+     * @param array $brandIds
+     *
+     */
+    public function setBrands(array $brandIds) {
+        $this->brandIds = $brandIds;
+    }
+
+    /**
      * @param string $productType
      */
     public function setProductType($productType) {
@@ -110,20 +125,6 @@ class ProductGenerator
         $this->galleryPhotosNumber = $galleryPhotosNumber;
     }
 
-    /**
-     * @param array $attributeTerms
-     */
-    public function setAttributes(array $attributeTerms) {
-        $this->attributeTerms = $attributeTerms;
-    }
-
-    /**
-     * @param array $brandIds
-     *
-     */
-    public function setBrands(array $brandIds) {
-        $this->brandIds = $brandIds;
-    }
 
     /**
      * @param array $images
