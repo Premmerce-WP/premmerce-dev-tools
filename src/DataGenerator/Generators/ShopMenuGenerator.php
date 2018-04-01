@@ -1,57 +1,113 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: cray
- * Date: 28.03.18
- * Time: 18:07
- */
-
-namespace Premmerce\DevTools\DataGenerator\Generators;
+<?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
 use Premmerce\DevTools\DataGenerator\DataGenerator;
+use Premmerce\DevTools\Services\BulkInsertQuery;
 
 class ShopMenuGenerator
 {
 
     public function generate() {
         /** @var \WP_Term[] $terms */
-        $terms = get_terms([
+        $ids = get_terms([
             'taxonomy'   => DataGenerator::WOO_CATEGORY,
             'hide_empty' => true,
+            'fields'     => 'id=>parent',
         ]);
+
 
         $menu_name = 'Shop Category Menu';
 
         wp_delete_nav_menu($menu_name);
-
-
         $menu_id = wp_create_nav_menu($menu_name);
 
-        $termMenu = [];
-        foreach ($terms as $category) {
-            $id = wp_update_nav_menu_item($menu_id, 0, [
-                    'menu-item-object-id' => $category->term_id,
-                    'menu-item-object'    => DataGenerator::WOO_CATEGORY,
-                    'menu-item-type'      => 'taxonomy',
-                    'menu-item-status'    => 'publish',
-                ]
-            );
-            $termMenu[$category->term_id] = $id;
+        $this->createItems($ids, $menu_id);
+    }
+
+
+    public function createItems($categories, $menuId) {
+
+        $id = $this->getLastPost();
+
+
+        $order = 1;
+        $temp = [];
+        $meta = [];
+        $data = [];
+        $rel = [];
+
+        foreach ($categories as $category => $parent) {
+            $id++;
+            $temp[$id] = $category;
+            $data[$id] = [
+                'ID'           => $id,
+                'post_author'  => 1,
+                'post_title'   => '',
+                'menu_order'   => ++$order,
+                'post_content' => '',
+                'post_status'  => 'publish',
+                'post_type'    => 'nav_menu_item',
+                'post_parent'  => 0,
+                'post_name'    => $id,
+            ];
+
+            $meta[] = [
+                'post_id'    => $id,
+                'meta_key'   => '_menu_item_type',
+                'meta_value' => 'taxonomy',
+            ];
+
+            $meta[] = [
+                'post_id'    => $id,
+                'meta_key'   => '_menu_item_object_id',
+                'meta_value' => $category,
+            ];
+            $meta[] = [
+                'post_id'    => $id,
+                'meta_key'   => '_menu_item_object',
+                'meta_value' => 'product_cat',
+            ];
         }
 
-        //update parents
-        foreach ($terms as $term) {
-            $menuItemId = isset($termMenu[$term->term_id]) ? $termMenu[$term->term_id] : null;
-            $menuItemParentId = isset($termMenu[$term->parent]) ? $termMenu[$term->parent] : null;
-            if ($menuItemId && $menuItemParentId) {
-                wp_update_nav_menu_item($menu_id, $menuItemId, [
-                    'menu-item-object-id' => $term->term_id,
-                    'menu-item-object'    => DataGenerator::WOO_CATEGORY,
-                    'menu-item-parent-id' => $menuItemParentId,
-                    'menu-item-type'      => 'taxonomy',
-                    'menu-item-status'    => 'publish',
-                ]);
-            }
+        foreach ($data as $id => $item) {
+            $parentCategory = $categories[$temp[$id]];
+
+            $parent = $parentCategory ? array_flip($temp)[$parentCategory] : 0;
+
+
+            $data[$id]['post_parent'] = $parent;
+            $meta[] = [
+                'post_id'    => $id,
+                'meta_key'   => '_menu_item_menu_item_parent',
+                'meta_value' => $parent,
+            ];
+            $rel[] = [
+                'object_id'        => $id,
+                'term_taxonomy_id' => $menuId,
+                'term_order'       => 0,
+            ];
         }
+
+        BulkInsertQuery::create()->insertPosts($data);
+        BulkInsertQuery::create()->insertPostMeta($meta);
+        BulkInsertQuery::create()->insertTermRelationships($rel);
+
     }
+
+
+    /**
+     * @return int
+     */
+    private function getLastPost() {
+        global $wpdb;
+
+        $query[] = 'SELECT ID';
+        $query[] = 'FROM ' . $wpdb->posts;
+        $query[] = 'ORDER BY ID DESC';
+        $query[] = 'LIMIT 1';
+
+        $query = implode(' ', $query);
+
+        return (int)$wpdb->get_var($query);
+    }
+
 }

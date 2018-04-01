@@ -8,8 +8,7 @@ class BulkInsertQuery
     /**
      * @return BulkInsertQuery
      */
-    public static function create()
-    {
+    public static function create() {
         return new self();
     }
 
@@ -18,8 +17,7 @@ class BulkInsertQuery
      *
      * @return $this
      */
-    public function table($table)
-    {
+    public function table($table) {
         $this->data['table'] = $table;
 
         return $this;
@@ -30,15 +28,49 @@ class BulkInsertQuery
      *
      * @return $this
      */
-    public function values($values)
-    {
+    public function values($values) {
         $this->data['values'] = $values;
 
         return $this;
     }
 
-    public function insert($table, $values)
-    {
+    public function insertTerms($data) {
+        global $wpdb;
+
+        return $this->insert($wpdb->terms, $data);
+    }
+
+    public function insertTermTaxonomies($data) {
+        global $wpdb;
+
+        return $this->insert($wpdb->term_taxonomy, $data);
+    }
+
+    public function insertTermMeta($data) {
+        global $wpdb;
+
+        return $this->insert($wpdb->termmeta, $data);
+    }
+
+    public function insertTermRelationships($data) {
+        global $wpdb;
+
+        return $this->insert($wpdb->term_relationships, $data);
+    }
+
+    public function insertPosts($data) {
+        global $wpdb;
+
+        return $this->insert($wpdb->posts, $data);
+    }
+
+    public function insertPostMeta($data) {
+        global $wpdb;
+
+        return $this->insert($wpdb->postmeta, $data);
+    }
+
+    public function insert($table, $values) {
         if ($table && count($values)) {
             return $this->table($table)->values($values)->query();
         }
@@ -47,15 +79,14 @@ class BulkInsertQuery
     /**
      * @return false|int
      */
-    public function query()
-    {
+    public function query() {
         global $wpdb;
 
 
         $result = 0;
 
         $dataValues = $this->data['values'];
-        $table      = $this->data['table'];
+        $table = $this->data['table'];
 
         if ($dataValues instanceof \Generator) {
             $dataValues = iterator_to_array($dataValues);
@@ -76,7 +107,7 @@ class BulkInsertQuery
                 $values[] = "('" . implode("','", esc_sql($currentValues)) . "')";
             }
 
-            $query  = $insert . ' VALUES' . implode(',', $values) . ';';
+            $query = $insert . ' VALUES' . implode(',', $values) . ';';
             $result = $result + $wpdb->query($query);
         }
 
