@@ -1,6 +1,7 @@
 <?php namespace Premmerce\DevTools\DataGenerator\Generators;
 
 
+use bheller\ImagesGenerator\ImagesGeneratorProvider;
 use Faker\Generator;
 use Premmerce\DevTools\Services\Query;
 
@@ -19,6 +20,7 @@ class ImagesGenerator
      * @param Generator $faker
      */
     public function __construct(Generator $faker) {
+        $faker->addProvider(new ImagesGeneratorProvider($faker));
         $this->faker = $faker;
     }
 

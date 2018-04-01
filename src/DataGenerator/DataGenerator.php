@@ -65,7 +65,6 @@ class DataGenerator
 
         $this->faker = Factory::create();
 
-        $this->faker->addProvider(new ImagesGeneratorProvider($this->faker));
         $this->faker->addProvider(new MixProvider($this->faker));
     }
 
