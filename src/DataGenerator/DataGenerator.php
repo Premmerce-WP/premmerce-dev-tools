@@ -1,6 +1,5 @@
 <?php namespace Premmerce\DevTools\DataGenerator;
 
-use bheller\ImagesGenerator\ImagesGeneratorProvider;
 use Faker\Factory;
 use Premmerce\DevTools\DataGenerator\Generators\AttributesGeneratorImp;
 use Premmerce\DevTools\DataGenerator\Generators\BrandGenerator;
@@ -9,6 +8,7 @@ use Premmerce\DevTools\DataGenerator\Generators\ImagesGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ProductGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ShopMenuGenerator;
 use Premmerce\DevTools\DataGenerator\Providers\MixProvider;
+use Premmerce\DevTools\Services\DataCleaner;
 
 /**
  * Class DataGenerator
@@ -48,6 +48,11 @@ class DataGenerator
      */
     private $faker;
 
+    /**
+     * @var Storage
+     */
+    private $storage;
+
 
     public function __construct() {
         $this->data = [
@@ -64,6 +69,7 @@ class DataGenerator
         ];
 
         $this->faker = Factory::create();
+        $this->storage = new Storage();
 
         $this->faker->addProvider(new MixProvider($this->faker));
     }
@@ -71,50 +77,60 @@ class DataGenerator
     public function generate(array $config) {
         $config = $this->configure($config);
 
-        $categoryIds = $this->generateCategories($config);
+        $this->generateCategories($config);
 
-        $brandIds = $this->generateBrands($config);
+        $this->generateBrands($config);
 
-        $attributes = $this->generateAttributes($config);
+        $this->generateAttributes($config);
 
+        $this->generateProducts($config);
+
+        $this->generateShopMenu($config);
+
+        (new DataCleaner())->removeAllTransients();
+
+
+    }
+
+    private function generateProducts($config) {
         $productsNumber = $config[self::NAME_PRODUCTS];
         $productPhoto = $config[self::NAME_PRODUCT_PHOTO];
         $productType = $config[self::NAME_PRODUCT_TYPE];
         $productGallery = $config[self::NAME_PRODUCT_PHOTO_GALLERY_NUMBER];
-
-        $this->generateShopMenu($config);
-
         if ($productsNumber) {
 
-            $images = [];
+
+            $productGenerator = new ProductGenerator($this->faker);
+
             if ($productPhoto || $productGallery) {
                 $ig = new ImagesGenerator($this->faker);
                 $images = $ig->generateImagesArray(10);
+                $productGenerator->setImages($images);
             }
 
-            $productGenerator = new ProductGenerator($this->faker);
 
             $productGenerator->setProductType($productType);
             $productGenerator->setGenerateImage($productPhoto);
             $productGenerator->setGalleryPhotosNumber($productGallery);
 
+            $categoryIds = $this->storage->getCategories();
             if (!empty($categoryIds)) {
                 $productGenerator->setCategoryIds($categoryIds);
             }
 
+            $brandIds = $this->storage->getBrands();
             if (!empty($brandIds)) {
                 $productGenerator->setBrands($brandIds);
             }
 
+            $attributes = $this->storage->getAttributes();
             if (!empty($attributes)) {
                 $productGenerator->setAttributes($attributes);
             }
 
-            $productGenerator->generate($productsNumber, $images);
+            $productGenerator->generate($productsNumber);
 
         }
-
-
     }
 
     private function generateShopMenu($config) {
@@ -134,7 +150,7 @@ class DataGenerator
             $attributes = $attributesGenerator->generateAttributes($attributesNumber, $attributeTermsNumber);
             delete_transient('wc_attribute_taxonomies');
 
-            return $attributes;
+            $this->storage->setAttributes($attributes);
         }
     }
 
@@ -145,7 +161,7 @@ class DataGenerator
             $tg = new BrandGenerator($this->faker);
             $brandIds = $tg->generate($brandsNumber, self::PREMMERCE_BRAND);
 
-            return $brandIds;
+            $this->storage->setBrands($brandIds);
         }
 
     }
@@ -159,9 +175,13 @@ class DataGenerator
             $categoryIds = $tg->generate($categoriesNumber, DataGenerator::WOO_CATEGORY, $categoriesNestingLevel);
             delete_option(self::WOO_CATEGORY . '_children');
 
-            return $categoryIds;
+            $this->storage->setCategories($categoryIds);
         }
 
+    }
+
+    public function clearStorage() {
+        $this->storage->clear();
     }
 
     /**

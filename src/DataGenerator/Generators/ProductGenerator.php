@@ -71,6 +71,11 @@ class ProductGenerator
     /**
      * @var array
      */
+    private $images = [];
+
+    /**
+     * @var array
+     */
     private $attributeTerms;
 
     /**
@@ -135,33 +140,38 @@ class ProductGenerator
     }
 
     /**
+     * @param array $images
+     */
+    public function setImages($images) {
+        $this->images = $images;
+    }
+
+    /**
      * @param       $num
      *
-     * @param array $images
-     *
      * @return array|null
+     *
      */
-    public function generate($num, $images = []) {
+    public function generate($num) {
         $this->productIds = $this->insertProducts($num);
 
         $this->insertProductTerms($this->productIds);
 
         $this->insertProductsMeta($this->productIds);
 
-        if ($this->generateImage) {
-            $this->insertThumbnails($images);
+        if (!empty($this->images)) {
 
-            if ($this->galleryPhotosNumber > 0) {
-                $this->insertImageGallery($images);
+            if ($this->generateImage) {
+                $this->insertThumbnails();
+
+                if ($this->galleryPhotosNumber > 0) {
+                    $this->insertImageGallery();
+                }
             }
         }
 
         if ($this->attributeTerms) {
             $this->generateAttributes();
-        }
-
-        foreach ($this->productIds as $product_id) {
-            wc_delete_product_transients($product_id);
         }
 
         return $this->productIds;
@@ -305,11 +315,12 @@ class ProductGenerator
 
     /**
      * Add product images
-     *
-     * @param $images
      */
-    private function insertThumbnails($images) {
-        $imageThumbnailsMeta = $this->generatePostThumbnailsMeta($this->productIds, array_keys($images));
+    private function insertThumbnails() {
+        $imageThumbnailsMeta = $this->generatePostThumbnailsMeta(
+            $this->productIds, array_keys($this->images)
+        );
+
         Query::create()->insertPostMeta($imageThumbnailsMeta);
     }
 
@@ -333,12 +344,10 @@ class ProductGenerator
     }
 
     /**
-     * @param $images
-     *
      * @return array
      */
-    private function insertImageGallery($images) {
-        $ids = array_keys($images);
+    private function insertImageGallery() {
+        $ids = array_keys($this->images);
 
         $productMeta = [];
         foreach ($this->productIds as $productId) {
@@ -352,8 +361,6 @@ class ProductGenerator
         }
 
         Query::create()->insertPostMeta($productMeta);
-
-        return $productMeta;
     }
 
     /*******************************************************************************************************************
