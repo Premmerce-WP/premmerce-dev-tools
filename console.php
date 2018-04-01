@@ -27,8 +27,8 @@ $commands = [
 
 
         $config = [
-            DataGenerator::NAME_CATEGORIES         => 6,
-            DataGenerator::NAME_CATEGORIES_NESTING => 2,
+            DataGenerator::NAME_CATEGORIES         => 10,
+            DataGenerator::NAME_CATEGORIES_NESTING => 3,
             DataGenerator::NAME_SHOP_MENU          => true,
 //            DataGenerator::NAME_PRODUCTS                     => 50000,
 //            DataGenerator::NAME_PRODUCT_PHOTO                => true,

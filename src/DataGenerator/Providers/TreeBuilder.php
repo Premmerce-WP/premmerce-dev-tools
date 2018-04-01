@@ -2,15 +2,27 @@
 
 class TreeBuilder
 {
-    public function createTree($c, $numLevels) {
+    public function toItemParent($tree) {
+        $array = [];
 
-        if (empty($c)) {
+        foreach ($tree as $parent => $items) {
+            $cip = array_combine(array_keys($items), array_fill(0, count($items), $parent));
+            $array += $cip;
+            $array += $this->toItemParent($items);
+        }
+
+        return $array;
+    }
+
+    public function createTree($items, $numLevels) {
+
+        if (empty($items)) {
             return [];
         }
-        $npl = $this->numPerLevel(count($c), $numLevels);
+        $npl = $this->numPerLevel(count($items), $numLevels);
 
-        $c = array_fill_keys($c, []);
-        $chunks = array_chunk($c, $npl, true);
+        $items = array_fill_keys($items, []);
+        $chunks = array_chunk($items, $npl, true);
         $parents = array_shift($chunks);
 
         $tree = $this->buildTree($parents, $chunks, $numLevels);

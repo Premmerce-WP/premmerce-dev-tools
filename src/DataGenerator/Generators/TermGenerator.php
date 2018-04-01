@@ -13,6 +13,12 @@ class TermGenerator
      */
     private $tree;
 
+
+    /**
+     * @var array
+     */
+    private $parents = [];
+
     /**
      * @var int
      */
@@ -68,6 +74,8 @@ class TermGenerator
 
         if ($nestingLevel > 1) {
             $this->tree = $this->treeBuilder->createTree(array_keys($terms), $nestingLevel);
+            $this->parents = $this->treeBuilder->toItemParent($this->tree);
+
         }
 
         $taxonomies = $this->createTermTaxonomies($terms, $tax);
@@ -163,7 +171,7 @@ class TermGenerator
     }
 
     protected function getParentTerm($termId) {
-        return $this->treeBuilder->findParent($this->tree, $termId) ?: 0;
+        return !empty($this->parents[$termId]) ? $this->parents[$termId] : 0;
     }
 
     protected function uniqueName() {
