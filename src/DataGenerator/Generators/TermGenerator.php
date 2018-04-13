@@ -58,6 +58,10 @@ class TermGenerator{
 		$this->treeBuilder = new TreeBuilder();
 	}
 
+	public function getTreeBuilder(){
+		return $this->treeBuilder;
+	}
+
 	public function generate($num, $tax, $nestingLevel = 1, $returnIds = true){
 
 		$this->nestingLevel = $nestingLevel;
