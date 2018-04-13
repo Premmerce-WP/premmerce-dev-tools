@@ -2,22 +2,22 @@
 
 use Faker\Generator;
 use Premmerce\DevTools\DataGenerator\Providers\CategoryProvider;
+use Premmerce\DevTools\DataGenerator\Providers\TreeBuilder;
 
-class CategoryGenerator extends TermGenerator
-{
-
-
-    public function __construct(Generator $faker) {
-        $faker->addProvider(new CategoryProvider($faker));
-        parent::__construct($faker);
-    }
+class CategoryGenerator extends TermGenerator{
 
 
-    protected function uniqueName() {
-        $name = $this->faker->format('categoryName');
+	public function __construct(Generator $faker){
+		$faker->addProvider(new CategoryProvider($faker));
+		parent::__construct($faker);
+	}
 
-        return $name;
-    }
+
+	protected function uniqueName(){
+		$name = $this->faker->format('categoryName');
+
+		return $name;
+	}
 
 
 }

@@ -14,13 +14,15 @@ class ShopMenuGenerator
             'fields'     => 'id=>parent',
         ]);
 
-
         $menu_name = 'Shop Category Menu';
 
         wp_delete_nav_menu($menu_name);
+
         $menu_id = wp_create_nav_menu($menu_name);
 
-        $this->createItems($ids, $menu_id);
+        $term = get_term($menu_id);
+
+        $this->createItems($ids, $term->term_taxonomy_id);
     }
 
 

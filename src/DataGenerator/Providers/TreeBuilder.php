@@ -2,13 +2,16 @@
 
 class TreeBuilder
 {
-    public function toItemParent($tree) {
+    public function toItemParent($tree, $addTopItems = true) {
         $array = [];
 
         foreach ($tree as $parent => $items) {
             $cip = array_combine(array_keys($items), array_fill(0, count($items), $parent));
+            if($addTopItems){
+            	$array += [$parent => 0];
+            }
             $array += $cip;
-            $array += $this->toItemParent($items);
+            $array += $this->toItemParent($items, false);
         }
 
         return $array;

@@ -4,202 +4,201 @@ use Faker\Generator;
 use Premmerce\DevTools\DataGenerator\Providers\TreeBuilder;
 use Premmerce\DevTools\Services\Query;
 
-class TermGenerator
-{
+class TermGenerator{
 
 
-    /**
-     * @var array
-     */
-    private $tree;
+	/**
+	 * @var array
+	 */
+	private $tree;
 
 
-    /**
-     * @var array
-     */
-    private $parents = [];
+	/**
+	 * @var array
+	 */
+	private $parents = [];
 
-    /**
-     * @var int
-     */
-    private $nestingLevel;
+	/**
+	 * @var int
+	 */
+	private $nestingLevel;
 
-    /**
-     * @var int
-     */
-    protected $lastTermId;
+	/**
+	 * @var int
+	 */
+	protected $lastTermId;
 
-    /**
-     * @var int
-     */
-    protected $lastTermTaxId;
+	/**
+	 * @var int
+	 */
+	protected $lastTermTaxId;
 
-    /**
-     * @var boolean
-     */
-    protected $generateMeta = false;
+	/**
+	 * @var boolean
+	 */
+	protected $generateMeta = false;
 
-    /**
-     * @var Generator
-     */
-    protected $faker;
+	/**
+	 * @var Generator
+	 */
+	protected $faker;
 
-    /**
-     * @var array
-     */
-    protected $unique = [];
+	/**
+	 * @var array
+	 */
+	protected $unique = [];
 
-    /**
-     * @var TreeBuilder
-     */
-    private $treeBuilder;
+	/**
+	 * @var TreeBuilder
+	 */
+	private $treeBuilder;
 
-    public function __construct(Generator $faker) {
-        $this->faker = $faker;
-        $this->treeBuilder = new TreeBuilder();
-    }
+	public function __construct(Generator $faker){
+		$this->faker       = $faker;
+		$this->treeBuilder = new TreeBuilder();
+	}
 
-    public function generate($num, $tax, $nestingLevel = 1, $returnIds = true) {
+	public function generate($num, $tax, $nestingLevel = 1, $returnIds = true){
 
-        $this->nestingLevel = $nestingLevel;
+		$this->nestingLevel = $nestingLevel;
 
-        $this->lastTermId = Query::create()->getLastTermId();
-        $this->lastTermTaxId = Query::create()->getLastTermTaxonomyId();
+		$this->lastTermId    = Query::create()->getLastTermId();
+		$this->lastTermTaxId = Query::create()->getLastTermTaxonomyId();
 
-        $this->unique = [];
+		$this->unique = [];
 
-        $terms = $this->createTerms($num);
+		$terms = $this->createTerms($num);
 
-        if ($nestingLevel > 1) {
-            $this->tree = $this->treeBuilder->createTree(array_keys($terms), $nestingLevel);
-            $this->parents = $this->treeBuilder->toItemParent($this->tree);
+		if($nestingLevel > 1 && $this->treeBuilder){
+			$this->tree    = $this->treeBuilder->createTree(array_keys($terms), $nestingLevel);
+			$this->parents = $this->treeBuilder->toItemParent($this->tree);
 
-        }
+		}
 
-        $taxonomies = $this->createTermTaxonomies($terms, $tax);
-
-
-        Query::create()->insertTerms($terms);
-        Query::create()->insertTermTaxonomies($taxonomies);
-
-        if ($this->generateMeta) {
-            $termMeta = $this->createTermMeta(array_keys($terms));
-            Query::create()->insertTermMeta($termMeta);
-        }
+		$taxonomies = $this->createTermTaxonomies($terms, $tax);
 
 
-        return $returnIds ? array_keys($taxonomies) : [$taxonomies, $terms];
+		Query::create()->insertTerms($terms);
+		Query::create()->insertTermTaxonomies($taxonomies);
 
-    }
-
-    protected function createTermMeta($terms) {
-        $meta = [];
-        $metaValues = [
-            'order'        => 0,
-            'display_type' => '',
-            'thumbnail_id' => 0,
-        ];
-        foreach ($terms as $id) {
-            foreach ($metaValues as $key => $value) {
-                $meta[] = [
-                    'term_id'    => $id,
-                    'meta_key'   => $key,
-                    'meta_value' => $value,
-                ];
-
-            }
-
-        }
-
-        return $meta;
-    }
-
-    protected function createTerms($num) {
-        $lastId = $this->lastTermId;
-
-        $terms = [];
-
-        for ($i = 0; $i < $num; $i++) {
-
-            $name = $this->uniqueName();
-
-            $id = ++$lastId;
-            $terms[$id] = [
-                'term_id'    => $id,
-                'name'       => $name,
-                'slug'       => $this->uniqueSlug($name),
-                'term_group' => 0,
-            ];
+		if($this->generateMeta){
+			$termMeta = $this->createTermMeta(array_keys($terms));
+			Query::create()->insertTermMeta($termMeta);
+		}
 
 
-        }
+		return $returnIds? array_keys($taxonomies) : [$taxonomies, $terms];
 
-        return $terms;
-    }
+	}
+
+	protected function createTermMeta($terms){
+		$meta       = [];
+		$metaValues = [
+			'order'        => 0,
+			'display_type' => '',
+			'thumbnail_id' => 0,
+		];
+		foreach($terms as $id){
+			foreach($metaValues as $key => $value){
+				$meta[] = [
+					'term_id'    => $id,
+					'meta_key'   => $key,
+					'meta_value' => $value,
+				];
+
+			}
+
+		}
+
+		return $meta;
+	}
+
+	protected function createTerms($num){
+		$lastId = $this->lastTermId;
+
+		$terms = [];
+
+		for($i = 0;$i < $num;$i ++){
+
+			$name = $this->uniqueName();
+
+			$id           = ++ $lastId;
+			$terms[ $id ] = [
+				'term_id'    => $id,
+				'name'       => $name,
+				'slug'       => $this->uniqueSlug($name),
+				'term_group' => 0,
+			];
 
 
-    protected function createTermTaxonomies($terms, $taxonomy) {
-        $lastId = $this->lastTermTaxId;
+		}
 
-        $termIds = array_keys($terms);
+		return $terms;
+	}
 
-        $taxonomies = [];
 
-        foreach ($termIds as $termId) {
+	protected function createTermTaxonomies($terms, $taxonomy){
+		$lastId = $this->lastTermTaxId;
 
-            $termTaxonomyId = ++$lastId;
+		$termIds = array_keys($terms);
 
-            $taxonomies[$termTaxonomyId] = [
-                'term_taxonomy_id' => $termTaxonomyId,
-                'term_id'          => $termId,
-                'taxonomy'         => $taxonomy,
-                'count'            => 1,
-                'parent'           => $this->getParentTerm($termId),
-            ];
-        }
+		$taxonomies = [];
 
-        return $taxonomies;
-    }
+		foreach($termIds as $termId){
 
-    public function getTree() {
-        return $this->tree;
-    }
+			$termTaxonomyId = ++ $lastId;
 
-    protected function getParentTerm($termId) {
-        return !empty($this->parents[$termId]) ? $this->parents[$termId] : 0;
-    }
+			$taxonomies[ $termTaxonomyId ] = [
+				'term_taxonomy_id' => $termTaxonomyId,
+				'term_id'          => $termId,
+				'taxonomy'         => $taxonomy,
+				'count'            => 1,
+				'parent'           => $this->getParentTerm($termId),
+			];
+		}
 
-    protected function uniqueName() {
-        $name = ucwords($this->faker->words($this->faker->numberBetween(1, 3), true));
+		return $taxonomies;
+	}
 
-        return $this->unique($name, 'name', 'ucwords');
-    }
+	public function getTree(){
+		return $this->tree;
+	}
 
-    protected function uniqueSlug($name) {
-        $slug = sanitize_title($name);
-        $slug = $this->unique($slug, 'slug', 'sanitize_title', '-');
+	protected function getParentTerm($termId){
+		return !empty($this->parents[ $termId ])? $this->parents[ $termId ] : 0;
+	}
 
-        return $slug;
-    }
+	protected function uniqueName(){
+		$name = ucwords($this->faker->words($this->faker->numberBetween(1, 3), true));
 
-    protected function isUnique($value, $context = 'slug') {
-        return !isset($this->unique[$context][$value]);
-    }
+		return $this->unique($name, 'name', 'ucwords');
+	}
 
-    protected function unique($current, $context = 'slug', $callback = null, $separator = ' ', $provider = 'randomLetter') {
+	protected function uniqueSlug($name){
+		$slug = sanitize_title($name);
+		$slug = $this->unique($slug, 'slug', 'sanitize_title', '-');
 
-        while (!$this->isUnique($current, $context)) {
-            $current .= $separator . $this->faker->format($provider);
+		return $slug;
+	}
 
-            if (is_callable($callback)) {
-                $current = call_user_func($callback, $current);
-            }
-        }
+	protected function isUnique($value, $context = 'slug'){
+		return !isset($this->unique[ $context ][ $value ]);
+	}
 
-        $this->unique[$context][$current] = true;
+	protected function unique($current, $context = 'slug', $callback = null, $separator = ' ', $provider = 'randomLetter'){
 
-        return $current;
-    }
+		while(!$this->isUnique($current, $context)){
+			$current .= $separator . $this->faker->format($provider);
+
+			if(is_callable($callback)){
+				$current = call_user_func($callback, $current);
+			}
+		}
+
+		$this->unique[ $context ][ $current ] = true;
+
+		return $current;
+	}
 
 
 }
