@@ -19,14 +19,14 @@ $commands = [
 
 		$config = [
 			DataGenerator::NAME_CATEGORIES                   => 10,
-			DataGenerator::NAME_CATEGORIES_NESTING           => 4,
+			DataGenerator::NAME_CATEGORIES_NESTING           => 2,
 			DataGenerator::NAME_SHOP_MENU                    => true,
-			DataGenerator::NAME_PRODUCTS                     => 10000,
+			DataGenerator::NAME_PRODUCTS                     => 100,
 			DataGenerator::NAME_PRODUCT_PHOTO                => true,
 			DataGenerator::NAME_PRODUCT_PHOTO_GALLERY_NUMBER => 2,
-			DataGenerator::NAME_BRANDS                       => 20,
-			DataGenerator::NAME_ATTRIBUTES                   => 20,
-			DataGenerator::NAME_ATTRIBUTE_TERMS              => 10,
+			DataGenerator::NAME_BRANDS                       => 5,
+			DataGenerator::NAME_ATTRIBUTES                   => 5,
+			DataGenerator::NAME_ATTRIBUTE_TERMS              => 5,
 			DataGenerator::NAME_PRODUCT_TYPE                 => 'simple',
 		];
 

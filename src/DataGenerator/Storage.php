@@ -46,7 +46,24 @@ class Storage
         return $this->get('brands');
     }
 
-    /**
+	/**
+	 * @param $data
+	 *
+	 * @return bool
+	 */
+	public function setCategoriesTermTaxonomy($data) {
+		return $this->set('categoriesTermTaxonomy', $data);
+	}
+
+	/**
+	 * @return mixed|null
+	 */
+	public function getCategoriesTermTaxonomy() {
+		return $this->get('categoriesTermTaxonomy');
+	}
+
+
+	/**
      * @param $data
      *
      * @return bool

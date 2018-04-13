@@ -53,9 +53,9 @@ class TermGenerator{
 	 */
 	private $treeBuilder;
 
-	public function __construct(Generator $faker){
+	public function __construct(Generator $faker, TreeBuilder $treeBuilder = null){
 		$this->faker       = $faker;
-		$this->treeBuilder = new TreeBuilder();
+		$this->treeBuilder = $treeBuilder;
 	}
 
 	public function getTreeBuilder(){
@@ -73,10 +73,9 @@ class TermGenerator{
 
 		$terms = $this->createTerms($num);
 
-		if($nestingLevel > 1 && $this->treeBuilder){
+		if($this->treeBuilder){
 			$this->tree    = $this->treeBuilder->createTree(array_keys($terms), $nestingLevel);
 			$this->parents = $this->treeBuilder->toItemParent($this->tree);
-
 		}
 
 		$taxonomies = $this->createTermTaxonomies($terms, $tax);
