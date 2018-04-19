@@ -103,8 +103,9 @@ class DataGenerator{
 		if($config[ self::NAME_PRODUCTS ]){
 
 			if(!empty($topCategories)){
-				$attributes    = array_chunk($attributes, count($attributes) / $topCategories);
-				$brands        = array_chunk($brands, count($brands) / $topCategories);
+				$attributes    = $this->faker->explodeArray($attributes, $topCategories);
+				$brands        = $this->faker->explodeArray($brands, $topCategories);
+
 				$productCounts = $this->faker->explodeNumber($config[ self::NAME_PRODUCTS ], $topCategories);
 
 				foreach($tree as $parent => $item){
