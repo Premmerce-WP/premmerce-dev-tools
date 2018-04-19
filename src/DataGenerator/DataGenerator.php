@@ -96,6 +96,7 @@ class DataGenerator{
 
 
 		$tree          = $this->storage->getCategories();
+
 		$topCategories = count($tree);
 		$termTaxonomy  = $this->storage->getCategoriesTermTaxonomy();
 		$brands        = $this->storage->getBrands();
@@ -127,10 +128,12 @@ class DataGenerator{
 		}
 
 
-
 		$this->generateShopMenu($config);
 
-		(new DataCleaner())->removeAllTransients();
+		$dc = new DataCleaner();
+
+		$dc->removeAllTransients();
+		$dc->recountTermTaxonomies();
 
 
 	}

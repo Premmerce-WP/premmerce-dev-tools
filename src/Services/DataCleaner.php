@@ -221,6 +221,7 @@ class DataCleaner{
 		$this->clearTermRelationsWithoutTerm();
 	}
 
+
 	/**
 	 * Clear term relationships with non existent object_id
 	 *
@@ -257,6 +258,25 @@ class DataCleaner{
 	/* ***************************************************
 	 * TERMS
 	 */
+
+	/**
+	 * Clear term relationships with non existent object_id
+	 *
+	 * @return false|int
+	 */
+	public function recountTermTaxonomies(){
+		global $wpdb;
+
+
+		$query['update'] = sprintf('UPDATE %s tt', $wpdb->term_taxonomy);
+		$query['join']   = sprintf('join (select tr.term_taxonomy_id, count(tr.object_id) as count from wp_term_relationships tr group by tr.term_taxonomy_id) counts', $wpdb->term_relationships);
+		$query['on']     = sprintf('on counts.term_taxonomy_id = tt.term_taxonomy_id');
+		$query['set']    = sprintf('SET tt.count = counts.count');
+
+		$query = implode(' ', $query);
+
+		return $wpdb->query($query);
+	}
 
 
 	/**

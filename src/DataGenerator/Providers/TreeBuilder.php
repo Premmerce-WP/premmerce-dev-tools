@@ -25,11 +25,12 @@ class TreeBuilder{
 		}
 		$npl = $this->numPerLevel(count($items), $numLevels);
 
+		$npl     = $npl > 0? $npl : count($items);
 		$items   = array_fill_keys($items, []);
 		$chunks  = array_chunk($items, $npl, true);
 		$parents = array_shift($chunks);
+		$tree    = $this->buildTree($parents, $chunks, $numLevels);
 
-		$tree = $this->buildTree($parents, $chunks, $numLevels);
 
 		return $tree;
 	}
