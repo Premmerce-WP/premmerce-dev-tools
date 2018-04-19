@@ -6,5 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'CompanyNameGenerator' => array($vendorDir . '/fzaninotto/company-name-generator/src'),
 );

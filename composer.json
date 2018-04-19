@@ -22,7 +22,6 @@
     "symfony/var-dumper": "^3.3",
     "symfony/stopwatch": "^3.3",
     "fzaninotto/faker": "^1.6",
-    "fzaninotto/company-name-generator": "dev-master",
     "bheller/images-generator": "^1.0"
   }
 }
