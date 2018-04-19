@@ -2,7 +2,6 @@
 
 use Faker\Factory;
 use Premmerce\DevTools\DataGenerator\Generators\AttributesGenerator;
-use Premmerce\DevTools\DataGenerator\Generators\AttributesGeneratorImp;
 use Premmerce\DevTools\DataGenerator\Generators\BrandGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\CategoryGenerator;
 use Premmerce\DevTools\DataGenerator\Generators\ImagesGenerator;
@@ -84,6 +83,9 @@ class DataGenerator{
 	}
 
 	public function generate(array $config){
+
+		$this->storage->clear();
+
 		$config = $this->configure($config);
 
 		$this->generateCategories($config);
@@ -103,8 +105,8 @@ class DataGenerator{
 		if($config[ self::NAME_PRODUCTS ]){
 
 			if(!empty($topCategories)){
-				$attributes    = $this->faker->explodeArray($attributes, $topCategories);
-				$brands        = $this->faker->explodeArray($brands, $topCategories);
+				$attributes = $this->faker->explodeArray($attributes, $topCategories);
+				$brands     = $this->faker->explodeArray($brands, $topCategories);
 
 				$productCounts = $this->faker->explodeNumber($config[ self::NAME_PRODUCTS ], $topCategories);
 
@@ -125,6 +127,7 @@ class DataGenerator{
 		}
 
 
+
 		$this->generateShopMenu($config);
 
 		(new DataCleaner())->removeAllTransients();
@@ -137,6 +140,7 @@ class DataGenerator{
 		$productPhoto   = $config[ self::NAME_PRODUCT_PHOTO ];
 		$productType    = $config[ self::NAME_PRODUCT_TYPE ];
 		$productGallery = $config[ self::NAME_PRODUCT_PHOTO_GALLERY_NUMBER ];
+
 		if($productsNumber){
 
 

@@ -26,8 +26,9 @@ class ExplodeProvider extends Base{
 			}
 			$temp[] = $input;
 
-			return $temp;
 		}
+
+		return $temp;
 	}
 
 	public function explodeArray($array, $parts){

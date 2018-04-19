@@ -14,7 +14,7 @@ class ShopMenuGenerator
             'fields'     => 'id=>parent',
         ]);
 
-        $menu_name = 'Shop Category Menu';
+        $menu_name = 'GENERATED Catalog menu';
 
         wp_delete_nav_menu($menu_name);
 
