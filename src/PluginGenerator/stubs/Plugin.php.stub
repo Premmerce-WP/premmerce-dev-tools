@@ -24,7 +24,7 @@ class ___PLUGIN_CLASS___ {
     public function __construct($mainFile) {
         $this->fileManager = new FileManager($mainFile);
 
-        add_action('init', [ $this, 'loadTextDomain' ]);
+        add_action('plugins_loaded', [ $this, 'loadTextDomain' ]);
 
 	}
 
