@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Premmerce dev tools\n"
-"POT-Creation-Date: 2017-09-05 10:53+0300\n"
-"PO-Revision-Date: 2017-09-05 10:53+0300\n"
+"POT-Creation-Date: 2018-06-04 18:40+0300\n"
+"PO-Revision-Date: 2018-06-04 18:40+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -17,23 +17,23 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: src/Admin/Admin.php:33
+#: src/Admin/Admin.php:34 src/Admin/Admin.php:35
 msgid "DevTools"
 msgstr ""
 
-#: src/Admin/Admin.php:36
+#: src/Admin/Admin.php:42
 msgid "Plugin generator"
 msgstr "Генератор плагина"
 
-#: src/Admin/Admin.php:41
+#: src/Admin/Admin.php:47
 msgid "Data generator"
 msgstr "Генератор данных"
 
-#: src/Admin/Admin.php:46
+#: src/Admin/Admin.php:52
 msgid "Data cleaner"
 msgstr "Очистка данных"
 
-#: views/admin/clean-up.php:7 views/admin/clean-up.php:123
+#: views/admin/clean-up.php:7 views/admin/clean-up.php:141
 msgid "Clean up"
 msgstr "Очистка"
 
@@ -41,11 +41,11 @@ msgstr "Очистка"
 msgid "Remove items from database"
 msgstr "Удалить значения в базе данных "
 
-#: views/admin/clean-up.php:16 views/admin/clean-up.php:71
+#: views/admin/clean-up.php:16 views/admin/clean-up.php:89
 msgid "Select all"
 msgstr "Выбрать все"
 
-#: views/admin/clean-up.php:24
+#: views/admin/clean-up.php:24 views/admin/generate-data.php:38
 msgid "Products"
 msgstr "Товары"
 
@@ -57,35 +57,43 @@ msgstr "Категории товаров"
 msgid "Product attributes"
 msgstr "Атрибуты товаров"
 
-#: views/admin/clean-up.php:52
+#: views/admin/clean-up.php:51
+msgid "Product brands"
+msgstr "Бренды"
+
+#: views/admin/clean-up.php:60
+msgid "Product tags"
+msgstr "Метки товаров"
+
+#: views/admin/clean-up.php:70
 msgid "Uploads"
 msgstr "Загрузки"
 
-#: views/admin/clean-up.php:57
+#: views/admin/clean-up.php:75
 msgid "Remove unused image files"
 msgstr "Удалить неиспользуемые изображения"
 
-#: views/admin/clean-up.php:66
+#: views/admin/clean-up.php:84
 msgid "Clear unused items from database"
 msgstr "Удалить неиспользуемые значения в базе данных"
 
-#: views/admin/clean-up.php:79
+#: views/admin/clean-up.php:97
 msgid "Terms"
 msgstr "Термины"
 
-#: views/admin/clean-up.php:88
+#: views/admin/clean-up.php:106
 msgid "Term relations"
 msgstr "Связи терминов"
 
-#: views/admin/clean-up.php:97
+#: views/admin/clean-up.php:115
 msgid "Term meta"
 msgstr "Мета данные терминов"
 
-#: views/admin/clean-up.php:106
+#: views/admin/clean-up.php:124
 msgid "Posts"
 msgstr "Посты"
 
-#: views/admin/clean-up.php:115
+#: views/admin/clean-up.php:133
 msgid "Post meta"
 msgstr "Мета данные постов"
 
@@ -121,17 +129,13 @@ msgstr "Описание плагина"
 msgid "Plugin version"
 msgstr "Версия плагина"
 
-#: views/admin/create-plugin.php:63
-msgid "Use Composer"
-msgstr "Использовать Composer"
-
-#: views/admin/create-plugin.php:68
+#: views/admin/create-plugin.php:64
 msgid ""
 "run > 'composer install' command after generation, inside the plugin\n"
 "                        directory"
 msgstr "Визовите команду > 'composer install' после генерации, в папке плагина"
 
-#: views/admin/create-plugin.php:75
+#: views/admin/create-plugin.php:67
 msgid "Generate plugin"
 msgstr "Сгенерировать плагин"
 
@@ -139,42 +143,65 @@ msgstr "Сгенерировать плагин"
 msgid "Generate data"
 msgstr "Сгенерировать данные"
 
+#: views/admin/generate-data.php:8
+msgid "Categories"
+msgstr "Категории"
+
 #: views/admin/generate-data.php:12
-msgid "Products number"
-msgstr "Количество товаров"
-
-#: views/admin/generate-data.php:20
-msgid "Generate product photo"
-msgstr "Сгенерировать фото товара"
-
-#: views/admin/generate-data.php:28
-msgid "Product gallery photos number"
-msgstr "Количество фото в галереи товара"
-
-#: views/admin/generate-data.php:37
-msgid "Product type"
-msgstr "Тип товара"
-
-#: views/admin/generate-data.php:49
 msgid "Categories number"
 msgstr "Количество категорий"
 
-#: views/admin/generate-data.php:57
+#: views/admin/generate-data.php:21
+msgid "Categories nesting level"
+msgstr "Уровень вложености категорий"
+
+#: views/admin/generate-data.php:31
+msgid "Generate menu from categories tree"
+msgstr "Сгенерировать меню из дерева категорий"
+
+#: views/admin/generate-data.php:44
+msgid "Products number"
+msgstr "Количество товаров"
+
+#: views/admin/generate-data.php:53
+msgid "Generate product photo"
+msgstr "Сгенерировать фото товара"
+
+#: views/admin/generate-data.php:61
+msgid "Product gallery photos number"
+msgstr "Количество фото в галереи товара"
+
+#: views/admin/generate-data.php:71
+msgid "Product type"
+msgstr "Тип товара"
+
+#: views/admin/generate-data.php:83
+msgid "Attributes"
+msgstr "Атрибуты"
+
+#: views/admin/generate-data.php:89
+msgid "Brands number"
+msgstr "Количество брендов"
+
+#: views/admin/generate-data.php:99
 msgid "Attributes number"
 msgstr "Количество атрибутов"
 
-#: views/admin/generate-data.php:65
+#: views/admin/generate-data.php:108
 msgid "Each attribute terms number"
 msgstr "Количество терминов для каждого атрибута"
 
-#: views/admin/generate-data.php:73
+#: views/admin/generate-data.php:116
 msgid "Generate"
 msgstr "Сгенерировать"
 
-#: views/admin/generate-data.php:77
+#: views/admin/generate-data.php:120
 #, php-format
 msgid "This plugin requires %s plugin to be active!"
 msgstr "Для этого плагина необходим плагин %s"
+
+#~ msgid "Use Composer"
+#~ msgstr "Использовать Composer"
 
 #~ msgid ""
 #~ "run > 'composer init' command after generation, inside the plugin\n"

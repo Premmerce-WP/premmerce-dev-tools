@@ -1,7 +1,7 @@
 <?php namespace Premmerce\DevTools;
 
 use Premmerce\DevTools\Admin\Admin;
-use Premmerce\SDK\V1\FileManager\FileManager;
+use Premmerce\SDK\V2\FileManager\FileManager;
 
 /**
  * Class PluginManager
@@ -26,7 +26,7 @@ class DevToolsPlugin
 
         add_action('plugins_loaded', function () {
             $name = $this->fileManager->getPluginName();
-            load_plugin_textdomain($name, false, $name . '/languages/');
+            load_plugin_textdomain('premmerce-dev-tools', false, $name . '/languages/');
         });
     }
 

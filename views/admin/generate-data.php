@@ -2,10 +2,10 @@
 <div class="wrap">
     <h1><?php _e('Generate data', 'premmerce-dev-tools') ?></h1>
 
-	<?php if(is_plugin_active('woocommerce/woocommerce.php')): ?>
+    <?php if (is_plugin_active('woocommerce/woocommerce.php')): ?>
         <form method="post" action="<?php echo admin_url('admin-post.php') ?>">
             <input type="hidden" name="action" value="generate_data">
-            <h2 class="title">Categories</h2>
+            <h2 class="title"><?php _e('Categories', 'premmerce-dev-tools') ?></h2>
             <table class="form-table">
                 <tr>
                     <th>
@@ -23,7 +23,7 @@
                     <td>
                         <input type="number" min="1" max="10"
                                name="<?php echo DataGenerator::NAME_CATEGORIES_NESTING ?>"
-                               value="<?=1?>">
+                               value="<?= 1 ?>">
                     </td>
                 </tr>
                 <tr>
@@ -35,7 +35,7 @@
                     </td>
                 </tr>
             </table>
-            <h2 class="title">Products</h2>
+            <h2 class="title"><?php _e('Products', 'premmerce-dev-tools') ?></h2>
 
             <table class="form-table">
 
@@ -72,26 +72,28 @@
                     </th>
                     <td>
                         <select name="<?php echo DataGenerator::NAME_PRODUCT_TYPE ?>" id="">
-							<?php foreach(wc_get_product_types() as $name => $title) : ?>
+                            <?php foreach (wc_get_product_types() as $name => $title) : ?>
                                 <option value="<?php echo $name ?>"><?php echo $title ?></option>
-							<?php endforeach ?>
+                            <?php endforeach ?>
                         </select>
                     </td>
                 </tr>
             </table>
 
-            <h2 class="title">Attributes</h2>
+            <h2 class="title"><?php _e('Attributes', 'premmerce-dev-tools') ?></h2>
             <table class="form-table">
 
-                <tr>
-                    <th>
-                        <label><?php _e('Brands number', 'premmerce-dev-tools') ?></label>
-                    </th>
-                    <td>
-                        <input type="number" min="0" max="10000" name="<?php echo DataGenerator::NAME_BRANDS ?>"
-                               value="<?php ?>">
-                    </td>
-                </tr>
+                <?php if (taxonomy_exists(DataGenerator::PREMMERCE_BRAND)): ?>
+                    <tr>
+                        <th>
+                            <label><?php _e('Brands number', 'premmerce-dev-tools') ?></label>
+                        </th>
+                        <td>
+                            <input type="number" min="0" max="10000" name="<?php echo DataGenerator::NAME_BRANDS ?>"
+                                   value="<?php ?>">
+                        </td>
+                    </tr>
+                <?php endif; ?>
                 <tr>
                     <th>
                         <label><?php _e('Attributes number', 'premmerce-dev-tools') ?></label>
@@ -111,12 +113,12 @@
                     </td>
                 </tr>
             </table>
-			<?php submit_button(__('Generate', 'premmerce-dev-tools')); ?>
+            <?php submit_button(__('Generate', 'premmerce-dev-tools')); ?>
         </form>
-	<?php else: ?>
-		<?php printf(
-			__('This plugin requires %s plugin to be active!', 'premmerce-dev-tools'),
-			'<a target="_blank" href="https://wordpress.org/plugins/woocommerce/">WooCommerce</a>'
-		); ?>
-	<?php endif; ?>
+    <?php else: ?>
+        <?php printf(
+            __('This plugin requires %s plugin to be active!', 'premmerce-dev-tools'),
+            '<a target="_blank" href="https://wordpress.org/plugins/woocommerce/">WooCommerce</a>'
+        ); ?>
+    <?php endif; ?>
 </div>

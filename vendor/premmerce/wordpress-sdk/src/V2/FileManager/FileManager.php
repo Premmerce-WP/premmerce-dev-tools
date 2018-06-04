@@ -1,4 +1,4 @@
-<?php namespace Premmerce\SDK\V1\FileManager;
+<?php namespace Premmerce\SDK\V2\FileManager;
 
 
 class FileManager{
@@ -27,14 +27,21 @@ class FileManager{
 	private $pluginUrl;
 
 	/**
+	 * @var string
+	 */
+	private $themeDirectory;
+
+	/**
 	 * PluginManager constructor.
 	 *
 	 * @param string $mainFile
+	 * @param string|null $themeDirectory
 	 */
-	public function __construct($mainFile){
+	public function __construct($mainFile, $themeDirectory = null){
 		$this->mainFile        = $mainFile;
 		$this->pluginDirectory = plugin_dir_path($this->mainFile);
 		$this->pluginName      = basename($this->pluginDirectory);
+		$this->themeDirectory  = $themeDirectory?: $this->pluginName;
 		$this->pluginUrl       = plugin_dir_url($this->getMainFile());
 	}
 
@@ -68,13 +75,13 @@ class FileManager{
 	}
 
 	/**
-	 * @param string $template
-	 * @param array $variables
+	 * @param string $__template
+	 * @param array $__variables
 	 */
-	public function includeTemplate($template, array $variables = []){
-		if($templateFullPath = $this->locateTemplate($template)){
-			extract($variables);
-			include $templateFullPath;
+	public function includeTemplate($__template, array $__variables = []){
+		if($__template = $this->locateTemplate($__template)){
+			extract($__variables);
+			include $__template;
 		}
 	}
 
@@ -111,16 +118,16 @@ class FileManager{
 	 */
 	public function locateTemplate($template){
 
-		$frontendTemplate = $template;
-
 		if(strpos($template, 'frontend/') === 0){
-			$frontendTemplate = str_replace('frontend/', '/', $template);
+
+			$frontendTemplate = str_replace('frontend/', '', $template);
+
+			if($file = locate_template($this->themeDirectory . '/' . $frontendTemplate)){
+
+				return $file;
+			}
 		}
 
-		if($file = locate_template($this->pluginName . '/' . $frontendTemplate)){
-
-			return $file;
-		}
 
 		return $this->pluginDirectory . 'views/' . $template;
 	}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "25ee2684ae4a48d09876c9e4d11e475e",
+    "content-hash": "e083cb07dff2bca6ef7d2a13e32809a0",
     "packages": [
         {
             "name": "bheller/images-generator",
@@ -108,16 +108,16 @@
         },
         {
             "name": "premmerce/wordpress-sdk",
-            "version": "v1.1",
+            "version": "v2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Premmerce/wordpress-sdk.git",
-                "reference": "461bf28923acccad2976b8ebdc9383761ecedc57"
+                "reference": "424b120d2b40f2434492c71d3535903e759f1ec7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Premmerce/wordpress-sdk/zipball/461bf28923acccad2976b8ebdc9383761ecedc57",
-                "reference": "461bf28923acccad2976b8ebdc9383761ecedc57",
+                "url": "https://api.github.com/repos/Premmerce/wordpress-sdk/zipball/424b120d2b40f2434492c71d3535903e759f1ec7",
+                "reference": "424b120d2b40f2434492c71d3535903e759f1ec7",
                 "shasum": ""
             },
             "type": "library",
@@ -137,20 +137,20 @@
                 }
             ],
             "description": "Wordpress SDK for premmerce plugins",
-            "time": "2018-03-16T13:21:44+00:00"
+            "time": "2018-06-01T13:18:25+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
+                "reference": "3296adf6a6454a050679cde90f95350ad604b171"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
-                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/3296adf6a6454a050679cde90f95350ad604b171",
+                "reference": "3296adf6a6454a050679cde90f95350ad604b171",
                 "shasum": ""
             },
             "require": {
@@ -162,7 +162,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "1.8-dev"
                 }
             },
             "autoload": {
@@ -196,11 +196,11 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-01-30T19:27:44+00:00"
+            "time": "2018-04-26T10:06:28+00:00"
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.4.8",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -249,16 +249,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.8",
+            "version": "v3.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "951643091b39a6fd40fce56cd16e21e12bef3feb"
+                "reference": "0e6545672d8c9ce70dd472adc2f8b03155a46f73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/951643091b39a6fd40fce56cd16e21e12bef3feb",
-                "reference": "951643091b39a6fd40fce56cd16e21e12bef3feb",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/0e6545672d8c9ce70dd472adc2f8b03155a46f73",
+                "reference": "0e6545672d8c9ce70dd472adc2f8b03155a46f73",
                 "shasum": ""
             },
             "require": {
@@ -314,7 +314,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-04-03T20:34:11+00:00"
+            "time": "2018-04-26T12:42:15+00:00"
         }
     ],
     "packages-dev": [],

@@ -1,4 +1,4 @@
-<?php namespace Premmerce\SDK\V1\Plugin;
+<?php namespace Premmerce\SDK\V2\Plugin;
 
 
 interface PluginInterface{

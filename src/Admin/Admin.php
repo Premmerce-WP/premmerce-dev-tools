@@ -2,7 +2,7 @@
 
 use Premmerce\DevTools\DataGenerator\DataGenerator;
 use Premmerce\DevTools\PluginGenerator\PluginGenerator;
-use Premmerce\SDK\V1\FileManager\FileManager;
+use Premmerce\SDK\V2\FileManager\FileManager;
 
 /**
  * Class Admin

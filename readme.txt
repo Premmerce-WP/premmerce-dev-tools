@@ -3,7 +3,7 @@ Contributors: premmerce
 Tags: developers tools, code debug, debugging, wordpress debugging, plugin generator, data generator, database cleaner, data cleaner
 Requires at least: 4.8
 Tested up to: 4.8.4
-Stable tag: 1.1
+Stable tag: 2.0
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,8 +15,6 @@ This plugin is created to facilitate the development, testing and debugging of t
 
 This plugin is aimed at making it easier to develop, test and debug the code on the WordPress platform.
 We created this plugin based on our research: [Wordpress Development Environment and Developers Best Practices Review](https://premmerce.com/wordpress-development-environment-developers-best-practices-review/)
-
-Full documentation is available here: [Premmerce Dev Tools](https://premmerce.com/premmerce-dev-tools/)
 
 = Major features in “Premmerce Dev Tools” =
 
@@ -42,6 +40,10 @@ Full documentation is available here: [Premmerce Dev Tools](https://premmerce.co
 2. Data generator
 3. Data cleaner
 
+
+== Documentation ==
+
+Full documentation is available here: [Premmerce Dev Tools](https://premmerce.com/premmerce-dev-tools/)
 
 == Changelog ==
 
@@ -78,7 +80,7 @@ Release Date: Mar 20, 2018
 * Added premmerce/wordpress-sdk
 * Removed autoload.php
 
-= 1.1 =
+= 2.0 =
 
 Release Date: Mar 20, 2018
 
@@ -89,15 +91,3 @@ Release Date: Mar 20, 2018
 * Added nesting categories
 * Added new category name generation provider for more readable naming
 * Fixed term counts
-
-== Translators ==
-
-= Available Languages =
-
-* English (Default)
-* Russian
-* Ukrainian
-
-== Documentation ==
-
-Full documentation is available here: [Premmerce Dev Tools](https://premmerce.com/premmerce-dev-tools/)
