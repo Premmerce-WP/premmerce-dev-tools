@@ -82,12 +82,14 @@ Release Date: Mar 20, 2018
 
 = 2.0 =
 
-Release Date: Mar 20, 2018
+Release Date: Jun 5, 2018
 
 * Updated premmerce/wordpress-sdk
 * Added brands generator
 * Added brands cleaner
 * Added tags cleaner
 * Added nesting categories
-* Added new category name generation provider for more readable naming
+* Updated category names generation
+* Updated attributes names generation
 * Fixed term counts
+* Fixed product date
