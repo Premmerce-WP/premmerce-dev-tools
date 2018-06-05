@@ -1,0 +1,204 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Premmerce Dev Tools\n"
+"POT-Creation-Date: 2018-06-05 12:54+0300\n"
+"PO-Revision-Date: 2018-06-04 18:16+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: src\n"
+"X-Poedit-SearchPath-1: views\n"
+"X-Poedit-SearchPath-2: premmerce-dev-tools.php\n"
+"X-Poedit-SearchPath-3: functions.php\n"
+
+#: src/Admin/Admin.php:34 src/Admin/Admin.php:35
+msgid "DevTools"
+msgstr ""
+
+#: src/Admin/Admin.php:42
+msgid "Plugin generator"
+msgstr ""
+
+#: src/Admin/Admin.php:47
+msgid "Data generator"
+msgstr ""
+
+#: src/Admin/Admin.php:52
+msgid "Data cleaner"
+msgstr ""
+
+#: views/admin/clean-up.php:11
+msgid "Clean up"
+msgstr ""
+
+#: views/admin/clean-up.php:15
+msgid "Remove items from database"
+msgstr ""
+
+#: views/admin/clean-up.php:20 views/admin/clean-up.php:93
+msgid "Select all"
+msgstr ""
+
+#: views/admin/clean-up.php:28 views/admin/generate-data.php:46
+msgid "Products"
+msgstr ""
+
+#: views/admin/clean-up.php:37
+msgid "Product categories"
+msgstr ""
+
+#: views/admin/clean-up.php:46
+msgid "Product attributes"
+msgstr ""
+
+#: views/admin/clean-up.php:55
+msgid "Product brands"
+msgstr ""
+
+#: views/admin/clean-up.php:64
+msgid "Product tags"
+msgstr ""
+
+#: views/admin/clean-up.php:74
+msgid "Uploads"
+msgstr ""
+
+#: views/admin/clean-up.php:79
+msgid "Remove unused image files"
+msgstr ""
+
+#: views/admin/clean-up.php:88
+msgid "Clear unused items from database"
+msgstr ""
+
+#: views/admin/clean-up.php:101
+msgid "Terms"
+msgstr ""
+
+#: views/admin/clean-up.php:110
+msgid "Posts"
+msgstr ""
+
+#: views/admin/clean-up.php:118
+msgid "Recount"
+msgstr ""
+
+#: views/admin/clean-up.php:123
+msgid "Recount terms"
+msgstr ""
+
+#: views/admin/clean-up.php:130
+msgid "Submit"
+msgstr ""
+
+#: views/admin/create-plugin.php:11
+msgid "New plugin"
+msgstr ""
+
+#: views/admin/create-plugin.php:18
+msgid "Plugin author"
+msgstr ""
+
+#: views/admin/create-plugin.php:26
+msgid "Plugin directory name"
+msgstr ""
+
+#: views/admin/create-plugin.php:35
+msgid "Plugin name"
+msgstr ""
+
+#: views/admin/create-plugin.php:44
+msgid "Plugin namespace"
+msgstr ""
+
+#: views/admin/create-plugin.php:49
+msgid "For example"
+msgstr ""
+
+#: views/admin/create-plugin.php:55
+msgid "Plugin description"
+msgstr ""
+
+#: views/admin/create-plugin.php:64
+msgid "Plugin version"
+msgstr ""
+
+#: views/admin/create-plugin.php:73
+msgid ""
+"run > 'composer install' command after generation, inside the plugin\n"
+"                        directory"
+msgstr ""
+
+#: views/admin/create-plugin.php:76
+msgid "Generate plugin"
+msgstr ""
+
+#: views/admin/generate-data.php:11
+msgid "Generate data"
+msgstr ""
+
+#: views/admin/generate-data.php:16
+msgid "Categories"
+msgstr ""
+
+#: views/admin/generate-data.php:20
+msgid "Categories number"
+msgstr ""
+
+#: views/admin/generate-data.php:29
+msgid "Categories nesting level"
+msgstr ""
+
+#: views/admin/generate-data.php:39
+msgid "Generate menu from categories tree"
+msgstr ""
+
+#: views/admin/generate-data.php:52
+msgid "Products number"
+msgstr ""
+
+#: views/admin/generate-data.php:61
+msgid "Generate product photo"
+msgstr ""
+
+#: views/admin/generate-data.php:69
+msgid "Product gallery photos number"
+msgstr ""
+
+#: views/admin/generate-data.php:79
+msgid "Product type"
+msgstr ""
+
+#: views/admin/generate-data.php:91
+msgid "Attributes"
+msgstr ""
+
+#: views/admin/generate-data.php:97
+msgid "Brands number"
+msgstr ""
+
+#: views/admin/generate-data.php:107
+msgid "Attributes number"
+msgstr ""
+
+#: views/admin/generate-data.php:116
+msgid "Each attribute terms number"
+msgstr ""
+
+#: views/admin/generate-data.php:124
+msgid "Generate"
+msgstr ""
+
+#: views/admin/generate-data.php:128
+#, php-format
+msgid "This plugin requires %s plugin to be active!"
+msgstr ""

@@ -1,0 +1,22 @@
+<?php namespace ___PLUGIN_NAMESPACE___\Frontend;
+
+use ___SDK_NAMESPACE___\FileManager\FileManager;
+
+/**
+ * Class Frontend
+ *
+ * @package ___PLUGIN_NAMESPACE___\Frontend
+ */
+class Frontend {
+
+
+	/**
+	 * @var FileManager
+	 */
+	private $fileManager;
+
+	public function __construct( FileManager $fileManager ) {
+		$this->fileManager = $fileManager;
+	}
+
+}

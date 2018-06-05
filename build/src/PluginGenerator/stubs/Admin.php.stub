@@ -1,0 +1,28 @@
+<?php namespace ___PLUGIN_NAMESPACE___\Admin;
+
+use ___SDK_NAMESPACE___\FileManager\FileManager;
+
+/**
+ * Class Admin
+ *
+ * @package ___PLUGIN_NAMESPACE___\Admin
+ */
+class Admin {
+
+	/**
+	 * @var FileManager
+	 */
+	private $fileManager;
+
+	/**
+	 * Admin constructor.
+	 *
+	 * Register menu items and handlers
+	 *
+	 * @param FileManager $fileManager
+	 */
+	public function __construct( FileManager $fileManager ) {
+		$this->fileManager = $fileManager;
+	}
+
+}

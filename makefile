@@ -6,13 +6,8 @@ BUILD_DIR = $(CURDIR)/build
 # Temp folder
 BUILD_TMP = $(CURDIR)/../tmp
 # Test wordpress site directory
-TEST_DIR = /var/www/premium.loc/wp-content/plugins/$(PLUGIN)
+TEST_DIR = /var/www/wp-test/wp-content/plugins/$(PLUGIN)
 SVN_DIR = /var/www/svn_premmerce_plugins/$(PLUGIN)/trunk
-
-
-FREMIUS_FOLDER_DEV = 'wordpress-sdk-develop'
-FREMIUS_FOLDER_MASTER = 'wordpress-sdk-master'
-
 
 all: composer publish
 
@@ -21,7 +16,7 @@ composer:
 	composer update --no-dev
 	composer dumpautoload -o
 
-publish: create_build clear create_test create_svn
+publish: create_build clear create_test
 
 #Create plugin build
 create_build:

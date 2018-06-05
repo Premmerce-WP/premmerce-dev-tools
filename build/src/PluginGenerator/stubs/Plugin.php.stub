@@ -1,0 +1,72 @@
+<?php namespace ___PLUGIN_NAMESPACE___;
+
+use ___SDK_NAMESPACE___\FileManager\FileManager;
+use ___PLUGIN_NAMESPACE___\Admin\Admin;
+use ___PLUGIN_NAMESPACE___\Frontend\Frontend;
+
+/**
+ * Class ___PLUGIN_CLASS___
+ *
+ * @package ___PLUGIN_NAMESPACE___
+ */
+class ___PLUGIN_CLASS___ {
+
+	/**
+	 * @var FileManager
+	 */
+	private $fileManager;
+
+	/**
+	 * ___PLUGIN_CLASS___ constructor.
+	 *
+     * @param string $mainFile
+	 */
+    public function __construct($mainFile) {
+        $this->fileManager = new FileManager($mainFile);
+
+        add_action('plugins_loaded', [ $this, 'loadTextDomain' ]);
+
+	}
+
+	/**
+	 * Run plugin part
+	 */
+	public function run() {
+		if ( is_admin() ) {
+			new Admin( $this->fileManager );
+		} else {
+			new Frontend( $this->fileManager );
+		}
+
+	}
+
+    /**
+     * Load plugin translations
+     */
+    public function loadTextDomain()
+    {
+        $name = $this->fileManager->getPluginName();
+        load_plugin_textdomain('___PLUGIN_NAME___', false, $name . '/languages/');
+    }
+
+	/**
+	 * Fired when the plugin is activated
+	 */
+	public function activate() {
+		// TODO: Implement activate() method.
+	}
+
+	/**
+	 * Fired when the plugin is deactivated
+	 */
+	public function deactivate() {
+		// TODO: Implement deactivate() method.
+	}
+
+	/**
+	 * Fired during plugin uninstall
+	 */
+	public static function uninstall() {
+		// TODO: Implement uninstall() method.
+	}
+}
