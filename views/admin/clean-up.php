@@ -107,24 +107,6 @@ use Premmerce\DevTools\Admin\CleanUpHandler;
             </tr>
             <tr>
                 <th>
-                    <label><?php _e('Term relations', 'premmerce-dev-tools') ?></label>
-                </th>
-                <td>
-                    <input data-selectable="clean" type="checkbox"
-                           name="<?php echo CleanUpHandler::CLEAR_TERM_RELATIONS ?>">
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    <label><?php _e('Term meta', 'premmerce-dev-tools') ?></label>
-                </th>
-                <td>
-                    <input data-selectable="clean" type="checkbox"
-                           name="<?php echo CleanUpHandler::CLEAR_TERM_META ?>">
-                </td>
-            </tr>
-            <tr>
-                <th>
                     <label><?php _e('Posts', 'premmerce-dev-tools') ?></label>
                 </th>
                 <td>
@@ -132,16 +114,19 @@ use Premmerce\DevTools\Admin\CleanUpHandler;
                            name="<?php echo CleanUpHandler::CLEAR_POSTS ?>">
                 </td>
             </tr>
+        </table>
+        <h2><?php _e('Recount', 'premmerce-dev-tools') ?></h2>
+        <table class="form-table">
+            <tbody>
             <tr>
                 <th>
-                    <label><?php _e('Post meta', 'premmerce-dev-tools') ?></label>
+                    <label><?php _e('Recount terms', 'premmerce-dev-tools') ?></label>
                 </th>
                 <td>
-                    <input data-selectable="clean" type="checkbox"
-                           name="<?php echo CleanUpHandler::CLEAR_POST_META ?>">
+                    <input type="checkbox" name="<?php echo CleanUpHandler::RECOUNT_TERMS ?>">
                 </td>
             </tr>
         </table>
-        <?php submit_button(__('Clean up', 'premmerce-dev-tools')); ?>
+        <?php submit_button(__('Submit', 'premmerce-dev-tools')); ?>
     </form>
 </div>

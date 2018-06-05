@@ -14,11 +14,8 @@ class DataCleaner
         $this->removeAttributeTaxonomyTerms();
         $this->removeMenus();
         $this->removeAllTransients();
-        $this->clearTermRelations();
         $this->clearTerms();
-        $this->clearTermMetaWithoutTerm();
-        $this->clearPostMetaWithoutPost();
-        $this->clearPostWithNonExistedParent();
+        $this->clearPosts();
         $this->cleanUploads();
     }
 
@@ -304,13 +301,15 @@ class DataCleaner
     /**
      * Clear terms, term_taxonomy
      *
-     * @return false|int
      */
     public function clearTerms()
     {
-        return $this->clearTermTaxonomyWithoutTerm()
-               + $this->clearTermWithoutTermTaxonomy()
-               + $this->clearTermWithoutTaxonomy();
+
+        $this->clearTermWithoutTaxonomy();
+        $this->clearTermWithoutTermTaxonomy();
+        $this->clearTermTaxonomyWithoutTerm();
+        $this->clearTermMetaWithoutTerm();
+        $this->clearTermRelations();
     }
 
     /**
@@ -367,10 +366,6 @@ class DataCleaner
         return $wpdb->query($query);
     }
 
-    /* ***************************************************
-     * TERM META
-     */
-
     /**
      * Clear term_meta with non existent term_id in terms table
      * @return false|int
@@ -389,8 +384,17 @@ class DataCleaner
 
 
     /* ***************************************************
-     * POST META
+     * POST
      */
+
+    /**
+     * Clear post
+     */
+    public function clearPosts()
+    {
+        $this->clearPostWithNonExistedParent();
+        $this->clearPostMetaWithoutPost();
+    }
 
     /**
      * Clear post_meta with non existent post
@@ -409,9 +413,6 @@ class DataCleaner
         return $wpdb->query($query);
     }
 
-    /* ***************************************************
-     * POST
-     */
 
     /**
      * Clear post with non existent parent_post

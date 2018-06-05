@@ -30,57 +30,55 @@ class CleanUpHandler
 
     const CLEAR_POST_META = 'clear_post_meta';
 
+    const RECOUNT_TERMS = 'recount_terms';
+
 
     private $handlers;
 
     private $cleaner;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->cleaner = new DataCleaner();
 
         $this->handlers = [
-            self::REMOVE_PRODUCTS      => [
+            self::REMOVE_PRODUCTS   => [
                 [$this->cleaner, 'removeProducts'],
             ],
-            self::REMOVE_BRANDS        => [
+            self::REMOVE_BRANDS     => [
                 [$this->cleaner, 'removeBrands'],
             ],
-            self::REMOVE_TAGS          => [
+            self::REMOVE_TAGS       => [
                 [$this->cleaner, 'removeTags'],
             ],
-            self::REMOVE_IMAGES        => [
+            self::REMOVE_IMAGES     => [
                 [$this->cleaner, 'cleanUploads'],
             ],
-            self::REMOVE_CATEGORIES    => [
+            self::REMOVE_CATEGORIES => [
                 [$this->cleaner, 'removeCategories'],
             ],
-            self::REMOVE_ATTRIBUTES    => [
+            self::REMOVE_ATTRIBUTES => [
                 [$this->cleaner, 'removeAttributes'],
                 [$this->cleaner, 'removeAttributeTerms'],
                 [$this->cleaner, 'removeAllTransients'],
             ],
-            self::CLEAR_TERMS          => [
+            self::CLEAR_TERMS       => [
                 [$this->cleaner, 'clearTerms'],
             ],
-            self::CLEAR_TERM_RELATIONS => [
-                [$this->cleaner, 'clearTermRelations'],
+            self::CLEAR_POSTS       => [
+                [$this->cleaner, 'clearPosts'],
             ],
-            self::CLEAR_TERM_META      => [
-                [$this->cleaner, 'clearTermMetaWithoutTerm'],
+            self::RECOUNT_TERMS     => [
+                [$this->cleaner, 'recountTermTaxonomies'],
             ],
-            self::CLEAR_POSTS          => [
-                [$this->cleaner, 'clearPostWithNonExistedParent'],
-            ],
-            self::CLEAR_POST_META      => [
-                [$this->cleaner, 'clearPostMetaWithoutPost'],
-            ],
-            self::REMOVE_TRANSIENTS    => [
+            self::REMOVE_TRANSIENTS => [
                 [$this->cleaner, 'removeAllTransients'],
             ],
         ];
     }
 
-    public function handle($config) {
+    public function handle($config)
+    {
         foreach ($this->handlers as $key => $handlers) {
             if (isset($config[$key])) {
                 foreach ($handlers as $handler) {

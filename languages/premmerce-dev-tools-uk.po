@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: DevTools\n"
-"POT-Creation-Date: 2018-06-04 18:40+0300\n"
-"PO-Revision-Date: 2018-06-04 18:40+0300\n"
+"POT-Creation-Date: 2018-06-05 12:52+0300\n"
+"PO-Revision-Date: 2018-06-05 12:54+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -33,103 +33,103 @@ msgstr "Генератор даних"
 msgid "Data cleaner"
 msgstr "Очистка даних"
 
-#: views/admin/clean-up.php:7 views/admin/clean-up.php:141
+#: views/admin/clean-up.php:11
 msgid "Clean up"
 msgstr "Очистка"
 
-#: views/admin/clean-up.php:11
+#: views/admin/clean-up.php:15
 msgid "Remove items from database"
 msgstr "Видалити значення з бази"
 
-#: views/admin/clean-up.php:16 views/admin/clean-up.php:89
+#: views/admin/clean-up.php:20 views/admin/clean-up.php:93
 msgid "Select all"
 msgstr "Обрати все"
 
-#: views/admin/clean-up.php:24 views/admin/generate-data.php:38
+#: views/admin/clean-up.php:28 views/admin/generate-data.php:46
 msgid "Products"
 msgstr "Товари"
 
-#: views/admin/clean-up.php:33
+#: views/admin/clean-up.php:37
 msgid "Product categories"
 msgstr "КатегоріЇ товарів"
 
-#: views/admin/clean-up.php:42
+#: views/admin/clean-up.php:46
 msgid "Product attributes"
 msgstr "Атрибути"
 
-#: views/admin/clean-up.php:51
+#: views/admin/clean-up.php:55
 msgid "Product brands"
 msgstr "Бренди"
 
-#: views/admin/clean-up.php:60
+#: views/admin/clean-up.php:64
 msgid "Product tags"
 msgstr "Мітки товарів"
 
-#: views/admin/clean-up.php:70
+#: views/admin/clean-up.php:74
 msgid "Uploads"
 msgstr "Завантаження"
 
-#: views/admin/clean-up.php:75
+#: views/admin/clean-up.php:79
 msgid "Remove unused image files"
 msgstr "Видалити зображення які не використовуються"
 
-#: views/admin/clean-up.php:84
+#: views/admin/clean-up.php:88
 msgid "Clear unused items from database"
 msgstr "Видалити з бази даних значення  які не використовуються"
 
-#: views/admin/clean-up.php:97
+#: views/admin/clean-up.php:101
 msgid "Terms"
 msgstr "Терміни"
 
-#: views/admin/clean-up.php:106
-msgid "Term relations"
-msgstr "Звязки термінів "
-
-#: views/admin/clean-up.php:115
-msgid "Term meta"
-msgstr "Мета дані термінів"
-
-#: views/admin/clean-up.php:124
+#: views/admin/clean-up.php:110
 msgid "Posts"
 msgstr "Пости"
 
-#: views/admin/clean-up.php:133
-msgid "Post meta"
-msgstr "Мета дані постів"
+#: views/admin/clean-up.php:118
+msgid "Recount"
+msgstr "Перерахувати"
 
-#: views/admin/create-plugin.php:6
+#: views/admin/clean-up.php:123
+msgid "Recount terms"
+msgstr "Перерахувати терміни"
+
+#: views/admin/clean-up.php:130
+msgid "Submit"
+msgstr "Примінити"
+
+#: views/admin/create-plugin.php:11
 msgid "New plugin"
 msgstr "Новий плагін"
 
-#: views/admin/create-plugin.php:13
+#: views/admin/create-plugin.php:18
 msgid "Plugin author"
 msgstr "Автор плагіну"
 
-#: views/admin/create-plugin.php:21
+#: views/admin/create-plugin.php:26
 msgid "Plugin directory name"
 msgstr "Назва папки плагіну"
 
-#: views/admin/create-plugin.php:29
+#: views/admin/create-plugin.php:35
 msgid "Plugin name"
 msgstr "Назва плагіну"
 
-#: views/admin/create-plugin.php:37
+#: views/admin/create-plugin.php:44
 msgid "Plugin namespace"
 msgstr "Namespace плагіну"
 
-#: views/admin/create-plugin.php:41
+#: views/admin/create-plugin.php:49
 msgid "For example"
 msgstr "Наприклад"
 
-#: views/admin/create-plugin.php:47
+#: views/admin/create-plugin.php:55
 msgid "Plugin description"
 msgstr "Опис плагіну"
 
-#: views/admin/create-plugin.php:55
+#: views/admin/create-plugin.php:64
 msgid "Plugin version"
 msgstr "Версія плагіну"
 
-#: views/admin/create-plugin.php:64
+#: views/admin/create-plugin.php:73
 msgid ""
 "run > 'composer install' command after generation, inside the plugin\n"
 "                        directory"
@@ -137,70 +137,79 @@ msgstr ""
 "потрібно запустити команду > 'composer install'  всередині папки "
 "згенерованого плагіну"
 
-#: views/admin/create-plugin.php:67
+#: views/admin/create-plugin.php:76
 msgid "Generate plugin"
 msgstr "Генерація плагіну"
 
-#: views/admin/generate-data.php:3
+#: views/admin/generate-data.php:11
 msgid "Generate data"
 msgstr "Генерація даних"
 
-#: views/admin/generate-data.php:8
+#: views/admin/generate-data.php:16
 msgid "Categories"
 msgstr "Категорії"
 
-#: views/admin/generate-data.php:12
+#: views/admin/generate-data.php:20
 msgid "Categories number"
 msgstr "Кількість категорій"
 
-#: views/admin/generate-data.php:21
+#: views/admin/generate-data.php:29
 msgid "Categories nesting level"
 msgstr "Рівень вложеності категорій"
 
-#: views/admin/generate-data.php:31
+#: views/admin/generate-data.php:39
 msgid "Generate menu from categories tree"
 msgstr "Згенерувати меню з дерева категорій"
 
-#: views/admin/generate-data.php:44
+#: views/admin/generate-data.php:52
 msgid "Products number"
 msgstr "Кількість товарів"
 
-#: views/admin/generate-data.php:53
+#: views/admin/generate-data.php:61
 msgid "Generate product photo"
 msgstr "Згенерувати фото для товару"
 
-#: views/admin/generate-data.php:61
+#: views/admin/generate-data.php:69
 msgid "Product gallery photos number"
 msgstr "Кількість зображень в галереї товару"
 
-#: views/admin/generate-data.php:71
+#: views/admin/generate-data.php:79
 msgid "Product type"
 msgstr "Тип товару"
 
-#: views/admin/generate-data.php:83
+#: views/admin/generate-data.php:91
 msgid "Attributes"
 msgstr "Атрибути"
 
-#: views/admin/generate-data.php:89
+#: views/admin/generate-data.php:97
 msgid "Brands number"
 msgstr "Кількість брендів"
 
-#: views/admin/generate-data.php:99
+#: views/admin/generate-data.php:107
 msgid "Attributes number"
 msgstr "Кількість атрибутів"
 
-#: views/admin/generate-data.php:108
+#: views/admin/generate-data.php:116
 msgid "Each attribute terms number"
 msgstr "Кількість термінів для кожного атрибуту"
 
-#: views/admin/generate-data.php:116
+#: views/admin/generate-data.php:124
 msgid "Generate"
 msgstr "Згенерувати"
 
-#: views/admin/generate-data.php:120
+#: views/admin/generate-data.php:128
 #, php-format
 msgid "This plugin requires %s plugin to be active!"
 msgstr "Для цього плагіна вам необхідний плагін %s!"
+
+#~ msgid "Term relations"
+#~ msgstr "Звязки термінів "
+
+#~ msgid "Term meta"
+#~ msgstr "Мета дані термінів"
+
+#~ msgid "Post meta"
+#~ msgstr "Мета дані постів"
 
 #~ msgid "Use Composer"
 #~ msgstr "Використовувати Composer"
