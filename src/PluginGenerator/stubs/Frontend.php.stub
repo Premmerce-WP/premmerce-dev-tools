@@ -1,6 +1,6 @@
 <?php namespace ___PLUGIN_NAMESPACE___\Frontend;
 
-use Premmerce\SDK\V1\FileManager\FileManager;
+use ___SDK_NAMESPACE___\FileManager\FileManager;
 
 /**
  * Class Frontend

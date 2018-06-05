@@ -27,12 +27,14 @@ class PluginGenerator
     const STUB_PLUGIN_VERSION = '___PLUGIN_VERSION___';
     const STUB_PLUGIN_DESCRIPTION = '___PLUGIN_DESCRIPTION___';
     const STUB_PLUGIN_CLASS = '___PLUGIN_CLASS___';
+    const STUB_PREMMERCE_SDK_NAMESPACE = '___SDK_NAMESPACE___';
     const STUB_WP_VERSION = '___WP_VERSION___';
     const STUB_DATE = '___DATE___';
 
     private $pluginPath;
 
-    public function generate($config) {
+    public function generate($config)
+    {
         $data = new PluginData();
 
         $data->setName($config['premmerce_plugin_name']);
@@ -52,7 +54,8 @@ class PluginGenerator
     }
 
 
-    private function createPluginDirectories() {
+    private function createPluginDirectories()
+    {
         $path = $this->pluginPath;
 
         $dirs = [
@@ -80,17 +83,18 @@ class PluginGenerator
         return $res;
     }
 
-    private function createFiles() {
+    private function createFiles()
+    {
         $stubs = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR;
         $files = [
-            $stubs . 'index.php.stub'       => $this->pluginPath . 'index.php',
-            $stubs . 'readme.txt.stub'      => $this->pluginPath . 'readme.txt',
-            $stubs . 'license.txt.stub'     => $this->pluginPath . 'license.txt',
-            $stubs . 'Admin.php.stub'       => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_ADMIN) . DIRECTORY_SEPARATOR . 'Admin.php',
-            $stubs . 'Frontend.php.stub'    => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_FRONTEND) . DIRECTORY_SEPARATOR . 'Frontend.php',
-            $stubs . 'Plugin.php.stub'      => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . $this->data->getClass() . '.php',
-            $stubs . 'main.php.stub'        => $this->pluginPath . $this->data->getMainFileName(),
-            $stubs . 'composer.json.stub'   => $this->pluginPath . 'composer.json',
+            $stubs . 'index.php.stub'     => $this->pluginPath . 'index.php',
+            $stubs . 'readme.txt.stub'    => $this->pluginPath . 'readme.txt',
+            $stubs . 'license.txt.stub'   => $this->pluginPath . 'license.txt',
+            $stubs . 'Admin.php.stub'     => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_ADMIN) . DIRECTORY_SEPARATOR . 'Admin.php',
+            $stubs . 'Frontend.php.stub'  => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . ucfirst(self::DIR_FRONTEND) . DIRECTORY_SEPARATOR . 'Frontend.php',
+            $stubs . 'Plugin.php.stub'    => $this->pluginPath . self::DIR_SOURCE . DIRECTORY_SEPARATOR . $this->data->getClass() . '.php',
+            $stubs . 'main.php.stub'      => $this->pluginPath . $this->data->getMainFileName(),
+            $stubs . 'composer.json.stub' => $this->pluginPath . 'composer.json',
         ];
 
         foreach ($files as $from => $to) {
@@ -98,22 +102,24 @@ class PluginGenerator
         }
     }
 
-    private function createFromStub($stub, $file) {
+    private function createFromStub($stub, $file)
+    {
         global $wp_version;
 
         $content = file_get_contents($stub);
 
         $vars = [
-            self::STUB_AUTHOR_NAME           => $this->data->getAuthor(),
-            self::STUB_PLUGIN_NAME           => $this->data->getName(),
-            self::STUB_PLUGIN_NAMESPACE      => $this->data->getNameSpace(),
-            self::STUB_PLUGIN_NAMESPACE_JSON => $this->data->getNameSpaceJson(),
-            self::STUB_PLUGIN_NAME_HUMANIZED => $this->data->getNameHumanized(),
-            self::STUB_PLUGIN_VERSION        => $this->data->getVersion(),
-            self::STUB_PLUGIN_DESCRIPTION    => $this->data->getDescription(),
-            self::STUB_PLUGIN_CLASS          => $this->data->getClass(),
-            self::STUB_WP_VERSION            => $wp_version,
-            self::STUB_DATE                  => date('M d, Y'),
+            self::STUB_AUTHOR_NAME             => $this->data->getAuthor(),
+            self::STUB_PLUGIN_NAME             => $this->data->getName(),
+            self::STUB_PLUGIN_NAMESPACE        => $this->data->getNameSpace(),
+            self::STUB_PLUGIN_NAMESPACE_JSON   => $this->data->getNameSpaceJson(),
+            self::STUB_PLUGIN_NAME_HUMANIZED   => $this->data->getNameHumanized(),
+            self::STUB_PLUGIN_VERSION          => $this->data->getVersion(),
+            self::STUB_PLUGIN_DESCRIPTION      => $this->data->getDescription(),
+            self::STUB_PLUGIN_CLASS            => $this->data->getClass(),
+            self::STUB_WP_VERSION              => $wp_version,
+            self::STUB_PREMMERCE_SDK_NAMESPACE => 'Premmerce\SDK\V2',
+            self::STUB_DATE                    => date('M d, Y'),
         ];
 
         file_put_contents($file, strtr($content, $vars));
