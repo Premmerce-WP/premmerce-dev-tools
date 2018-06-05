@@ -1,4 +1,9 @@
 <?php
+
+if ( ! defined('WPINC')) {
+    die;
+}
+
 /** @var WP_User $current_user */
 $current_user = wp_get_current_user();
 ?>
@@ -18,7 +23,8 @@ $current_user = wp_get_current_user();
             </tr>
             <tr>
                 <th>
-                    <label for="premmerce_plugin_name"><?php _e('Plugin directory name', 'premmerce-dev-tools') ?></label>
+                    <label for="premmerce_plugin_name"><?php _e('Plugin directory name',
+                            'premmerce-dev-tools') ?></label>
                 </th>
                 <td>
                     <input type="text" name="premmerce_plugin_name" placeholder="plugin-name">
@@ -26,7 +32,8 @@ $current_user = wp_get_current_user();
             </tr>
             <tr>
                 <th>
-                    <label for="premmerce_plugin_name_humanized"><?php _e('Plugin name', 'premmerce-dev-tools') ?></label>
+                    <label for="premmerce_plugin_name_humanized"><?php _e('Plugin name',
+                            'premmerce-dev-tools') ?></label>
                 </th>
                 <td>
                     <input type="text" name="premmerce_plugin_name_humanized" placeholder="Plugin name">
@@ -34,7 +41,8 @@ $current_user = wp_get_current_user();
             </tr>
             <tr>
                 <th>
-                    <label for="premmerce_plugin_namespace"><?php _e('Plugin namespace', 'premmerce-dev-tools') ?></label>
+                    <label for="premmerce_plugin_namespace"><?php _e('Plugin namespace',
+                            'premmerce-dev-tools') ?></label>
                 </th>
                 <td>
                     <input type="text" name="premmerce_plugin_namespace">
@@ -44,7 +52,8 @@ $current_user = wp_get_current_user();
             </tr>
             <tr>
                 <th>
-                    <label for="premmerce_plugin_description"><?php _e('Plugin description', 'premmerce-dev-tools') ?></label>
+                    <label for="premmerce_plugin_description"><?php _e('Plugin description',
+                            'premmerce-dev-tools') ?></label>
                 </th>
                 <td>
                     <textarea name="premmerce_plugin_description" cols="30" rows="5"></textarea>
@@ -60,7 +69,7 @@ $current_user = wp_get_current_user();
             </tr>
             </tbody>
         </table>
-        <p >
+        <p>
             <?php _e('run > \'composer install\' command after generation, inside the plugin
                         directory', 'premmerce-dev-tools') ?>
         </p>

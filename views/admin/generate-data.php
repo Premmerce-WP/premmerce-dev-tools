@@ -1,4 +1,12 @@
-<?php use Premmerce\DevTools\DataGenerator\DataGenerator; ?>
+<?php
+
+if ( ! defined('WPINC')) {
+    die;
+}
+
+use Premmerce\DevTools\DataGenerator\DataGenerator;
+
+?>
 <div class="wrap">
     <h1><?php _e('Generate data', 'premmerce-dev-tools') ?></h1>
 

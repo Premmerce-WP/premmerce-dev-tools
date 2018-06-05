@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined('WPINC')) {
+    die;
+}
+
 use Premmerce\DevTools\Admin\CleanUpHandler;
 
 ?>
