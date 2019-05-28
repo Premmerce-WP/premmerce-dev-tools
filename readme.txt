@@ -2,7 +2,7 @@
 Contributors: premmerce
 Tags: developers tools, code debug, debugging, wordpress debugging, plugin generator, data generator, database cleaner, data cleaner
 Requires at least: 4.8
-Tested up to: 4.8.4
+Tested up to: 5.2
 Stable tag: 2.0
 Requires PHP: 5.6
 License: GPLv2 or later
